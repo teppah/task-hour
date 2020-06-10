@@ -1,4 +1,5 @@
 import Head from "next/head";
+import SummaryView from "components/SummaryView";
 const Index = () => {
   return (
     <div className="content">
@@ -9,7 +10,9 @@ const Index = () => {
         <div>Calendar</div>
         <div>TaskListView</div>
       </div>
-      <div id="summary">SumaryView</div>
+      <div id="summary">
+        <SummaryView />
+      </div>
       <div className="vertical-bar">
         <div>ButtonArray</div>
         <div>PomordoTimer</div>
