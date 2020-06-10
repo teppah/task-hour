@@ -1,8 +1,11 @@
-type Props = {};
+import TaskView from "components/TaskView";
+import Task from "data/Task";
+type Props = { task?: Task };
 
-const TimeSlice = ({}: Props) => {
+const TimeSlice = ({ task }: Props) => {
   return (
     <div>
+      {task && <TaskView task={task} />}
       <style jsx>{`
         div {
           @apply w-full h-8;

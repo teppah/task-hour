@@ -1,15 +1,17 @@
 import TimeSlice from "components/TimeSlice";
+import Task from "data/Task";
 import { range } from "lodash";
 type Props = {
   dayName: string;
 };
 
 const DayView = ({ dayName }: Props) => {
+  const task: Task = { title: "Test", description: "lol" };
   return (
     <section className="day-view">
       <h1>{dayName}</h1>
       {range(24).map((i) => (
-        <TimeSlice />
+        <TimeSlice task={i % 4 == 0 ? task : null} />
       ))}
       <style jsx>{`
         .day-view {
