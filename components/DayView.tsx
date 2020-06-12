@@ -1,5 +1,5 @@
 import TimeSlice from "components/TimeSlice";
-import Task from "data/Task";
+import Task from "data/types/Task";
 import { range } from "lodash";
 type Props = {
   dayName: string;

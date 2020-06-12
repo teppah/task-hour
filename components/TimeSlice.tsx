@@ -1,9 +1,8 @@
 import TaskView from "components/TaskView";
-import Task from "data/Task";
+import Task from "data/types/Task";
 import { useDrop } from "react-dnd";
 import ItemTypes from "./drag/ItemTypes";
 import { useState, useEffect } from "react";
-import { warn } from "console";
 
 type Props = { task?: Task };
 

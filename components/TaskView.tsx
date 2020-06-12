@@ -1,6 +1,7 @@
 import { useDrag } from "react-dnd";
-import Task from "data/Task";
+import Task from "data/types/Task";
 import ItemTypes from "components/drag/ItemTypes";
+
 type Props = {
   task: Task;
   setPreviousCurrentTask: any;
