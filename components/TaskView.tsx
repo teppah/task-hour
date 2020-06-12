@@ -3,12 +3,18 @@ import Task from "data/Task";
 import ItemTypes from "components/drag/ItemTypes";
 type Props = {
   task: Task;
+  setPreviousCurrentTask: any;
 };
 
-const TaskView = ({ task }: Props) => {
+const TaskView = ({ task, setPreviousCurrentTask }: Props) => {
   const { title, description } = task;
   const [{ isDragging }, drag] = useDrag({
-    item: { type: ItemTypes.TASK },
+    // setPrevious: a hack to expose the current cell the TaskView is in to the
+    // drop target. that way, on drop, the TimeSlice that is being dropped on
+    // can clear the previous cell's content and set the current cell to this
+    // task.
+    // TODO: REMOVE setPrevious to decouple
+    item: { type: ItemTypes.TASK, setPrevious: setPreviousCurrentTask },
     collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
   });
   return (
