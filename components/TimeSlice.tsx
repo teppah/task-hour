@@ -11,7 +11,8 @@ const TimeSlice = ({ task }: Props) => {
   const [currentTask, setCurrentTask] = useState<Task>(task);
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: ItemTypes.TASK,
-    drop: (item) => {
+    // TODO: remove any from the item signature
+    drop: (item: any) => {
       setCurrentTask({ title: "he", description: "lol" });
       // hack to set previous cell to null
       item.setPrevious(null);
