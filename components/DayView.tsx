@@ -1,17 +1,19 @@
 import TimeSlice from "components/TimeSlice";
 import Task from "data/types/Task";
+import { PullstateCore } from "data/pullstate/PullstateCore";
 import { range } from "lodash";
 type Props = {
   dayName: string;
 };
 
 const DayView = ({ dayName }: Props) => {
-  const task: Task = { title: "Test", description: "lol" };
+  const { TaskStore } = PullstateCore.useStores();
+  const tasks = TaskStore.useState((s) => s.tasks);
   return (
     <section className="day-view">
       <h1>{dayName}</h1>
       {range(24).map((i) => (
-        <TimeSlice task={i % 4 == 0 ? task : null} />
+        <TimeSlice task={i < 4 ? tasks[i % 4] : null} />
       ))}
       <style jsx>{`
         .day-view {
