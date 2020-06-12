@@ -16,10 +16,13 @@ const TimeSlice = ({ task }: Props) => {
     accept: ItemTypes.TASK,
     // TODO: remove any from the item signature
     drop: (item: any) => {
-      const currentTask = tasks.find((i) => i.taskId === item.taskId);
-      setCurrentTask(currentTask);
-      // hack to set previous cell to null
-      item.setPrevious(null);
+      const targetTask = tasks.find((i) => i.taskId === item.taskId);
+      // only update the task if cell is empty
+      if (currentTask === null) {
+        setCurrentTask(targetTask);
+        // hack to set previous cell to null
+        item.setPrevious(null);
+      }
     },
     collect: (mon) => ({
       isOver: !!mon.isOver(),
