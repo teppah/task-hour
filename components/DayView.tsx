@@ -1,6 +1,5 @@
 import TimeSlice from "components/TimeSlice";
 import Task from "data/types/Task";
-import { PullstateCore } from "data/pullstate/PullstateCore";
 import { range, capitalize } from "lodash";
 import { getDayName } from "util/dates";
 import {
@@ -11,6 +10,7 @@ import {
   addHours,
   isToday,
 } from "date-fns";
+import { useStores } from "pullstate";
 type Props = {
   day: number;
 };
@@ -24,7 +24,7 @@ const DayView = ({ day }: Props) => {
   //    timesliceHour + 1, pass the task TimeSlice
   // 5. TODO: array.pop() to reduce array size;
   const dayName = capitalize(getDayName(day));
-  const { DateStore, CurrentTaskStore } = PullstateCore.useStores();
+  const { DateStore, CurrentTaskStore } = useStores();
   const currentWeekDate = DateStore.useState((s) => s.currentWeekDate);
   const currentDate = addDays(currentWeekDate, day);
   const currentDayDate = getDate(currentDate);

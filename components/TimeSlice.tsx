@@ -2,13 +2,13 @@ import TaskView from "components/TaskView";
 import Task from "data/types/Task";
 import { useDrop } from "react-dnd";
 import ItemTypes from "./drag/ItemTypes";
-import { PullstateCore } from "data/pullstate/PullstateCore";
 import { useState, useEffect } from "react";
+import { useStores } from "pullstate";
 
 type Props = { task?: Task };
 
 const TimeSlice = ({ task }: Props) => {
-  const { TaskStore } = PullstateCore.useStores();
+  const { TaskStore } = useStores();
   const tasks = TaskStore.useState((s) => s.tasks);
 
   const [currentTask, setCurrentTask] = useState<Task>(task);

@@ -3,6 +3,7 @@ import Task from "data/types/Task";
 import ItemTypes from "components/drag/ItemTypes";
 import { PullstateCore } from "data/pullstate/PullstateCore";
 import { useState, useEffect } from "react";
+import { useStores } from "pullstate";
 
 type Props = {
   task: Task;
@@ -24,13 +25,11 @@ const TaskView = ({ task, setPreviousCurrentTask }: Props) => {
     },
     collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
   });
-  const { CurrentTaskStore, TaskStore } = PullstateCore.useStores();
+  const { CurrentTaskStore, TaskStore } = useStores();
   const handleClick = () => {
     console.log(`click from inside TaskView`);
     CurrentTaskStore.update((s) => {
       s.selectedTask = task;
-      console.log(`updated`);
-      console.log(s.selectedTask);
     });
   };
   const selected = CurrentTaskStore.useState((s) => s.selectedTask);
