@@ -1,6 +1,8 @@
 import { useDrag } from "react-dnd";
 import Task from "data/types/Task";
 import ItemTypes from "components/drag/ItemTypes";
+import { PullstateCore } from "data/pullstate/PullstateCore";
+import { useState, useEffect } from "react";
 
 type Props = {
   task: Task;
@@ -22,13 +24,40 @@ const TaskView = ({ task, setPreviousCurrentTask }: Props) => {
     },
     collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
   });
+  const { CurrentTaskStore, TaskStore } = PullstateCore.useStores();
+  const handleClick = () => {
+    console.log(`click from inside TaskView`);
+    CurrentTaskStore.update((s) => {
+      s.selectedTask = task;
+      console.log(`updated`);
+      console.log(s.selectedTask);
+    });
+  };
+  const selected = CurrentTaskStore.useState((s) => s.selectedTask);
+  let isActive = false;
+  if (selected && selected.taskId == taskId) {
+    isActive = true;
+    console.log(`active`);
+  }
+
   return (
-    <section className="task" ref={drag}>
+    <section
+      className={isActive ? "selected" : ""}
+      ref={drag}
+      onClick={handleClick}
+    >
       <h1>{title}</h1>
       <style jsx>{`
         section {
           @apply h-full w-full;
           @apply bg-gray-400;
+          @apply cursor-pointer;
+        }
+        section:active {
+          @apply bg-gray-500;
+        }
+        .selected {
+          @apply bg-gray-600;
         }
       `}</style>
     </section>

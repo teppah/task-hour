@@ -29,15 +29,20 @@ const TimeSlice = ({ task }: Props) => {
       canDrop: !!mon.canDrop(),
     }),
   });
+  const handleClick = () => {
+    if (!currentTask) {
+      console.log(`click from TimeSlice`);
+    }
+  };
   return (
-    <div ref={drop}>
+    <div ref={drop} onClick={handleClick}>
       {currentTask && (
         <TaskView task={currentTask} setPreviousCurrentTask={setCurrentTask} />
       )}
       <style jsx>{`
         div {
           @apply w-full h-8;
-          @apply border border-gray-200;
+          @apply border border-red-200;
           ${isOver && "@apply bg-red-400;"}
         }
       `}</style>
