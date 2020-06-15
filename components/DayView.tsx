@@ -7,6 +7,13 @@ type Props = {
 };
 
 const DayView = ({ dayName }: Props) => {
+  // 1. read the currentWeek here
+  // 2. get an array of all the tasks that need to be completed during this
+  //    week based on the date
+  // 3. sort the array by date DESCENDING
+  // 4. go through each hour: when task is between timesliceHour and
+  //    timesliceHour + 1, pass the task TimeSlice
+  // 5. array.pop() to reduce array size;
   const { TaskStore } = PullstateCore.useStores();
   const tasks = TaskStore.useState((s) => s.tasks);
   return (

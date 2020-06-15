@@ -1,18 +1,23 @@
 import DayView from "components/DayView";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { range } from "lodash";
+import range from "lodash/range";
 
 type Props = {};
 const SummaryView = ({}: Props) => {
+  // 1. read the currentWeek date here
+  // 2. update CurrentWeekTasks to contain only the tasks of the current week that
+  // pulls data from a centralized AllTasksStore
+  // 3. get all the relevant dates and month and display them on the top
+  // 4. pass each day's date to every DayView
   const days = [
-    // "Sunday",
+    "Sunday",
     "Monday",
     "Tuesday",
     "Wednesday",
     "Thursday",
     "Friday",
-    // "Saturday",
+    "Saturday",
   ];
 
   return (
