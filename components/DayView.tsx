@@ -7,9 +7,9 @@ import {
   addDays,
   getDate,
   isSameDay,
-  compareAsc,
   isSameHour,
   addHours,
+  isToday,
 } from "date-fns";
 type Props = {
   day: number;
@@ -55,6 +55,11 @@ const DayView = ({ day }: Props) => {
         }
         h1 {
           @apply h-8;
+        }
+      `}</style>
+      <style jsx>{`
+        .day-view {
+          background-color: ${isToday(currentDate) ? "#feebc8" : "inherit"};
         }
       `}</style>
     </section>
