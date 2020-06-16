@@ -13,7 +13,7 @@ const task2 = createTask(
   "Description 2",
   set(now, { hours: 10 })
 );
-const task3 = createTask("2", "Title 3", "Description 3", subWeeks(now, 1));
+const task3 = createTask("2", "Last Week 1", "Description 3", subWeeks(now, 1));
 const task4 = createTask(
   "3",
   "Yesterday task 1",

@@ -12,7 +12,7 @@ import {
 } from "date-fns";
 import { useSelector } from "react-redux";
 import { selectWeekStartDate } from "data/redux/slice/dateSlice";
-import { selectCurrentTasks } from "data/redux/slice/taskSlice";
+import { selectCurrentTaskIds, selectTasks } from "data/redux/slice/taskSlice";
 type Props = {
   day: number;
 };
@@ -30,10 +30,15 @@ const DayView = ({ day }: Props) => {
   const currentDate = addDays(currentWeekDate, day);
   const currentDayDate = getDate(currentDate);
 
-  const weekTasks = useSelector(selectCurrentTasks);
-  const dayTasks = weekTasks.filter((task) => {
-    return isSameDay(currentDate, task.date);
-  });
+  const weekTasks = useSelector(selectCurrentTaskIds);
+  const allTasks = useSelector(selectTasks);
+
+  const dayTasks = weekTasks
+    .filter((taskId) => {
+      const foundTask = allTasks.find((t) => t.taskId === taskId);
+      return isSameDay(currentDate, foundTask.date);
+    }) // map to find task by id
+    .map((taskId) => allTasks.find((t) => t.taskId === taskId));
 
   return (
     <section className="day-view">
