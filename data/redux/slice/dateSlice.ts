@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
+import { startOfWeek } from "date-fns";
 
 // what this contain
 // selectedWeekStart: week selected in calendar that starts the week
@@ -8,7 +9,7 @@ import { RootState } from "../store";
 const dateSlice = createSlice({
   name: "dates",
   initialState: {
-    weekStartDate: new Date(),
+    weekStartDate: startOfWeek(new Date()),
   },
   reducers: {
     // make sure to return the sunday start date
