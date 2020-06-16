@@ -1,15 +1,15 @@
 import TaskView from "components/TaskView";
-import Task from "data/types/Task";
+import Task, { createTask } from "data/Task";
 import { useDrop } from "react-dnd";
 import ItemTypes from "./drag/ItemTypes";
 import { useState, useEffect } from "react";
-import { useStores } from "pullstate";
+import { useSelector } from "react-redux";
+import { selectCurrentTasks } from "data/redux/slice/taskSlice";
 
 type Props = { task?: Task };
 
 const TimeSlice = ({ task }: Props) => {
-  const { TaskStore } = useStores();
-  const tasks = TaskStore.useState((s) => s.tasks);
+  const tasks = useSelector(selectCurrentTasks);
 
   const [currentTask, setCurrentTask] = useState<Task>(task);
   const [{ isOver, canDrop }, drop] = useDrop({

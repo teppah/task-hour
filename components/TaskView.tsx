@@ -1,9 +1,11 @@
 import { useDrag } from "react-dnd";
-import Task from "data/types/Task";
+import Task from "data/Task";
 import ItemTypes from "components/drag/ItemTypes";
-import { PullstateCore } from "data/pullstate/PullstateCore";
-import { useState, useEffect } from "react";
-import { useStores } from "pullstate";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  selectSelectedTask,
+  setSelectedTaskId,
+} from "data/redux/slice/taskSlice";
 
 type Props = {
   task: Task;
@@ -25,25 +27,21 @@ const TaskView = ({ task, setPreviousCurrentTask }: Props) => {
     },
     collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
   });
-  const { CurrentTaskStore, TaskStore } = useStores();
-  const handleClick = () => {
-    console.log(`click from inside TaskView`);
-    CurrentTaskStore.update((s) => {
-      s.selectedTask = task;
-    });
+
+  const selectedTaskId = useSelector(selectSelectedTask);
+  const isActive = selectedTaskId && selectedTaskId === taskId;
+
+  const dispatch = useDispatch();
+  const clickHandler = (e) => {
+    e.preventDefault();
+    dispatch(setSelectedTaskId(taskId));
   };
-  const selected = CurrentTaskStore.useState((s) => s.selectedTask);
-  let isActive = false;
-  if (selected && selected.taskId == taskId) {
-    isActive = true;
-    console.log(`active`);
-  }
 
   return (
     <section
       className={isActive ? "selected" : ""}
       ref={drag}
-      onClick={handleClick}
+      onClick={clickHandler}
     >
       <h1>{title}</h1>
       <style jsx>{`

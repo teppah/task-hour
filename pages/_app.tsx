@@ -1,13 +1,12 @@
 import "css/tailwind.css";
-import { PullstateCore } from "data/pullstate/PullstateCore";
-import { PullstateProvider } from "pullstate";
+import store from "data/redux/store";
+import { Provider } from "react-redux";
 
 const App = ({ Component, pageProps }) => {
-  const instance = PullstateCore.instantiate({ ssr: true });
   return (
-    <PullstateProvider instance={instance}>
+    <Provider store={store}>
       <Component {...pageProps} />
-    </PullstateProvider>
+    </Provider>
   );
 };
 

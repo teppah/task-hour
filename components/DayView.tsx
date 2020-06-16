@@ -1,5 +1,5 @@
 import TimeSlice from "components/TimeSlice";
-import Task from "data/types/Task";
+import Task from "data/Task";
 import { range, capitalize } from "lodash";
 import { getDayName } from "util/dates";
 import {
@@ -10,7 +10,9 @@ import {
   addHours,
   isToday,
 } from "date-fns";
-import { useStores } from "pullstate";
+import { useSelector } from "react-redux";
+import { selectWeekStartDate } from "data/redux/slice/dateSlice";
+import { selectCurrentTasks } from "data/redux/slice/taskSlice";
 type Props = {
   day: number;
 };
@@ -24,13 +26,12 @@ const DayView = ({ day }: Props) => {
   //    timesliceHour + 1, pass the task TimeSlice
   // 5. TODO: array.pop() to reduce array size;
   const dayName = capitalize(getDayName(day));
-  const { DateStore, CurrentTaskStore } = useStores();
-  const currentWeekDate = DateStore.useState((s) => s.currentWeekDate);
+  const currentWeekDate = useSelector(selectWeekStartDate);
   const currentDate = addDays(currentWeekDate, day);
   const currentDayDate = getDate(currentDate);
 
-  const weekTasks = CurrentTaskStore.useState((s) => s.currentTasks);
-  const tasks = weekTasks.filter((task) => {
+  const weekTasks = useSelector(selectCurrentTasks);
+  const dayTasks = weekTasks.filter((task) => {
     return isSameDay(currentDate, task.date);
   });
 
@@ -39,7 +40,7 @@ const DayView = ({ day }: Props) => {
       <h1>{currentDayDate}</h1>
       <h1>{dayName}</h1>
       {range(24).map((i) => {
-        const foundTasks = tasks.filter((t) =>
+        const foundTasks = dayTasks.filter((t) =>
           isSameHour(t.date, addHours(currentDate, i))
         );
         // For now, assume there is only one task per hour
