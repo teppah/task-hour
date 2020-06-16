@@ -1,5 +1,5 @@
 import { useDrag } from "react-dnd";
-import Task from "data/types/Task";
+import Task from "data/Task";
 import ItemTypes from "components/drag/ItemTypes";
 import { PullstateCore } from "data/pullstate/PullstateCore";
 import { useState, useEffect } from "react";

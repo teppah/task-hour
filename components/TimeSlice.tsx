@@ -1,5 +1,5 @@
 import TaskView from "components/TaskView";
-import Task from "data/types/Task";
+import Task from "data/Task";
 import { useDrop } from "react-dnd";
 import ItemTypes from "./drag/ItemTypes";
 import { useState, useEffect } from "react";

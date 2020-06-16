@@ -1,5 +1,5 @@
 import { Store } from "pullstate";
-import Task from "data/types/Task";
+import Task from "data/Task";
 
 interface ITaskStore {
   tasks: Task[];

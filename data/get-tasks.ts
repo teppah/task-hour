@@ -1,5 +1,5 @@
 import { set, subWeeks, subDays } from "date-fns";
-import Task, { createTask } from "./types/Task";
+import Task, { createTask } from "./Task";
 const now = new Date();
 const task1 = createTask(0, "Task 1", "Description 1", set(now, { hours: 22 }));
 const task2 = createTask(1, "Task 2", "Description 2", set(now, { hours: 10 }));
