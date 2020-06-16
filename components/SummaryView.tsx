@@ -3,26 +3,16 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import range from "lodash/range";
 import { isSameWeek } from "date-fns";
-import { useStores } from "pullstate";
 
 type Props = {};
 const SummaryView = ({}: Props) => {
-  // 1. read the currentWeek date here
-  // 2. update CurrentWeekTasks to contain only the tasks of the current week that
-  // pulls data from a centralized AllTasksStore
-  // 3. get all the relevant dates and month and display them on the top
-  // 4. pass each day's date to every DayView
   const days = [0, 1, 2, 3, 4, 5, 6];
 
-  const { CurrentTaskStore, DateStore, TaskStore } = useStores();
-  const currentWeek = DateStore.useState((s) => s.currentWeekDate);
-  const tasks = TaskStore.useState((s) => s.tasks);
+  const currentWeek = new Date();
+  const tasks = [];
   const filtered = tasks.filter((task) => {
     const taskDate = task.date;
     return isSameWeek(currentWeek, taskDate);
-  });
-  CurrentTaskStore.update((s) => {
-    s.currentTasks = filtered;
   });
 
   return (
