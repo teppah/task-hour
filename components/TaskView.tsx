@@ -1,6 +1,11 @@
 import { useDrag } from "react-dnd";
 import Task from "data/Task";
 import ItemTypes from "components/drag/ItemTypes";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  selectSelectedTask,
+  setSelectedTask,
+} from "data/redux/slice/taskSlice";
 
 type Props = {
   task: Task;
@@ -23,10 +28,21 @@ const TaskView = ({ task, setPreviousCurrentTask }: Props) => {
     collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
   });
 
-  let isActive = false;
+  const selectedTask = useSelector(selectSelectedTask);
+  const isActive = selectedTask && selectedTask.taskId === taskId;
+
+  const dispatch = useDispatch();
+  const clickHandler = (e) => {
+    e.preventDefault();
+    dispatch(setSelectedTask(task));
+  };
 
   return (
-    <section className={isActive ? "selected" : ""} ref={drag}>
+    <section
+      className={isActive ? "selected" : ""}
+      ref={drag}
+      onClick={clickHandler}
+    >
       <h1>{title}</h1>
       <style jsx>{`
         section {

@@ -34,7 +34,6 @@ const DayView = ({ day }: Props) => {
   const dayTasks = weekTasks.filter((task) => {
     return isSameDay(currentDate, task.date);
   });
-  console.log(`tasks for ${dayName}: ${dayTasks}`);
 
   return (
     <section className="day-view">
