@@ -8,14 +8,14 @@ const taskSlice = createSlice({
   initialState: {
     tasks: getTasks(),
     currentViewTasks: [],
-    selectedTask: null,
+    selectedTaskId: null,
   },
   reducers: {
     setCurrentTasks: (state, action: PayloadAction<Task[]>) => {
       state.currentViewTasks = action.payload;
     },
-    setSelectedTask: (state, action: PayloadAction<Task>) => {
-      state.selectedTask = action.payload;
+    setSelectedTaskId: (state, action: PayloadAction<string>) => {
+      state.selectedTaskId = action.payload;
     },
   },
 });
@@ -24,7 +24,7 @@ export const selectTasks = (state: RootState) => state.tasks.tasks;
 // TODO: fix automatic type inference
 export const selectCurrentTasks = (state: RootState): Task[] =>
   state.tasks.currentViewTasks;
-export const selectSelectedTask = (state: RootState): Task =>
-  state.tasks.selectedTask;
-export const { setCurrentTasks, setSelectedTask } = taskSlice.actions;
+export const selectSelectedTask = (state: RootState): string =>
+  state.tasks.selectedTaskId;
+export const { setCurrentTasks, setSelectedTaskId } = taskSlice.actions;
 export default taskSlice.reducer;

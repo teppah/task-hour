@@ -4,7 +4,7 @@ import ItemTypes from "components/drag/ItemTypes";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectSelectedTask,
-  setSelectedTask,
+  setSelectedTaskId,
 } from "data/redux/slice/taskSlice";
 
 type Props = {
@@ -28,13 +28,13 @@ const TaskView = ({ task, setPreviousCurrentTask }: Props) => {
     collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
   });
 
-  const selectedTask = useSelector(selectSelectedTask);
-  const isActive = selectedTask && selectedTask.taskId === taskId;
+  const selectedTaskId = useSelector(selectSelectedTask);
+  const isActive = selectedTaskId && selectedTaskId === taskId;
 
   const dispatch = useDispatch();
   const clickHandler = (e) => {
     e.preventDefault();
-    dispatch(setSelectedTask(task));
+    dispatch(setSelectedTaskId(taskId));
   };
 
   return (

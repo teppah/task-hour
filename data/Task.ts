@@ -1,11 +1,11 @@
 type Task = {
-  taskId: number;
+  taskId: string;
   title: string;
   description: string;
   date: Date;
 };
 export function createTask(
-  taskId: number,
+  taskId: string,
   title: string,
   description: string,
   date: Date
