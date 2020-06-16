@@ -9,7 +9,7 @@ export function createTask(
   title: string,
   description: string,
   date: Date
-) {
+): Task {
   return {
     taskId,
     title,
