@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../store";
 
 // what this contain
 // selectedWeekStart: week selected in calendar that starts the week
@@ -17,10 +18,7 @@ const dateSlice = createSlice({
   },
 });
 
-interface DateState {
-  weekStartDate: Date;
-}
-
-export const selectWeekStartDate = (state: DateState) => state.weekStartDate;
+export const selectWeekStartDate = (state: RootState) =>
+  state.dates.weekStartDate;
 export const { setWeekStart } = dateSlice.actions;
 export default dateSlice.reducer;

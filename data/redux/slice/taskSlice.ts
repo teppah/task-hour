@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import getTasks from "data/get-tasks";
 import Task from "data/Task";
+import { RootState } from "../store";
 
 const taskSlice = createSlice({
   name: "tasks",
@@ -14,12 +15,9 @@ const taskSlice = createSlice({
     },
   },
 });
-interface TaskState {
-  tasks: Task[];
-  currentViewTasks: Task[];
-}
 
-export const selectTasks = (state: TaskState) => state.tasks;
-export const selectCurrentTasks = (state: TaskState) => state.currentViewTasks;
+export const selectTasks = (state: RootState) => state.tasks.tasks;
+export const selectCurrentTasks = (state: RootState) =>
+  state.tasks.currentViewTasks;
 export const { setCurrentTasks } = taskSlice.actions;
 export default taskSlice.reducer;
