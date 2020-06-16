@@ -22,6 +22,7 @@ const TaskView = ({ task, setPreviousCurrentTask }: Props) => {
     },
     collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
   });
+
   let isActive = false;
 
   return (

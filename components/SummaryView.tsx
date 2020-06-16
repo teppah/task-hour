@@ -3,17 +3,23 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import range from "lodash/range";
 import { isSameWeek } from "date-fns";
+import { useSelector, useDispatch } from "react-redux";
+import { selectWeekStartDate } from "data/redux/slice/dateSlice";
+import { selectTasks, setCurrentTasks } from "data/redux/slice/taskSlice";
 
 type Props = {};
 const SummaryView = ({}: Props) => {
   const days = [0, 1, 2, 3, 4, 5, 6];
+  const dispatch = useDispatch();
 
-  const currentWeek = new Date();
-  const tasks = [];
+  const currentWeek = useSelector(selectWeekStartDate);
+  const tasks = useSelector(selectTasks);
+
   const filtered = tasks.filter((task) => {
     const taskDate = task.date;
     return isSameWeek(currentWeek, taskDate);
   });
+  dispatch(setCurrentTasks(filtered));
 
   return (
     <DndProvider backend={HTML5Backend}>

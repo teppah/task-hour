@@ -10,6 +10,9 @@ import {
   addHours,
   isToday,
 } from "date-fns";
+import { useSelector } from "react-redux";
+import { selectWeekStartDate } from "data/redux/slice/dateSlice";
+import { selectCurrentTasks } from "data/redux/slice/taskSlice";
 type Props = {
   day: number;
 };
@@ -23,15 +26,15 @@ const DayView = ({ day }: Props) => {
   //    timesliceHour + 1, pass the task TimeSlice
   // 5. TODO: array.pop() to reduce array size;
   const dayName = capitalize(getDayName(day));
-
-  const currentWeekDate = new Date();
+  const currentWeekDate = useSelector(selectWeekStartDate);
   const currentDate = addDays(currentWeekDate, day);
   const currentDayDate = getDate(currentDate);
 
-  const weekTasks = [];
+  const weekTasks = useSelector(selectCurrentTasks);
   const dayTasks = weekTasks.filter((task) => {
     return isSameDay(currentDate, task.date);
   });
+  console.log(`tasks for ${dayName}: ${dayTasks}`);
 
   return (
     <section className="day-view">

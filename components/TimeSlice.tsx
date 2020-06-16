@@ -3,11 +3,13 @@ import Task, { createTask } from "data/Task";
 import { useDrop } from "react-dnd";
 import ItemTypes from "./drag/ItemTypes";
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { selectCurrentTasks } from "data/redux/slice/taskSlice";
 
 type Props = { task?: Task };
 
 const TimeSlice = ({ task }: Props) => {
-  const tasks = [];
+  const tasks = useSelector(selectCurrentTasks);
 
   const [currentTask, setCurrentTask] = useState<Task>(task);
   const [{ isOver, canDrop }, drop] = useDrop({
