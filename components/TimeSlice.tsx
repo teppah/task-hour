@@ -19,7 +19,7 @@ const TimeSlice = ({ taskId }: Props) => {
     drop: (item: any) => {
       const targetTask = tasks.find((i) => i.taskId === item.taskId);
       // only update the task if cell is empty
-      if (currentTask === undefined) {
+      if (!currentTask) {
         setCurrentTask(targetTask);
         // hack to set previous cell to null
         item.setPrevious(null);
