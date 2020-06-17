@@ -3,7 +3,7 @@ import Task from "data/Task";
 import ItemTypes from "components/drag/ItemTypes";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  selectSelectedTask,
+  selectSelectedTaskId,
   setSelectedTaskId,
 } from "data/redux/slice/taskSlice";
 
@@ -28,7 +28,7 @@ const TaskView = ({ task, setPreviousCurrentTask }: Props) => {
     collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
   });
 
-  const selectedTaskId = useSelector(selectSelectedTask);
+  const selectedTaskId = useSelector(selectSelectedTaskId);
   const isActive = selectedTaskId && selectedTaskId === taskId;
 
   const dispatch = useDispatch();

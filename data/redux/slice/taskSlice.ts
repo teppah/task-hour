@@ -24,7 +24,7 @@ export const selectTasks = (state: RootState) => state.tasks.tasks;
 // TODO: fix automatic type inference
 export const selectCurrentTaskIds = (state: RootState): string[] =>
   state.tasks.currentViewTaskIds;
-export const selectSelectedTask = (state: RootState): string =>
+export const selectSelectedTaskId = (state: RootState): string =>
   state.tasks.selectedTaskId;
 export const { setCurrentTaskIds, setSelectedTaskId } = taskSlice.actions;
 export default taskSlice.reducer;
