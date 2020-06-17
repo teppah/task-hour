@@ -30,13 +30,10 @@ const taskSlice = createSlice({
       const { id } = payload;
       const task = state.tasks.find((t) => t.taskId === id);
       if (task) {
-        console.log(id);
-        console.log(payload.id);
         payload.date && (task.date = payload.date);
         payload.title && (task.title = payload.title);
         payload.description && (task.description = payload.description);
       }
-      console.log(task);
     },
   },
 });

@@ -6,10 +6,11 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { selectTasks } from "data/redux/slice/taskSlice";
 
-type Props = { task?: Task };
+type Props = { taskId?: string };
 
-const TimeSlice = ({ task }: Props) => {
+const TimeSlice = ({ taskId }: Props) => {
   const tasks = useSelector(selectTasks);
+  const task = tasks.find((t) => t.taskId === taskId);
 
   const [currentTask, setCurrentTask] = useState<Task>(task);
   const [{ isOver, canDrop }, drop] = useDrop({
@@ -18,7 +19,7 @@ const TimeSlice = ({ task }: Props) => {
     drop: (item: any) => {
       const targetTask = tasks.find((i) => i.taskId === item.taskId);
       // only update the task if cell is empty
-      if (currentTask === null) {
+      if (currentTask === undefined) {
         setCurrentTask(targetTask);
         // hack to set previous cell to null
         item.setPrevious(null);
@@ -37,7 +38,10 @@ const TimeSlice = ({ task }: Props) => {
   return (
     <div ref={drop} onClick={handleClick}>
       {currentTask && (
-        <TaskView task={currentTask} setPreviousCurrentTask={setCurrentTask} />
+        <TaskView
+          taskId={currentTask.taskId}
+          setPreviousCurrentTask={setCurrentTask}
+        />
       )}
       <style jsx>{`
         div {

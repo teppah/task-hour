@@ -5,15 +5,20 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   selectSelectedTaskId,
   setSelectedTaskId,
+  selectTasks,
 } from "data/redux/slice/taskSlice";
 
 type Props = {
-  task: Task;
+  taskId: string;
   setPreviousCurrentTask: any;
 };
 
-const TaskView = ({ task, setPreviousCurrentTask }: Props) => {
-  const { title, description, taskId } = task;
+const TaskView = ({ taskId, setPreviousCurrentTask }: Props) => {
+  const allTasks = useSelector(selectTasks);
+  // TODO: optimize this call to only return the task title from the selectors to
+  // avoid unnecessary re-rendering of component when description/date is updated
+  const task = allTasks.find((t) => t.taskId === taskId);
+  const { title } = task;
   const [{ isDragging }, drag] = useDrag({
     // setPrevious: a hack to expose the current cell the TaskView is in to the
     // drop target. that way, on drop, the TimeSlice that is being dropped on

@@ -45,13 +45,11 @@ const DayView = ({ day }: Props) => {
       <h1>{currentDayDate}</h1>
       <h1>{dayName}</h1>
       {range(24).map((i) => {
-        const foundTasks = dayTasks.filter((t) =>
+        const foundTasks = dayTasks.find((t) =>
           isSameHour(t.date, addHours(currentDate, i))
         );
         // For now, assume there is only one task per hour
-        return (
-          <TimeSlice task={foundTasks.length > 0 ? foundTasks[0] : null} />
-        );
+        return <TimeSlice taskId={foundTasks ? foundTasks.taskId : null} />;
       })}
       <style jsx>{`
         .day-view {
