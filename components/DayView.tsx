@@ -11,7 +11,10 @@ import {
   isToday,
 } from "date-fns";
 import { useSelector } from "react-redux";
-import { selectWeekStartDate } from "data/redux/slice/dateSlice";
+import {
+  selectWeekStartDate,
+  selectSelectedDate,
+} from "data/redux/slice/dateSlice";
 import { selectCurrentTaskIds, selectTasks } from "data/redux/slice/taskSlice";
 type Props = {
   day: number;
@@ -29,6 +32,9 @@ const DayView = ({ day }: Props) => {
   const currentWeekDate = useSelector(selectWeekStartDate);
   const currentDate = addDays(currentWeekDate, day);
   const currentDayDate = getDate(currentDate);
+
+  const selectedDate = useSelector(selectSelectedDate);
+  const isItToday = isSameDay(currentDate, selectedDate);
 
   const weekTasks = useSelector(selectCurrentTaskIds);
   const allTasks = useSelector(selectTasks);
@@ -63,7 +69,7 @@ const DayView = ({ day }: Props) => {
       `}</style>
       <style jsx>{`
         .day-view {
-          background-color: ${isToday(currentDate) ? "#feebc8" : "inherit"};
+          background-color: ${isItToday ? "#feebc8" : "inherit"};
         }
       `}</style>
     </section>
