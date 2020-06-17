@@ -1,6 +1,10 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useFormik, FormikContext } from "formik";
-import { selectSelectedTaskId, selectTasks } from "data/redux/slice/taskSlice";
+import {
+  selectSelectedTaskId,
+  selectTasks,
+  updateTaskIfExist,
+} from "data/redux/slice/taskSlice";
 import { useState } from "react";
 
 const DetailedTaskView = () => {
@@ -8,13 +12,25 @@ const DetailedTaskView = () => {
   const selectedTask = useSelector(selectTasks).find(
     (t) => t.taskId === selectedTaskId
   );
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
       title: selectedTask ? selectedTask.title : "",
       description: selectedTask ? selectedTask.description : "",
     },
-    onSubmit: (values) => {
-      alert(`${JSON.stringify(values)} for id ${selectedTaskId}`);
+    onSubmit: (values, helper) => {
+      const initialValues = formik.initialValues;
+      const { title, description } = values;
+      const newTitle = title !== initialValues.title ? title : null;
+      const newDescription =
+        description !== initialValues.description ? description : null;
+      dispatch(
+        updateTaskIfExist({
+          id: selectedTaskId,
+          title: newTitle,
+          description: newDescription,
+        })
+      );
     },
     enableReinitialize: true,
   });

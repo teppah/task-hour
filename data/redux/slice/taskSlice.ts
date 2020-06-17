@@ -17,6 +17,27 @@ const taskSlice = createSlice({
     setSelectedTaskId: (state, action: PayloadAction<string>) => {
       state.selectedTaskId = action.payload;
     },
+    updateTaskIfExist: (
+      state,
+      action: PayloadAction<{
+        id: string;
+        title?: string;
+        description?: string;
+        date?: Date;
+      }>
+    ) => {
+      const payload = action.payload;
+      const { id } = payload;
+      const task = state.tasks.find((t) => t.taskId === id);
+      if (task) {
+        console.log(id);
+        console.log(payload.id);
+        payload.date && (task.date = payload.date);
+        payload.title && (task.title = payload.title);
+        payload.description && (task.description = payload.description);
+      }
+      console.log(task);
+    },
   },
 });
 
@@ -26,5 +47,9 @@ export const selectCurrentTaskIds = (state: RootState): string[] =>
   state.tasks.currentViewTaskIds;
 export const selectSelectedTaskId = (state: RootState): string =>
   state.tasks.selectedTaskId;
-export const { setCurrentTaskIds, setSelectedTaskId } = taskSlice.actions;
+export const {
+  setCurrentTaskIds,
+  setSelectedTaskId,
+  updateTaskIfExist,
+} = taskSlice.actions;
 export default taskSlice.reducer;
