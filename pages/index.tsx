@@ -1,6 +1,7 @@
 import Head from "next/head";
 import SummaryView from "components/SummaryView";
 import DetailedTaskView from "components/DetailedTaskView";
+import CalendarView from "components/CalendarView";
 const Index = () => {
   return (
     <div className="content">
@@ -8,7 +9,9 @@ const Index = () => {
         <title>Task Hour</title>
       </Head>
       <div className="vertical-bar">
-        <div>Calendar</div>
+        <div>
+          <CalendarView />
+        </div>
         <div>TaskListView</div>
       </div>
       <div id="summary">
@@ -36,7 +39,7 @@ const Index = () => {
           @apply flex-grow;
         }
         .vertical-bar {
-          @apply flex flex-col w-1/6;
+          @apply flex flex-col w-1/5;
         }
         .vertical-bar > * {
           @apply w-full h-full;
