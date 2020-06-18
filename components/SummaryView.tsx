@@ -15,6 +15,11 @@ const SummaryView = ({}: Props) => {
   const currentWeek = useSelector(selectWeekStartDate);
   const tasks = useSelector(selectTasks);
 
+  // have to update the filteredIds every time a taskdate updates because
+  // one task might change week, and filteredids has to reflect that
+
+  // long future TODO: do not rerender the whole view on each date change, but only the
+  // individual days
   const filteredIds = tasks
     .filter((task) => {
       const taskDate = task.date;
