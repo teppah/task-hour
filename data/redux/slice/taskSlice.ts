@@ -44,6 +44,8 @@ export const selectCurrentTaskIds = (state: RootState): string[] =>
   state.tasks.currentViewTaskIds;
 export const selectSelectedTaskId = (state: RootState): string =>
   state.tasks.selectedTaskId;
+export const selectTaskById = (taskId: string) => (state: RootState) =>
+  state.tasks.tasks.find((t) => t.taskId === taskId);
 export const {
   setCurrentTaskIds,
   setSelectedTaskId,
