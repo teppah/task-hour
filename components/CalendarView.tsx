@@ -3,12 +3,15 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   selectSelectedDate,
   setSelectedDate,
+  selectWeekStartDate,
+  setWeekStart,
 } from "data/redux/slice/dateSlice";
 import { selectTasks } from "data/redux/slice/taskSlice";
-import { isSameDay } from "date-fns";
+import { isSameDay, isSameWeek, startOfWeek } from "date-fns";
 
 const CalendarView = () => {
   const selectedDate = useSelector(selectSelectedDate);
+  const weekStartDate = useSelector(selectWeekStartDate);
   const allTasks = useSelector(selectTasks);
   const dispatch = useDispatch();
 
@@ -16,7 +19,13 @@ const CalendarView = () => {
     <section>
       <Calendar
         value={selectedDate}
-        onClickDay={(day) => dispatch(setSelectedDate(day))}
+        onClickDay={(day) => {
+          // if did not click on the same week, change week
+          if (!isSameWeek(weekStartDate, day)) {
+            dispatch(setWeekStart(startOfWeek(day)));
+          }
+          dispatch(setSelectedDate(day));
+        }}
         calendarType={"US"}
         tileContent={(props) => {
           const { date } = props;

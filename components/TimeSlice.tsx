@@ -4,7 +4,7 @@ import { useDrop } from "react-dnd";
 import ItemTypes from "./drag/ItemTypes";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { selectTasks } from "data/redux/slice/taskSlice";
+import { selectTasks, selectCurrentTaskIds } from "data/redux/slice/taskSlice";
 
 type Props = { taskId?: string };
 
@@ -13,6 +13,7 @@ const TimeSlice = ({ taskId }: Props) => {
   const task = tasks.find((t) => t.taskId === taskId);
 
   const [currentTask, setCurrentTask] = useState<Task>(task);
+
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: ItemTypes.TASK,
     // TODO: remove any from the item signature
@@ -30,6 +31,9 @@ const TimeSlice = ({ taskId }: Props) => {
       canDrop: !!mon.canDrop(),
     }),
   });
+  if (currentTask !== task) {
+    setCurrentTask(task);
+  }
   const handleClick = () => {
     if (!currentTask) {
       console.log(`click from TimeSlice`);
