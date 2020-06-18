@@ -35,6 +35,13 @@ const taskSlice = createSlice({
         payload.description && (task.description = payload.description);
       }
     },
+    changeTaskDate: (
+      state,
+      action: PayloadAction<{ taskId: string; date: Date }>
+    ) => {
+      state.tasks.find((t) => t.taskId === action.payload.taskId).date =
+        action.payload.date;
+    },
   },
 });
 
@@ -46,9 +53,12 @@ export const selectSelectedTaskId = (state: RootState): string =>
   state.tasks.selectedTaskId;
 export const selectTaskById = (taskId: string) => (state: RootState) =>
   state.tasks.tasks.find((t) => t.taskId === taskId);
+export const selectDatelessTasks = (state: RootState) =>
+  state.tasks.tasks.filter((t) => !t.date);
 export const {
   setCurrentTaskIds,
   setSelectedTaskId,
   updateTaskIfExist,
+  changeTaskDate,
 } = taskSlice.actions;
 export default taskSlice.reducer;
