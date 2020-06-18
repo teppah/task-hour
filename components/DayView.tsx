@@ -39,6 +39,7 @@ const DayView = ({ day }: Props) => {
   const weekTasks = useSelector(selectCurrentTaskIds);
   const allTasks = useSelector(selectTasks);
 
+  // TODO: do not call allTasks.find() twice
   const dayTasks = weekTasks
     .filter((taskId) => {
       const foundTask = allTasks.find((t) => t.taskId === taskId);
@@ -51,11 +52,17 @@ const DayView = ({ day }: Props) => {
       <h1>{currentDayDate}</h1>
       <h1>{dayName}</h1>
       {range(24).map((i) => {
+        const currentHour = addHours(currentDate, i);
         const foundTasks = dayTasks.find((t) =>
-          isSameHour(t.date, addHours(currentDate, i))
+          isSameHour(t.date, currentHour)
         );
         // For now, assume there is only one task per hour
-        return <TimeSlice taskId={foundTasks ? foundTasks.taskId : null} />;
+        return (
+          <TimeSlice
+            taskId={foundTasks ? foundTasks.taskId : null}
+            currentHour={currentHour}
+          />
+        );
       })}
       <style jsx>{`
         .day-view {

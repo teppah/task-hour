@@ -10,10 +10,9 @@ import {
 
 type Props = {
   taskId: string;
-  setPreviousCurrentTask: any;
 };
 
-const TaskView = ({ taskId, setPreviousCurrentTask }: Props) => {
+const TaskView = ({ taskId }: Props) => {
   const allTasks = useSelector(selectTasks);
   // TODO: optimize this call to only return the task title from the selectors to
   // avoid unnecessary re-rendering of component when description/date is updated
@@ -27,7 +26,6 @@ const TaskView = ({ taskId, setPreviousCurrentTask }: Props) => {
     // TODO: REMOVE setPrevious to decouple
     item: {
       type: ItemTypes.TASK,
-      setPrevious: setPreviousCurrentTask,
       taskId: taskId,
     },
     collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
