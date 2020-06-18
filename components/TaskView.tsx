@@ -19,11 +19,6 @@ const TaskView = ({ taskId }: Props) => {
   const task = allTasks.find((t) => t.taskId === taskId);
   const { title } = task;
   const [{ isDragging }, drag] = useDrag({
-    // setPrevious: a hack to expose the current cell the TaskView is in to the
-    // drop target. that way, on drop, the TimeSlice that is being dropped on
-    // can clear the previous cell's content and set the current cell to this
-    // task.
-    // TODO: REMOVE setPrevious to decouple
     item: {
       type: ItemTypes.TASK,
       taskId: taskId,
