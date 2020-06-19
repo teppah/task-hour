@@ -42,6 +42,9 @@ const taskSlice = createSlice({
       state.tasks.find((t) => t.taskId === action.payload.taskId).date =
         action.payload.date;
     },
+    addTask: (state, action: PayloadAction<Task>) => {
+      state.tasks.push(action.payload);
+    },
   },
 });
 
@@ -60,5 +63,6 @@ export const {
   setSelectedTaskId,
   updateTaskIfExist,
   changeTaskDate,
+  addTask,
 } = taskSlice.actions;
 export default taskSlice.reducer;

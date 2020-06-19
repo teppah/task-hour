@@ -9,7 +9,10 @@ import {
   selectCurrentTaskIds,
   selectTaskById,
   updateTaskIfExist,
+  addTask,
+  setSelectedTaskId,
 } from "data/redux/slice/taskSlice";
+import { nanoid } from "nanoid";
 
 type Props = { taskId?: string; currentHour: Date };
 
@@ -29,7 +32,15 @@ const TimeSlice = ({ taskId, currentHour }: Props) => {
   });
   const handleClick = () => {
     if (!currentTask) {
-      console.log(`click from TimeSlice`);
+      const newId = nanoid();
+      const newTask = createTask(
+        newId,
+        "Task Title",
+        "Description here",
+        currentHour
+      );
+      dispatch(addTask(newTask));
+      dispatch(setSelectedTaskId(newId));
     }
   };
   return (
