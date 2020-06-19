@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import getTasks from "data/get-tasks";
 import Task from "data/Task";
 import { RootState } from "../store";
-import { remove } from "lodash";
+import remove from "lodash/remove";
 
 const taskSlice = createSlice({
   name: "tasks",
