@@ -4,6 +4,8 @@ import {
   selectSelectedTaskId,
   selectTasks,
   updateTaskIfExist,
+  deleteTask,
+  setSelectedTaskId,
 } from "data/redux/slice/taskSlice";
 import { useState } from "react";
 
@@ -41,6 +43,11 @@ const DetailedTaskView = () => {
       </section>
     );
   }
+  // assume for now that the task that will be deleted is the selected one
+  const handleDelete = () => {
+    dispatch(deleteTask(selectedTaskId));
+    dispatch(setSelectedTaskId(null));
+  };
 
   return (
     <section>
@@ -66,6 +73,7 @@ const DetailedTaskView = () => {
         </label>
         <button type="submit">Submit</button>
         <button onClick={() => formik.resetForm()}>Reset</button>
+        <button onClick={handleDelete}>Delete</button>
       </form>
       <style jsx>{`
         section {

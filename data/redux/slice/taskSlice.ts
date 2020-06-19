@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import getTasks from "data/get-tasks";
 import Task from "data/Task";
 import { RootState } from "../store";
+import { remove } from "lodash";
 
 const taskSlice = createSlice({
   name: "tasks",
@@ -45,6 +46,9 @@ const taskSlice = createSlice({
     addTask: (state, action: PayloadAction<Task>) => {
       state.tasks.push(action.payload);
     },
+    deleteTask: (state, action: PayloadAction<string>) => {
+      remove(state.tasks, (t) => t.taskId === action.payload);
+    },
   },
 });
 
@@ -64,5 +68,6 @@ export const {
   updateTaskIfExist,
   changeTaskDate,
   addTask,
+  deleteTask,
 } = taskSlice.actions;
 export default taskSlice.reducer;
