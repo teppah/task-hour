@@ -1,6 +1,7 @@
 import TimeSlice from "components/TimeSlice";
 import Task from "data/Task";
-import { range, capitalize } from "lodash";
+import range from "lodash/range";
+import capitalize from "lodash/capitalize";
 import { getDayName } from "util/dates";
 import {
   addDays,
