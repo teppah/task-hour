@@ -64,11 +64,23 @@ const DetailedTaskView = () => {
             onChange={formik.handleChange}
           ></textarea>
         </label>
-        <input type="submit" value="Update" />
+        <button type="submit">Submit</button>
+        <button onClick={() => formik.resetForm()}>Reset</button>
       </form>
       <style jsx>{`
         section {
-          @apply p-3;
+          @apply p-3 h-full;
+          @apply border border-black;
+        }
+        form {
+          @apply flex flex-col items-center;
+        }
+        button {
+          @apply w-3/4;
+          @apply my-1;
+          @apply bg-blue-300;
+          @apply border border-blue-500;
+          @apply rounded;
         }
         textarea,
         input {
