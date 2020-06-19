@@ -5,6 +5,7 @@ import SummaryView from "components/SummaryView";
 import DetailedTaskView from "components/DetailedTaskView";
 import CalendarView from "components/CalendarView";
 import TaskListView from "components/ListView";
+import ButtonArray from "components/ButtonArray";
 const Index = () => {
   return (
     <DndProvider backend={HTML5Backend}>
@@ -24,7 +25,9 @@ const Index = () => {
           <SummaryView />
         </div>
         <div className="vertical-bar">
-          <div>ButtonArray</div>
+          <div>
+            <ButtonArray />
+          </div>
           <div>PomordoTimer</div>
           <div>
             <DetailedTaskView />
