@@ -2,16 +2,20 @@ import DayView from "components/DayView";
 import range from "lodash/range";
 import { isSameWeek } from "date-fns";
 import { useSelector, useDispatch } from "react-redux";
-import { selectWeekStartDate } from "data/redux/slice/dateSlice";
+import {
+  selectWeekStartDate,
+  selectSelectedView,
+} from "data/redux/slice/dateSlice";
 import { selectTasks, setCurrentTaskIds } from "data/redux/slice/taskSlice";
+import { getDaysFromView } from "util/dates";
 
 type Props = {};
 const SummaryView = ({}: Props) => {
-  const days = [0, 1, 2, 3, 4, 5, 6];
   const dispatch = useDispatch();
-
+  const selectedView = useSelector(selectSelectedView);
   const currentWeek = useSelector(selectWeekStartDate);
   const tasks = useSelector(selectTasks);
+  const days = getDaysFromView(selectedView);
 
   // have to update the filteredIds every time a taskdate updates because
   // one task might change week, and filteredids has to reflect that

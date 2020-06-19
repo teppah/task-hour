@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { startOfWeek, startOfDay } from "date-fns";
+import { VIEWS } from "util/dates";
 
 // what this contain
 // selectedWeekStart: week selected in calendar that starts the week
@@ -12,6 +13,7 @@ const dateSlice = createSlice({
   initialState: {
     weekStartDate: startOfWeek(now),
     selectedDate: startOfDay(now),
+    selectedView: VIEWS.FULL_WEEK,
   },
   reducers: {
     // make sure to return the sunday start date
@@ -21,6 +23,9 @@ const dateSlice = createSlice({
     setSelectedDate: (state, action: PayloadAction<Date>) => {
       state.selectedDate = action.payload;
     },
+    setSelectedView: (state, action: PayloadAction<VIEWS>) => {
+      state.selectedView = action.payload;
+    },
   },
 });
 
@@ -28,5 +33,11 @@ export const selectWeekStartDate = (state: RootState) =>
   state.dates.weekStartDate;
 export const selectSelectedDate = (state: RootState) =>
   state.dates.selectedDate;
-export const { setWeekStart, setSelectedDate } = dateSlice.actions;
+export const selectSelectedView = (state: RootState) =>
+  state.dates.selectedView;
+export const {
+  setWeekStart,
+  setSelectedDate,
+  setSelectedView,
+} = dateSlice.actions;
 export default dateSlice.reducer;
