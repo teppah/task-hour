@@ -1,31 +1,65 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 
 const PomordoTimer = () => {
-  const [seconds, setSeconds] = useState(60);
+  const [seconds, setSeconds] = useState(0);
+  const [minutes, setMinutes] = useState(1);
   const [active, setActive] = useState(false);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      if (seconds > 0 && active) {
-        setSeconds(seconds - 1);
+      if (active) {
+        if (seconds > 0) {
+          setSeconds(seconds - 1);
+        }
+        if (seconds === 0 && minutes > 0) {
+          setMinutes(minutes - 1);
+          setSeconds(59);
+        }
       }
     }, 1000);
     // clear the timeout when state is updated to prevent timer from ticking
     // after stopping
     return () => clearTimeout(timeout);
   }, [seconds, active]);
-  const handleStart = () => {
-    setActive(true);
+  const handleToggle = () => {
+    setActive(!active);
   };
-  const handleStop = () => {
-    setActive(false);
+  const handleChangeMinute = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!active) {
+      setMinutes(Number(e.target.value));
+    }
+  };
+  const handleChangeSecond = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!active) {
+      setMinutes(Number(e.target.value));
+    }
+  };
+  const formatDigits = (val: number) => {
+    if (val >= 10) {
+      return val;
+    } else {
+      return `0${val}`;
+    }
   };
   return (
     <section>
-      <input type="text" value={seconds} />
+      <div className="time">
+        <input
+          type="number"
+          value={formatDigits(minutes)}
+          onChange={handleChangeMinute}
+        />
+        :
+        <input
+          type="number"
+          value={formatDigits(seconds)}
+          max="59"
+          onChange={handleChangeSecond}
+        />
+      </div>
       <div className="buttons">
-        <button onClick={handleStart}>Start</button>
-        <button onClick={handleStop}>Stop</button>
+        <button onClick={handleToggle}>{active ? "Stop" : "Start"}</button>
+        <button>Reset</button>
       </div>
       <style jsx>{`
         section {
@@ -35,8 +69,22 @@ const PomordoTimer = () => {
           @apply flex flex-col items-center;
         }
         input {
-          @apply border border-black flex-none;
-          @apply px-2;
+          @apply border border-black;
+          @apply text-center;
+          @apply w-12 mx-1;
+        }
+        /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+        /* Firefox */
+        input[type="number"] {
+          -moz-appearance: textfield;
+        }
+        .time {
+          @apply flex flex-row;
         }
         .buttons {
           @apply flex flex-row;
