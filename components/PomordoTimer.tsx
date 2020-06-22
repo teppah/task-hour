@@ -5,16 +5,27 @@ const PomordoTimer = () => {
   const [active, setActive] = useState(false);
 
   useEffect(() => {
-    if (seconds > 60 && active) {
-      setTimeout(() => setSeconds(seconds - 1));
-    }
-  }, [seconds]);
+    const timeout = setTimeout(() => {
+      if (seconds > 0 && active) {
+        setSeconds(seconds - 1);
+      }
+    }, 1000);
+    // clear the timeout when state is updated to prevent timer from ticking
+    // after stopping
+    return () => clearTimeout(timeout);
+  }, [seconds, active]);
+  const handleStart = () => {
+    setActive(true);
+  };
+  const handleStop = () => {
+    setActive(false);
+  };
   return (
     <section>
       <input type="text" value={seconds} />
       <div className="buttons">
-        <button>Start</button>
-        <button>Stop</button>
+        <button onClick={handleStart}>Start</button>
+        <button onClick={handleStop}>Stop</button>
       </div>
       <style jsx>{`
         section {
