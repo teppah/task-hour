@@ -6,6 +6,7 @@ import DetailedTaskView from "components/DetailedTaskView";
 import CalendarView from "components/CalendarView";
 import TaskListView from "components/ListView";
 import ButtonArray from "components/ButtonArray";
+import PomordoTimer from "components/PomordoTimer";
 const Index = () => {
   return (
     <DndProvider backend={HTML5Backend}>
@@ -28,7 +29,9 @@ const Index = () => {
           <div>
             <ButtonArray />
           </div>
-          <div>PomordoTimer</div>
+          <div>
+            <PomordoTimer />
+          </div>
           <div>
             <DetailedTaskView />
           </div>
