@@ -80,6 +80,7 @@ const PomordoTimer = () => {
           @apply flex flex-col items-center;
         }
         input {
+          @apply font-mono;
           @apply border border-black;
           @apply text-center;
           @apply w-10 mx-1;
