@@ -57,7 +57,7 @@ const SummaryView = ({}: Props) => {
         .time-col > div {
           @apply text-center;
           @apply mx-2;
-          @apply h-8;
+          @apply h-10;
         }
       `}</style>
     </section>
