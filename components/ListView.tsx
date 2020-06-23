@@ -3,7 +3,7 @@ import ItemTypes from "./drag/ItemTypes";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectDatelessTasks,
-  changeTaskDate,
+  changeTaskStartDate,
 } from "data/redux/slice/taskSlice";
 import ListTaskView from "./ListTaskView";
 
@@ -13,7 +13,7 @@ const TaskListView = () => {
   const [{}, drop] = useDrop({
     accept: ItemTypes.TASK,
     drop: (item: any) => {
-      dispatch(changeTaskDate({ taskId: item.taskId, date: null }));
+      dispatch(changeTaskStartDate({ taskId: item.taskId, date: null }));
     },
   });
   return (

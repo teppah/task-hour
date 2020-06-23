@@ -11,6 +11,7 @@ import {
   updateTaskIfExist,
   addTask,
   setSelectedTaskId,
+  changeTaskStartDate,
 } from "data/redux/slice/taskSlice";
 import { nanoid } from "nanoid";
 
@@ -25,7 +26,9 @@ const TimeSlice = ({ taskId, currentHour }: Props) => {
     drop: (item: any) => {
       switch (item.type) {
         case ItemTypes.TASK:
-          dispatch(updateTaskIfExist({ id: item.taskId, date: currentHour }));
+          dispatch(
+            changeTaskStartDate({ taskId: item.taskId, date: currentHour })
+          );
           break;
         case ItemTypes.DRAG_HANDLE:
           alert("Dropped handle");

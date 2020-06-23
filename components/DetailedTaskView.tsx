@@ -28,7 +28,7 @@ const DetailedTaskView = () => {
         description !== initialValues.description ? description : null;
       dispatch(
         updateTaskIfExist({
-          id: selectedTaskId,
+          taskId: selectedTaskId,
           title: newTitle,
           description: newDescription,
         })

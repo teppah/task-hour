@@ -21,14 +21,14 @@ const taskSlice = createSlice({
     updateTaskIfExist: (
       state,
       action: PayloadAction<{
-        id: string;
+        taskId: string;
         title?: string;
         description?: string;
         date?: Date;
       }>
     ) => {
       const payload = action.payload;
-      const { id } = payload;
+      const { taskId: id } = payload;
       const task = state.tasks.find((t) => t.taskId === id);
       if (task) {
         payload.date && (task.startDate = payload.date);
@@ -36,7 +36,7 @@ const taskSlice = createSlice({
         payload.description && (task.description = payload.description);
       }
     },
-    changeTaskDate: (
+    changeTaskStartDate: (
       state,
       action: PayloadAction<{ taskId: string; date: Date }>
     ) => {
@@ -66,7 +66,7 @@ export const {
   setCurrentTaskIds,
   setSelectedTaskId,
   updateTaskIfExist,
-  changeTaskDate,
+  changeTaskStartDate,
   addTask,
   deleteTask,
 } = taskSlice.actions;
