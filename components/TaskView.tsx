@@ -21,7 +21,7 @@ const TaskView = ({ taskId }: Props) => {
   const [{ isTaskDragging }, dragTask] = useDrag({
     item: {
       type: ItemTypes.TASK,
-      taskId: taskId,
+      taskId,
     },
     collect: (monitor) => ({ isTaskDragging: !!monitor.isDragging() }),
   });
@@ -29,6 +29,7 @@ const TaskView = ({ taskId }: Props) => {
   const [{}, dragHandle] = useDrag({
     item: {
       type: ItemTypes.DRAG_HANDLE,
+      taskId,
     },
     collect: (monitor) => ({}),
   });

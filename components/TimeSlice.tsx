@@ -21,9 +21,16 @@ const TimeSlice = ({ taskId, currentHour }: Props) => {
   const dispatch = useDispatch();
 
   const [{ isOver, canDrop }, drop] = useDrop({
-    accept: ItemTypes.TASK,
+    accept: [ItemTypes.TASK, ItemTypes.DRAG_HANDLE],
     drop: (item: any) => {
-      dispatch(updateTaskIfExist({ id: item.taskId, date: currentHour }));
+      switch (item.type) {
+        case ItemTypes.TASK:
+          dispatch(updateTaskIfExist({ id: item.taskId, date: currentHour }));
+          break;
+        case ItemTypes.DRAG_HANDLE:
+          alert("Dropped handle");
+          break;
+      }
     },
     collect: (mon) => ({
       isOver: !!mon.isOver(),
