@@ -24,7 +24,7 @@ const SummaryView = ({}: Props) => {
   // individual days
   const filteredIds = tasks
     .filter((task) => {
-      const taskDate = task.date;
+      const taskDate = task.startDate;
       return isSameWeek(currentWeek, taskDate);
     })
     .map((task) => task.taskId);

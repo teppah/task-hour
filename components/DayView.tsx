@@ -44,7 +44,7 @@ const DayView = ({ day }: Props) => {
   const dayTasks = weekTasks
     .filter((taskId) => {
       const foundTask = allTasks.find((t) => t.taskId === taskId);
-      return isSameDay(currentDate, foundTask.date);
+      return isSameDay(currentDate, foundTask.startDate);
     }) // map to find task by id
     .map((taskId) => allTasks.find((t) => t.taskId === taskId));
 
@@ -55,7 +55,7 @@ const DayView = ({ day }: Props) => {
       {range(24).map((i) => {
         const currentHour = addHours(currentDate, i);
         const foundTasks = dayTasks.find((t) =>
-          isSameHour(t.date, currentHour)
+          isSameHour(t.startDate, currentHour)
         );
         // For now, assume there is only one task per hour
         return (

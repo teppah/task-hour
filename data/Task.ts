@@ -1,20 +1,25 @@
+import { addHours } from "date-fns";
+
 type Task = {
   taskId: string;
   title: string;
   description: string;
-  date: Date;
+  startDate: Date;
+  endDate: Date;
 };
 export function createTask(
   taskId: string,
   title: string,
   description: string,
-  date: Date
+  startDate: Date,
+  endDate: Date = addHours(startDate, 1)
 ): Task {
   return {
     taskId,
     title,
     description,
-    date,
+    startDate,
+    endDate,
   };
 }
 

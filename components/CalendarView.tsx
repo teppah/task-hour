@@ -29,7 +29,9 @@ const CalendarView = () => {
         calendarType={"US"}
         tileContent={(props) => {
           const { date } = props;
-          const todayTasks = allTasks.filter((t) => isSameDay(t.date, date));
+          const todayTasks = allTasks.filter((t) =>
+            isSameDay(t.startDate, date)
+          );
           return <p>{todayTasks.map((t) => "*")}</p>;
         }}
       />
