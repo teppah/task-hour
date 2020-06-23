@@ -43,6 +43,13 @@ const taskSlice = createSlice({
       state.tasks.find((t) => t.taskId === action.payload.taskId).startDate =
         action.payload.date;
     },
+    changeTaskEndDate: (
+      state,
+      action: PayloadAction<{ taskId: string; date: Date }>
+    ) => {
+      state.tasks.find((t) => t.taskId === action.payload.taskId).endDate =
+        action.payload.date;
+    },
     addTask: (state, action: PayloadAction<Task>) => {
       state.tasks.push(action.payload);
     },
@@ -67,6 +74,7 @@ export const {
   setSelectedTaskId,
   updateTaskIfExist,
   changeTaskStartDate,
+  changeTaskEndDate,
   addTask,
   deleteTask,
 } = taskSlice.actions;

@@ -12,6 +12,7 @@ import {
   addTask,
   setSelectedTaskId,
   changeTaskStartDate,
+  changeTaskEndDate,
 } from "data/redux/slice/taskSlice";
 import { nanoid } from "nanoid";
 
@@ -31,7 +32,9 @@ const TimeSlice = ({ taskId, currentHour }: Props) => {
           );
           break;
         case ItemTypes.DRAG_HANDLE:
-          alert("Dropped handle");
+          dispatch(
+            changeTaskEndDate({ taskId: item.taskId, date: currentHour })
+          );
           break;
       }
     },
