@@ -36,26 +36,42 @@ const TaskView = ({ taskId }: Props) => {
   };
 
   return (
-    <section
-      className={isActive ? "selected" : ""}
-      ref={drag}
-      onClick={clickHandler}
-    >
-      <h1>{title}</h1>
+    <div className="task">
+      <section
+        className={isActive ? "selected" : ""}
+        ref={drag}
+        onClick={clickHandler}
+      >
+        <h1>{title}</h1>
+      </section>
+      <div className="resize-handler" draggable>
+        {" "}
+      </div>
       <style jsx>{`
-        section {
-          @apply h-full w-full;
+        .task {
+          @apply flex flex-col h-full w-full;
           @apply bg-gray-400;
+        }
+        section {
+          @apply flex-1;
           @apply cursor-pointer;
         }
-        section:active {
+        h1 {
+          @apply text-sm;
+        }
+        section::active {
           @apply bg-gray-500;
         }
         .selected {
           @apply bg-gray-600;
         }
+        div.resize-handler {
+          height: 0.35rem;
+          @apply border border-black w-full;
+          cursor: ns-resize;
+        }
       `}</style>
-    </section>
+    </div>
   );
 };
 
