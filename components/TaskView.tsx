@@ -18,12 +18,19 @@ const TaskView = ({ taskId }: Props) => {
   // avoid unnecessary re-rendering of component when description/date is updated
   const task = allTasks.find((t) => t.taskId === taskId);
   const { title } = task;
-  const [{ isDragging }, drag] = useDrag({
+  const [{ isTaskDragging }, dragTask] = useDrag({
     item: {
       type: ItemTypes.TASK,
       taskId: taskId,
     },
-    collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
+    collect: (monitor) => ({ isTaskDragging: !!monitor.isDragging() }),
+  });
+
+  const [{}, dragHandle] = useDrag({
+    item: {
+      type: ItemTypes.DRAG_HANDLE,
+    },
+    collect: (monitor) => ({}),
   });
 
   const selectedTaskId = useSelector(selectSelectedTaskId);
@@ -39,12 +46,12 @@ const TaskView = ({ taskId }: Props) => {
     <div className="task">
       <section
         className={isActive ? "selected" : ""}
-        ref={drag}
+        ref={dragTask}
         onClick={clickHandler}
       >
         <h1>{title}</h1>
       </section>
-      <div className="resize-handler" draggable>
+      <div className="resize-handler" ref={dragHandle}>
         {" "}
       </div>
       <style jsx>{`
