@@ -55,7 +55,7 @@ const PomordoTimer = () => {
           value={formatDigits(minutes)}
           onChange={handleChangeMinute}
         />{" "}
-        m :
+        m
         <input
           type="number"
           value={formatDigits(seconds)}
@@ -89,7 +89,8 @@ const PomordoTimer = () => {
           @apply font-mono;
           @apply border border-black;
           @apply text-center;
-          @apply w-10 mx-1;
+          @apply w-10;
+          margin: 0 0.2rem;
         }
         /* Chrome, Safari, Edge, Opera */
         input::-webkit-outer-spin-button,
@@ -114,11 +115,12 @@ const PomordoTimer = () => {
           @apply mx-1;
         }
         .stop {
-          @apply bg-red-400;
+          @apply bg-red-500;
           @apply border-red-600;
+          @apply text-white;
         }
         .start {
-          @apply bg-green-400;
+          @apply bg-green-500;
           @apply border-green-600;
         }
       `}</style>
