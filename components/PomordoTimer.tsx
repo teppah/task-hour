@@ -1,4 +1,5 @@
 import { useState, useEffect, ChangeEvent } from "react";
+import btnStyles from "css/Button.module.css";
 
 const PomordoTimer = () => {
   const [seconds, setSeconds] = useState(0);
@@ -64,10 +65,15 @@ const PomordoTimer = () => {
         s
       </div>
       <div className="buttons">
-        <button onClick={handleToggle} className={active ? "stop" : "start"}>
+        <button
+          onClick={handleToggle}
+          className={
+            active ? `${btnStyles.btn} stop` : `${btnStyles.btn} start`
+          }
+        >
           {active ? "Stop" : "Start"}
         </button>
-        <button>Reset</button>
+        <button className={btnStyles.btn}>Reset</button>
       </div>
       <style jsx>{`
         .done {
@@ -101,18 +107,19 @@ const PomordoTimer = () => {
         .buttons {
           @apply flex flex-row;
         }
-        button {
-          @apply p-1 mx-1;
-          @apply rounded border-2 border-blue-300;
-        }
         section > div {
           @apply my-2;
         }
+        button {
+          @apply mx-1;
+        }
         .stop {
           @apply bg-red-400;
+          @apply border-red-600;
         }
         .start {
           @apply bg-green-400;
+          @apply border-green-600;
         }
       `}</style>
     </section>

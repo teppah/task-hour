@@ -3,6 +3,7 @@ import {
   selectSelectedView,
   setSelectedView,
 } from "data/redux/slice/dateSlice";
+import btnStyles from "css/Button.module.css";
 import { VIEWS } from "util/dates";
 
 const ButtonArray = () => {
@@ -17,24 +18,14 @@ const ButtonArray = () => {
   };
   return (
     <section>
-      <button onClick={weekChangeHandler}>{selectedView}</button>
+      <button className={btnStyles.btn} onClick={weekChangeHandler}>
+        {selectedView}
+      </button>
       <style jsx>{`
         section {
           @apply p-3 h-full;
           @apply border border-black;
           @apply flex items-start justify-center;
-        }
-        button {
-          @apply px-2 py-1;
-          @apply bg-blue-200;
-          @apply border-2 border-blue-500;
-          @apply rounded-lg;
-        }
-        button:hover {
-          @apply bg-blue-300;
-        }
-        button:active {
-          @apply bg-blue-500;
         }
       `}</style>
     </section>
