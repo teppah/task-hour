@@ -69,7 +69,7 @@ const DayView = ({ day }: Props) => {
         .day-view {
           @apply flex flex-col items-center;
           @apply h-full w-full;
-          @apply border border-dashed border-blue-400;
+          @apply border border-solid border-blue-400;
         }
         h1 {
           @apply h-8;
