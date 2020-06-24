@@ -1,0 +1,21 @@
+.task {
+  @apply bg-gray-400;
+  @apply transition-all duration-75 ease-in;
+}
+
+.task:hover {
+  @apply bg-gray-500;
+}
+.task:active {
+  @apply bg-gray-600;
+  @apply text-white;
+}
+
+.selected {
+  @apply bg-gray-600;
+  @apply text-white;
+}
+.selected:hover {
+  @apply bg-gray-600;
+  @apply text-white;
+}

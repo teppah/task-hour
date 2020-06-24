@@ -2,6 +2,7 @@ import { useDrag } from "react-dnd";
 import Task from "data/Task";
 import ItemTypes from "components/drag/ItemTypes";
 import { useSelector, useDispatch } from "react-redux";
+import taskStyles from "css/Task.module.css";
 import {
   selectSelectedTaskId,
   setSelectedTaskId,
@@ -43,35 +44,32 @@ const TaskView = ({ taskId }: Props) => {
     dispatch(setSelectedTaskId(taskId));
   };
 
+  console.log(isTaskDragging);
   return (
-    <div className="task">
-      <section
-        className={isActive ? "selected" : ""}
-        ref={dragTask}
-        onClick={clickHandler}
-      >
+    <div
+      className={
+        isActive
+          ? `${taskStyles.task} ${taskStyles.selected}`
+          : `${taskStyles.task}`
+      }
+    >
+      <section ref={dragTask} onClick={clickHandler}>
         <h1>{title}</h1>
       </section>
       <div className="resize-handler" ref={dragHandle}>
         {" "}
       </div>
       <style jsx>{`
-        .task {
+        div {
           @apply flex flex-col h-full w-full;
-          @apply bg-gray-400;
         }
         section {
-          @apply flex-1;
+          @apply flex-1 px-1 pt-1;
           @apply cursor-pointer;
+          background-color: inherit;
         }
         h1 {
           @apply text-sm;
-        }
-        section::active {
-          @apply bg-gray-500;
-        }
-        .selected {
-          @apply bg-gray-600;
         }
         div.resize-handler {
           height: 0.35rem;

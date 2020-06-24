@@ -7,6 +7,7 @@ import {
   deleteTask,
   setSelectedTaskId,
 } from "data/redux/slice/taskSlice";
+import btnStyles from "css/Button.module.css";
 import { useState } from "react";
 
 const DetailedTaskView = () => {
@@ -71,9 +72,15 @@ const DetailedTaskView = () => {
             onChange={formik.handleChange}
           ></textarea>
         </label>
-        <button type="submit">Submit</button>
-        <button onClick={() => formik.resetForm()}>Reset</button>
-        <button onClick={handleDelete}>Delete</button>
+        <button className={btnStyles.btn} type="submit">
+          Submit
+        </button>
+        <button className={btnStyles.btn} onClick={() => formik.resetForm()}>
+          Reset
+        </button>
+        <button className={btnStyles.btn} onClick={handleDelete}>
+          Delete
+        </button>
       </form>
       <style jsx>{`
         section {
@@ -84,11 +91,7 @@ const DetailedTaskView = () => {
           @apply flex flex-col items-center;
         }
         button {
-          @apply w-3/4;
-          @apply my-1;
-          @apply bg-blue-300;
-          @apply border border-blue-500;
-          @apply rounded;
+          @apply w-full my-1;
         }
         textarea,
         input {

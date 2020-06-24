@@ -6,6 +6,7 @@ import {
 } from "data/redux/slice/taskSlice";
 import { useDrag } from "react-dnd";
 import ItemTypes from "./drag/ItemTypes";
+import taskStyles from "css/Task.module.css";
 
 type Props = {
   taskId: string;
@@ -27,18 +28,21 @@ const ListTaskView = ({ taskId }: Props) => {
     dispatch(setSelectedTaskId(taskId));
   };
   return (
-    <div ref={drag} onClick={handleClick}>
+    <div
+      className={
+        isActive
+          ? `${taskStyles.task} ${taskStyles.selected}`
+          : `${taskStyles.task}`
+      }
+      ref={drag}
+      onClick={handleClick}
+    >
       <h1>{task.title}</h1>
       <style jsx>{`
         div {
           @apply w-full;
           @apply border border-red-500;
           @apply cursor-pointer;
-        }
-      `}</style>
-      <style jsx>{`
-        div {
-          background-color: ${isActive ? "#718096" : "#cbd5e0"};
         }
       `}</style>
     </div>
