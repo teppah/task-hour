@@ -1,0 +1,16 @@
+.btn {
+  @apply px-2 py-1;
+  @apply bg-blue-300;
+  @apply border-2 border-blue-500;
+  @apply rounded-lg;
+  @apply transition duration-75 ease-in;
+}
+
+.btn:hover {
+  @apply bg-blue-400;
+}
+.btn:active {
+  @apply bg-blue-500;
+  @apply border-blue-700;
+  @apply text-white;
+}
