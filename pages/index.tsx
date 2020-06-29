@@ -16,7 +16,7 @@ const Index = () => {
           <title>Task Hour</title>
         </Head>
         <div className="vertical-bar">
-          <div>
+          <div className="calendar">
             <CalendarView />
           </div>
           <div>
@@ -38,12 +38,8 @@ const Index = () => {
           </div>
         </div>
         <style jsx>{`
-          div {
-            @apply border-dotted border border-red-400;
-          }
           .content {
             @apply flex flex-row;
-            @apply border-purple-800 border-2;
           }
           .content > * {
             @apply h-screen;
@@ -52,10 +48,14 @@ const Index = () => {
             @apply flex-grow;
           }
           .vertical-bar {
-            @apply flex flex-col w-1/5;
+            @apply flex flex-col;
+            width: 18rem;
           }
           .vertical-bar > * {
             @apply flex-1;
+          }
+          .vertical-bar > .calendar {
+            @apply flex-none;
           }
         `}</style>
       </div>
