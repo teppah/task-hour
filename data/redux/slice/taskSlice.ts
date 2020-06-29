@@ -59,8 +59,7 @@ const taskSlice = createSlice({
   },
 });
 
-export const selectTasks = (state: RootState) => state.tasks.tasks;
-// TODO: fix automatic type inference
+export const selectTasks = (state: RootState): Task[] => state.tasks.tasks;
 export const selectCurrentTaskIds = (state: RootState): string[] =>
   state.tasks.currentViewTaskIds;
 export const selectSelectedTaskId = (state: RootState): string =>
