@@ -8,6 +8,7 @@ import {
   setSelectedTaskId,
 } from "data/redux/slice/taskSlice";
 import btnStyles from "css/Button.module.css";
+import containerStyles from "css/Container.module.css";
 import { useState } from "react";
 
 const DetailedTaskView = () => {
@@ -39,7 +40,7 @@ const DetailedTaskView = () => {
   });
   if (!selectedTask) {
     return (
-      <section>
+      <section className={containerStyles.container}>
         <h1>nothing selected</h1>
       </section>
     );
@@ -51,7 +52,7 @@ const DetailedTaskView = () => {
   };
 
   return (
-    <section>
+    <section className={containerStyles.container}>
       <form onSubmit={formik.handleSubmit}>
         <label>
           Title:{" "}
@@ -83,15 +84,10 @@ const DetailedTaskView = () => {
         </button>
       </form>
       <style jsx>{`
-        section {
-          @apply p-3 h-full;
-          @apply border border-black;
-        }
         form {
-          @apply flex flex-col items-center;
         }
         button {
-          @apply w-full my-1;
+          @apply m-1;
         }
         textarea,
         input {

@@ -43,6 +43,7 @@ const TimeSlice = ({ taskId, currentHour }: Props) => {
           );
           break;
       }
+      dispatch(setSelectedTaskId(item.taskId));
     },
     collect: (mon) => ({
       isOver: !!mon.isOver(),
