@@ -32,6 +32,7 @@ const TaskListView = () => {
         div {
           @apply border border-black;
           @apply flex-1;
+          @apply w-full;
         }
       `}</style>
     </section>

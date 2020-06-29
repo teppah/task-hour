@@ -41,7 +41,7 @@ const Index = () => {
           .content {
             @apply flex flex-row;
           }
-          .content > * {
+          .content > div {
             @apply h-screen;
           }
           #summary {
@@ -51,7 +51,7 @@ const Index = () => {
             @apply flex flex-col;
             width: 18rem;
           }
-          .vertical-bar > * {
+          .vertical-bar > div {
             @apply flex-1;
           }
           .vertical-bar > .calendar {
