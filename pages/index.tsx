@@ -3,10 +3,11 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import SummaryView from "components/SummaryView";
 import DetailedTaskView from "components/DetailedTaskView";
-import CalendarView from "components/CalendarView";
 import TaskListView from "components/ListView";
 import ButtonArray from "components/ButtonArray";
 import PomordoTimer from "components/PomordoTimer";
+import dynamic from "next/dynamic";
+const CalendarView = dynamic(() => import("components/CalendarView"));
 const Index = () => {
   return (
     <DndProvider backend={HTML5Backend}>
