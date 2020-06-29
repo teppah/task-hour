@@ -25,6 +25,12 @@ const TimeSlice = ({ taskId, currentHour }: Props) => {
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: [ItemTypes.TASK, ItemTypes.DRAG_HANDLE],
     drop: (item: any) => {
+      if (currentTask) {
+        alert(
+          "there's already a task here u noob, u can't drop it here for now"
+        );
+        return;
+      }
       switch (item.type) {
         case ItemTypes.TASK:
           dispatch(
