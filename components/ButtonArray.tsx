@@ -14,7 +14,6 @@ const ButtonArray = () => {
     const selected =
       selectedView === VIEWS.FULL_WEEK ? VIEWS.WORK_WEEK : VIEWS.FULL_WEEK;
     dispatch(setSelectedView(selected));
-    console.log(selectedView);
   };
   return (
     <section>

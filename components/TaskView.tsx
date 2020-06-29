@@ -44,7 +44,6 @@ const TaskView = ({ taskId }: Props) => {
     dispatch(setSelectedTaskId(taskId));
   };
 
-  console.log(isTaskDragging);
   return (
     <div
       className={
