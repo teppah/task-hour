@@ -8,6 +8,7 @@ import {
 } from "data/redux/slice/dateSlice";
 import { selectTasks } from "data/redux/slice/taskSlice";
 import { isSameDay, isSameWeek, startOfWeek } from "date-fns";
+import containerStyles from "css/Container.module.css";
 
 const CalendarView = () => {
   const selectedDate = useSelector(selectSelectedDate);
@@ -16,7 +17,7 @@ const CalendarView = () => {
   const dispatch = useDispatch();
 
   return (
-    <section>
+    <section className={containerStyles.container}>
       <Calendar
         value={selectedDate}
         onClickDay={(day) => {

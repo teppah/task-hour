@@ -1,5 +1,7 @@
 import { useState, useEffect, ChangeEvent } from "react";
 import btnStyles from "css/Button.module.css";
+import containerStyles from "css/Container.module.css";
+import classNames from "classnames";
 
 const PomordoTimer = () => {
   const [seconds, setSeconds] = useState(0);
@@ -47,8 +49,13 @@ const PomordoTimer = () => {
       return `0${val}`;
     }
   };
+
+  const containerClass = classNames({
+    [`${containerStyles.container}`]: true,
+    done: done,
+  });
   return (
-    <section className={done ? "done" : ""}>
+    <section className={containerClass}>
       <div className="time">
         <input
           type="number"
@@ -78,12 +85,6 @@ const PomordoTimer = () => {
       <style jsx>{`
         .done {
           @apply bg-gray-500;
-        }
-        section {
-          @apply p-3;
-          @apply border border-black;
-          @apply h-full;
-          @apply flex flex-col items-center;
         }
         input {
           @apply font-mono;

@@ -1,0 +1,7 @@
+.container {
+  @apply p-3;
+  @apply border border-black;
+  @apply rounded-lg;
+  @apply m-2;
+  @apply flex flex-col items-center;
+}

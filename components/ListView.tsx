@@ -6,6 +6,7 @@ import {
   changeTaskStartDate,
 } from "data/redux/slice/taskSlice";
 import ListTaskView from "./ListTaskView";
+import containerStyles from "css/Container.module.css";
 
 const TaskListView = () => {
   const datelessTasks = useSelector(selectDatelessTasks);
@@ -17,7 +18,7 @@ const TaskListView = () => {
     },
   });
   return (
-    <section>
+    <section className={containerStyles.container}>
       <h1>List of draggable tasks</h1>
       <div ref={drop}>
         {datelessTasks.map((t) => (
@@ -26,9 +27,7 @@ const TaskListView = () => {
       </div>
       <style jsx>{`
         section {
-          @apply p-3;
-          @apply h-full;
-          @apply flex flex-col;
+          min-height: 20rem;
         }
         div {
           @apply border border-black;
