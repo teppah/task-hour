@@ -14,6 +14,9 @@ const PomordoTimer = () => {
       if (active) {
         if (seconds > 0) {
           setSeconds(seconds - 1);
+          if (seconds === 1 && minutes === 0) {
+            setDone(true);
+          }
         } else if (seconds === 0 && minutes > 0) {
           setMinutes(minutes - 1);
           setSeconds(59);
