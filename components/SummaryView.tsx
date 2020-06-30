@@ -10,6 +10,9 @@ import {
 } from "data/redux/slice/dateSlice";
 import { selectTasks, setCurrentTaskIds } from "data/redux/slice/taskSlice";
 import { getDaysFromView } from "util/dates";
+import classNames from "classnames";
+import containerStyles from "css/Container.module.css";
+
 type Props = {};
 const SummaryView = ({}: Props) => {
   const dispatch = useDispatch();
@@ -31,8 +34,12 @@ const SummaryView = ({}: Props) => {
     .map((task) => task.taskId);
   dispatch(setCurrentTaskIds(filteredIds));
 
+  const sectionName = classNames({
+    "summary-view": true,
+    [`${containerStyles.container}`]: true,
+  });
   return (
-    <section className="summary-view">
+    <section className={sectionName}>
       <div className="time-col">
         <div></div>
         <div></div>
@@ -46,19 +53,20 @@ const SummaryView = ({}: Props) => {
       <style jsx>{`
         .summary-view {
           @apply flex flex-row;
-          @apply h-full w-full;
+          @apply h-full;
         }
         .time-col {
           @apply flex flex-col;
-          @apply flex-none h-full;
+          @apply flex-none;
         }
         .time-col > div {
           @apply text-center;
           @apply mx-2;
           @apply h-10;
+          @apply flex-none;
         }
         .time-col > div:first-child {
-          @apply h-5;
+          @apply h-3;
         }
       `}</style>
     </section>

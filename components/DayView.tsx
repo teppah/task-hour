@@ -77,6 +77,7 @@ const DayView = ({ day }: Props) => {
         }
         h1 {
           @apply h-8;
+          @apply flex-none;
         }
       `}</style>
       <style jsx>{`

@@ -41,21 +41,12 @@ const Index = () => {
           .content {
             @apply flex flex-row;
           }
-          .content > div {
-            @apply h-screen;
-          }
           #summary {
             @apply flex-grow;
           }
           .vertical-bar {
             @apply flex flex-col;
             width: 18rem;
-          }
-          .vertical-bar > div {
-            @apply flex-1;
-          }
-          .vertical-bar > .calendar {
-            @apply flex-none;
           }
         `}</style>
       </div>
