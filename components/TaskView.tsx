@@ -8,6 +8,7 @@ import {
   setSelectedTaskId,
   selectTasks,
 } from "data/redux/slice/taskSlice";
+import classNames from "classnames";
 
 type Props = {
   taskId: string;
@@ -44,23 +45,26 @@ const TaskView = ({ taskId }: Props) => {
     dispatch(setSelectedTaskId(taskId));
   };
 
+  const taskClass = classNames({
+    [`${taskStyles.task}`]: true,
+    [`${taskStyles.selected}`]: isActive,
+    task: true,
+  });
+
   return (
-    <div
-      className={
-        isActive
-          ? `${taskStyles.task} ${taskStyles.selected}`
-          : `${taskStyles.task}`
-      }
-    >
+    <div className={taskClass}>
       <section ref={dragTask} onClick={clickHandler}>
         <h1>{title}</h1>
       </section>
-      <div className="resize-handler" ref={dragHandle}>
-        {" "}
-      </div>
+      <div className="resize-handler" ref={dragHandle}></div>
       <style jsx>{`
         div {
-          @apply flex flex-col h-full w-full;
+          @apply flex flex-col w-11/12;
+          height: 92%;
+        }
+        div.task {
+          @apply p-1;
+          @apply rounded;
         }
         section {
           @apply flex-1 px-1 pt-1;

@@ -69,7 +69,7 @@ const TimeSlice = ({ taskId, currentHour }: Props) => {
       <style jsx>{`
         div {
           @apply flex-none;
-          @apply w-full h-10;
+          @apply w-full h-12;
           @apply border-b border-blue-200;
           ${isOver && "background-color: cyan;"}
         }
