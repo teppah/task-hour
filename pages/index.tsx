@@ -10,8 +10,10 @@ import dynamic from "next/dynamic";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setSelectedTaskId } from "data/redux/slice/taskSlice";
+import { GetServerSideProps } from "next";
 const CalendarView = dynamic(() => import("components/CalendarView"));
-const Index = () => {
+const Index = ({ a }) => {
+  console.log(a);
   const dispatch = useDispatch();
   const handleEscape = (e: KeyboardEvent) => {
     e.preventDefault();
@@ -74,4 +76,14 @@ const Index = () => {
     </DndProvider>
   );
 };
+
+// EXPERIMENT: try always SSR instead of SSG to see if it fixes date issue
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  return {
+    props: {
+      a: "hi",
+    },
+  };
+};
+
 export default Index;
