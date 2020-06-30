@@ -7,8 +7,24 @@ import TaskListView from "components/ListView";
 import ButtonArray from "components/ButtonArray";
 import PomordoTimer from "components/PomordoTimer";
 import dynamic from "next/dynamic";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setSelectedTaskId } from "data/redux/slice/taskSlice";
 const CalendarView = dynamic(() => import("components/CalendarView"));
 const Index = () => {
+  const dispatch = useDispatch();
+  const handleEscape = (e: KeyboardEvent) => {
+    e.preventDefault();
+    const escapeCode = 27;
+    if (e.keyCode === escapeCode) {
+      dispatch(setSelectedTaskId(null));
+    }
+  };
+  // deselect task on escape
+  useEffect(() => {
+    window.addEventListener("keyup", handleEscape);
+    return () => window.removeEventListener("keyup", handleEscape);
+  });
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="content">
