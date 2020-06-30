@@ -52,13 +52,13 @@ const SummaryView = ({}: Props) => {
           @apply flex flex-col;
           @apply flex-none h-full;
         }
-        .time-col > div:first-child {
-          @apply h-5;
-        }
         .time-col > div {
           @apply text-center;
           @apply mx-2;
           @apply h-10;
+        }
+        .time-col > div:first-child {
+          @apply h-5;
         }
       `}</style>
     </section>

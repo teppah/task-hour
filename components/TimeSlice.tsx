@@ -68,9 +68,13 @@ const TimeSlice = ({ taskId, currentHour }: Props) => {
       {currentTask && <TaskView taskId={currentTask.taskId} />}
       <style jsx>{`
         div {
+          @apply flex-none;
           @apply w-full h-10;
-          @apply border border-red-200;
+          @apply border-b border-blue-200;
           ${isOver && "background-color: cyan;"}
+        }
+        div:first-of-type {
+          @apply border-t;
         }
       `}</style>
     </div>

@@ -68,8 +68,12 @@ const DayView = ({ day }: Props) => {
       <style jsx>{`
         .day-view {
           @apply flex flex-col items-center;
-          @apply h-full w-full;
-          @apply border border-solid border-blue-400;
+          @apply flex-no-wrap;
+          @apply w-full;
+          @apply border-l border-blue-400;
+        }
+        .day-view:last-of-type {
+          @apply border-r;
         }
         h1 {
           @apply h-8;
