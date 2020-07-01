@@ -30,7 +30,7 @@ const TaskListView = () => {
           min-height: 20rem;
         }
         div {
-          @apply border border-black;
+          @apply border rounded border-blue-500;
           @apply flex-1;
           @apply w-full;
         }
