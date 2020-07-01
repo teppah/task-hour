@@ -19,8 +19,8 @@ const DetailedTaskView = () => {
   const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
-      title: selectedTask ? selectedTask.title : "",
-      description: selectedTask ? selectedTask.description : "",
+      title: selectedTask?.title,
+      description: selectedTask?.description,
     },
     onSubmit: (values, helper) => {
       const initialValues = formik.initialValues;
