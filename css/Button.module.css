@@ -3,7 +3,6 @@
   @apply bg-blue-300;
   @apply border-2 border-blue-500;
   @apply rounded-lg;
-  @apply transition-all duration-75 ease-in;
 }
 
 .btn:hover {

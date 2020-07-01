@@ -6,6 +6,7 @@ import {
   updateTaskIfExist,
   deleteTask,
   setSelectedTaskId,
+  setTaskCompletionStatus,
 } from "data/redux/slice/taskSlice";
 import btnStyles from "css/Button.module.css";
 import containerStyles from "css/Container.module.css";
@@ -19,8 +20,9 @@ const DetailedTaskView = () => {
   const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
-      title: selectedTask ? selectedTask.title : "",
-      description: selectedTask ? selectedTask.description : "",
+      title: selectedTask?.title,
+      description: selectedTask?.description,
+      isComplete: selectedTask?.isComplete,
     },
     onSubmit: (values, helper) => {
       const initialValues = formik.initialValues;
@@ -33,6 +35,12 @@ const DetailedTaskView = () => {
           taskId: selectedTaskId,
           title: newTitle,
           description: newDescription,
+        })
+      );
+      dispatch(
+        setTaskCompletionStatus({
+          taskId: selectedTaskId,
+          isComplete: values.isComplete,
         })
       );
     },
@@ -73,6 +81,15 @@ const DetailedTaskView = () => {
             onChange={formik.handleChange}
           ></textarea>
         </label>
+        <span>
+          <input
+            type="checkbox"
+            name="isComplete"
+            checked={formik.values.isComplete}
+            onChange={formik.handleChange}
+          />
+          <h1>Complete</h1>
+        </span>
         <button className={btnStyles.btn} type="submit">
           Submit
         </button>
@@ -89,10 +106,21 @@ const DetailedTaskView = () => {
         button {
           @apply m-1;
         }
-        textarea,
-        input {
-          @apply border border-black;
-          @apply w-full;
+        label {
+          @apply flex flex-col items-stretch;
+          @apply my-1;
+        }
+        label > textarea,
+        label > input {
+          @apply border rounded border-blue-500;
+          @apply px-1;
+          @apply flex-1;
+        }
+        span {
+          @apply flex flex-row justify-center;
+        }
+        span > input {
+          @apply mx-1;
         }
       `}</style>
     </section>

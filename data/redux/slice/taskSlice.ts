@@ -53,8 +53,21 @@ const taskSlice = createSlice({
     addTask: (state, action: PayloadAction<Task>) => {
       state.tasks.push(action.payload);
     },
+    /**
+     * payload: id
+     */
     deleteTask: (state, action: PayloadAction<string>) => {
       remove(state.tasks, (t) => t.taskId === action.payload);
+    },
+    /**
+     * payload: id
+     */
+    setTaskCompletionStatus: (
+      state,
+      action: PayloadAction<{ taskId: string; isComplete: boolean }>
+    ) => {
+      const task = state.tasks.find((t) => t.taskId === action.payload.taskId);
+      task.isComplete = action.payload.isComplete;
     },
   },
 });
@@ -76,5 +89,6 @@ export const {
   changeTaskEndDate,
   addTask,
   deleteTask,
+  setTaskCompletionStatus,
 } = taskSlice.actions;
 export default taskSlice.reducer;
