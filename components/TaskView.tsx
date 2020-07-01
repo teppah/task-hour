@@ -49,6 +49,7 @@ const TaskView = ({ taskId }: Props) => {
     [`${taskStyles.task}`]: true,
     [`${taskStyles.selected}`]: isActive,
     task: true,
+    [`${taskStyles.completed}`]: task.isComplete,
   });
 
   return (

@@ -10,3 +10,13 @@
 .selected:hover {
   @apply bg-blue-700;
 }
+
+.completed,
+.completed:hover {
+  @apply bg-gray-400;
+  @apply border-gray-600;
+}
+
+.completed.selected {
+  @apply bg-gray-500;
+}
