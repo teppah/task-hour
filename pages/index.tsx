@@ -33,6 +33,7 @@ const Index = ({ a }) => {
         <Head>
           <title>Task Hour</title>
         </Head>
+        <div className="nav"></div>
         <div className="vertical-bar">
           <div className="calendar">
             <CalendarView />
@@ -58,6 +59,12 @@ const Index = ({ a }) => {
         <style jsx>{`
           .content {
             @apply flex flex-row;
+            @apply flex-wrap;
+          }
+          .nav {
+            @apply w-screen;
+            @apply h-12;
+            @apply bg-red-300;
           }
           #summary {
             @apply flex-grow;
