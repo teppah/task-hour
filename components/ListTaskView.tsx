@@ -38,8 +38,9 @@ const ListTaskView = ({ taskId }: Props) => {
 
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target;
-    setIsCompleted(target.checked);
     dispatch(setTaskCompletionStatus({ taskId, isComplete: target.checked }));
+    setIsCompleted(target.checked);
+    console.log(target.checked);
   };
   console.log(isCompleted);
   return (
@@ -66,7 +67,7 @@ const ListTaskView = ({ taskId }: Props) => {
         h1 {
         }
         .check {
-          @apply mr-2;
+          @apply mx-2;
         }
       `}</style>
     </div>
