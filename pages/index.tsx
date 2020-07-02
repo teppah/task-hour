@@ -61,6 +61,8 @@ const Index = ({ a }) => {
           }
           #summary {
             @apply flex-grow;
+            @apply h-screen;
+            @apply overflow-y-auto;
           }
           .vertical-bar {
             @apply flex flex-col;
