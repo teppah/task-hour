@@ -53,15 +53,16 @@ const SummaryView = ({}: Props) => {
       <style jsx>{`
         .summary-view {
           @apply flex flex-row;
+          @apply items-start;
         }
         .time-col {
           @apply flex flex-col;
-          @apply flex-none;
+          @apply items-end;
         }
         .time-col > div {
           @apply text-center;
-          @apply mx-2;
-          @apply h-10;
+          @apply h-12;
+          @apply mr-4;
           @apply flex-none;
         }
         .time-col > div:first-child {
