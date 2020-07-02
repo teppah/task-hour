@@ -50,8 +50,10 @@ const DayView = ({ day }: Props) => {
 
   return (
     <section className="day-view">
-      <h1>{currentDayDate}</h1>
-      <h1>{dayName}</h1>
+      <div className="day">
+        <h1>{currentDayDate}</h1>
+        <h1>{dayName}</h1>
+      </div>
       {range(24).map((i) => {
         const currentHour = addHours(currentDate, i);
         const foundTasks = dayTasks.find((t) =>
@@ -74,6 +76,12 @@ const DayView = ({ day }: Props) => {
         }
         .day-view:last-of-type {
           @apply border-r;
+        }
+        div.day {
+          @apply sticky;
+          top: 0;
+          @apply flex flex-col items-center justify-center;
+          @apply w-full bg-gray-300 mb-1;
         }
         h1 {
           @apply h-8;

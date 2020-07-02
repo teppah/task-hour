@@ -64,16 +64,16 @@ const TimeSlice = ({ taskId, currentHour }: Props) => {
     }
   };
   return (
-    <div ref={drop} onClick={handleClick}>
+    <div className="slice" ref={drop} onClick={handleClick}>
       {currentTask && <TaskView taskId={currentTask.taskId} />}
       <style jsx>{`
-        div {
+        div.slice {
           @apply flex-none;
           @apply w-full h-12;
           @apply border-b border-blue-200;
           ${isOver && "background-color: cyan;"}
         }
-        div:first-of-type {
+        div.slice:first-of-type {
           @apply border-t;
         }
       `}</style>
