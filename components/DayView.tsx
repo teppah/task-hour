@@ -82,7 +82,7 @@ const DayView = ({ day }: Props) => {
       `}</style>
       <style jsx>{`
         .day-view {
-          background-color: ${isItToday ? "#feebc8" : "inherit"};
+          background-color: ${isItToday ? "#ebf8ff" : "inherit"};
         }
       `}</style>
     </section>

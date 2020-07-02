@@ -39,17 +39,15 @@ const ListTaskView = ({ taskId }: Props) => {
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target;
     dispatch(setTaskCompletionStatus({ taskId, isComplete: target.checked }));
-    setIsCompleted(target.checked);
-    console.log(target.checked);
   };
-  console.log(isCompleted);
+  const isComplete = task.isComplete;
   return (
     <div className={divName} ref={drag} onClick={handleClick}>
       <input
         className="check"
         type="checkbox"
         name="isComplete"
-        checked={isCompleted}
+        checked={isComplete}
         onChange={handleCheck}
       />
       <h1>{task.title}</h1>
