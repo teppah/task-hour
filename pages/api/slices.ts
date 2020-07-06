@@ -8,19 +8,19 @@ import {
   addHours,
   isSameHour,
   addDays,
+  isSameDay,
 } from "date-fns";
 import getTasks from "data/get-tasks";
 import { range } from "lodash";
 
 /**
- * Finds all tasks within day (for now, specify endTime)
+ * Finds all tasks within day
  * startTime: ISO time string
  */
 const handler = nc<NextApiRequest, NextApiResponse>().get((req, res) => {
   const { startTime } = req.query;
   const start = parseISO(<string>startTime);
-  const end = addDays(start, 1);
-  if (!isValid(start) || !isValid(end)) {
+  if (!isValid(start)) {
     res
       .status(400)
       .end(
@@ -29,7 +29,7 @@ const handler = nc<NextApiRequest, NextApiResponse>().get((req, res) => {
     return;
   }
   const tasks = getTasks()
-    .filter((t) => isWithinInterval(t.startDate, { start: start, end: end }))
+    .filter((t) => isSameDay(start, t.startDate))
     .sort((t1, t2) => compareAsc(t1.startDate, t1.endDate));
   const timeMap = {};
   // assume each slice is 1h
