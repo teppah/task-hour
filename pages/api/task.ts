@@ -5,14 +5,19 @@ import { NextApiRequest, NextApiResponse } from "next";
 import getTasks from "data/get-tasks";
 
 type Response = {
-  tasks: Task[];
+  task: Task;
 };
 
 const handler = nc<NextApiRequest, NextApiResponse<Response>>().get(
   (req, res) => {
     const tempTasks = getTasks();
     const { taskId } = req.query;
-    res.json({ tasks: tempTasks });
+    if (!taskId) {
+      res.status(400).end(`Error 400 - Missing taskId`);
+      return;
+    }
+    const returnedTask = tempTasks.find((t) => t.taskId === taskId);
+    res.json({ task: returnedTask });
   }
 );
 
