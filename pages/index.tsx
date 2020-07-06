@@ -68,7 +68,7 @@ const Index = ({ a }) => {
           }
           #summary {
             @apply flex-grow;
-            @apply h-screen;
+            height: calc(100vh - 3rem);
             @apply overflow-y-auto;
           }
           .vertical-bar {
