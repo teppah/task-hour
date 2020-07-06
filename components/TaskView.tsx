@@ -48,8 +48,8 @@ const TaskView = ({ taskId }: Props) => {
   const taskClass = classNames({
     [`${taskStyles.task}`]: true,
     [`${taskStyles.selected}`]: isActive,
-    task: true,
     [`${taskStyles.completed}`]: task.isComplete,
+    task: true,
   });
 
   return (
@@ -63,21 +63,22 @@ const TaskView = ({ taskId }: Props) => {
           @apply flex flex-col w-11/12;
           height: 92%;
         }
-        div.task {
-          @apply p-1;
-          @apply rounded;
+        .task {
+          @apply px-1 pt-1;
+          @apply rounded-md;
         }
         section {
-          @apply flex-1 px-1 pt-1;
+          @apply flex-1;
           @apply cursor-pointer;
           background-color: inherit;
         }
         h1 {
-          @apply text-sm;
+          @apply text-xs;
         }
         div.resize-handler {
           height: 0.35rem;
-          @apply border border-black w-full;
+          @apply border border-black;
+          @apply w-full;
           cursor: ns-resize;
         }
       `}</style>
