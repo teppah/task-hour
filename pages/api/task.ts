@@ -1,6 +1,6 @@
 import nc from "next-connect";
 import Task, { createTask } from "lib/Task";
-import { set, subWeeks, subDays } from "date-fns";
+import { set, subWeeks, subDays, parseISO } from "date-fns";
 import { NextApiRequest, NextApiResponse } from "next";
 import getTasks from "lib/get-tasks";
 import { assignInWith, AssignCustomizer, isUndefined } from "lodash";
@@ -26,9 +26,7 @@ const handler = nc<NextApiRequest, NextApiResponse<Response>>()
   .put((req, res) => {
     const tasks = getTasks();
     const { taskId } = req.query;
-    const { title, description, startDate, endDate, isComplete } = <Task>(
-      req.body
-    );
+    const { title, description, startDate, endDate, isComplete } = req.body;
     const toUpdate = tasks.find((t) => t.taskId === taskId);
     if (!toUpdate) {
       res.status(404).end("404 Task Not Found");
@@ -36,7 +34,13 @@ const handler = nc<NextApiRequest, NextApiResponse<Response>>()
     }
     assignInWith(
       toUpdate,
-      { title, description, startDate, endDate, isComplete },
+      {
+        title,
+        description,
+        startDate: startDate ? parseISO(startDate) : null,
+        endDate: endDate ? parseISO(endDate) : null,
+        isComplete,
+      },
       customizer
     );
 
