@@ -9,16 +9,17 @@ import {
   selectTasks,
 } from "lib/redux/slice/taskSlice";
 import classNames from "classnames";
+import useTask from "lib/hooks/use-task";
 
 type Props = {
   taskId: string;
 };
 
 const TaskView = ({ taskId }: Props) => {
-  const allTasks = useSelector(selectTasks);
-  // TODO: optimize this call to only return the task title from the selectors to
-  // avoid unnecessary re-rendering of component when description/date is updated
-  const task = allTasks.find((t) => t.taskId === taskId);
+  const { task, isLoading, isError } = useTask(taskId);
+  if (isLoading) {
+    return <div>loading...</div>;
+  }
   const { title } = task;
   const [{ isTaskDragging }, dragTask] = useDrag({
     item: {

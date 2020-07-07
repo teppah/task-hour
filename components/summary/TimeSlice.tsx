@@ -15,12 +15,14 @@ import {
   changeTaskEndDate,
 } from "lib/redux/slice/taskSlice";
 import { nanoid } from "nanoid";
+import useTask from "lib/hooks/use-task";
 
 type Props = { taskId?: string; currentHour: Date };
 
 const TimeSlice = ({ taskId, currentHour }: Props) => {
-  const currentTask = useSelector(selectTaskById(taskId));
   const dispatch = useDispatch();
+  const { task, isLoading, isError } = useTask(taskId);
+  const currentTask = taskId && !(isLoading || isError) ? task : null;
 
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: [ItemTypes.TASK, ItemTypes.DRAG_HANDLE],

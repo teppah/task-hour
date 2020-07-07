@@ -17,6 +17,7 @@ import {
   selectSelectedDate,
 } from "lib/redux/slice/dateSlice";
 import { selectCurrentTaskIds, selectTasks } from "lib/redux/slice/taskSlice";
+import useDay from "lib/hooks/use-day";
 type Props = {
   day: number;
 };
@@ -48,6 +49,10 @@ const DayView = ({ day }: Props) => {
     }) // map to find task by id
     .map((taskId) => allTasks.find((t) => t.taskId === taskId));
 
+  const { slices, isLoading, isError } = useDay(currentDate);
+  if (isLoading) {
+    return <div>loading...</div>;
+  }
   return (
     <section className="day-view">
       <div className="day">
@@ -56,15 +61,10 @@ const DayView = ({ day }: Props) => {
       </div>
       {range(24).map((i) => {
         const currentHour = addHours(currentDate, i);
-        const foundTasks = dayTasks.find((t) =>
-          isSameHour(t.startDate, currentHour)
-        );
+        const foundTask = slices ? slices[i] : null;
         // For now, assume there is only one task per hour
         return (
-          <TimeSlice
-            taskId={foundTasks ? foundTasks.taskId : null}
-            currentHour={currentHour}
-          />
+          <TimeSlice taskId={foundTask?.taskId} currentHour={currentHour} />
         );
       })}
       <style jsx>{`
