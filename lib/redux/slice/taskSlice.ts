@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import getTasks from "data/get-tasks";
-import Task from "data/Task";
+import getTasks from "lib/get-tasks";
+import Task from "lib/Task";
 import { RootState } from "../store";
 import remove from "lodash/remove";
 

@@ -9,7 +9,7 @@ import PomordoTimer from "components/PomordoTimer";
 import dynamic from "next/dynamic";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setSelectedTaskId } from "data/redux/slice/taskSlice";
+import { setSelectedTaskId } from "lib/redux/slice/taskSlice";
 import { GetServerSideProps } from "next";
 const CalendarView = dynamic(() => import("components/CalendarView"));
 const Index = ({ a }) => {

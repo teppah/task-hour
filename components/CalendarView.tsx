@@ -5,8 +5,8 @@ import {
   setSelectedDate,
   selectWeekStartDate,
   setWeekStart,
-} from "data/redux/slice/dateSlice";
-import { selectTasks } from "data/redux/slice/taskSlice";
+} from "lib/redux/slice/dateSlice";
+import { selectTasks } from "lib/redux/slice/taskSlice";
 import { isSameDay, isSameWeek, startOfWeek } from "date-fns";
 import containerStyles from "css/Container.module.css";
 

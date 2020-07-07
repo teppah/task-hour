@@ -4,10 +4,10 @@ import {
   selectSelectedTaskId,
   setSelectedTaskId,
   setTaskCompletionStatus,
-} from "data/redux/slice/taskSlice";
+} from "lib/redux/slice/taskSlice";
 import { useDrag } from "react-dnd";
 import React, { useState } from "react";
-import ItemTypes from "data/drag/ItemTypes";
+import ItemTypes from "lib/drag/ItemTypes";
 import taskStyles from "css/Task.module.css";
 import classNames from "classnames";
 

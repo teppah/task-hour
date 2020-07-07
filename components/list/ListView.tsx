@@ -1,10 +1,10 @@
 import { useDrop } from "react-dnd";
-import ItemTypes from "data/drag/ItemTypes";
+import ItemTypes from "lib/drag/ItemTypes";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectDatelessTasks,
   changeTaskStartDate,
-} from "data/redux/slice/taskSlice";
+} from "lib/redux/slice/taskSlice";
 import ListTaskView from "./ListTaskView";
 import containerStyles from "css/Container.module.css";
 

@@ -1,8 +1,8 @@
 import nc from "next-connect";
-import Task, { createTask } from "data/Task";
+import Task, { createTask } from "lib/Task";
 import { set, subWeeks, subDays } from "date-fns";
 import { NextApiRequest, NextApiResponse } from "next";
-import getTasks from "data/get-tasks";
+import getTasks from "lib/get-tasks";
 
 type Response = {
   task: Task;

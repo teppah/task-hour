@@ -7,8 +7,8 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   selectWeekStartDate,
   selectSelectedView,
-} from "data/redux/slice/dateSlice";
-import { selectTasks, setCurrentTaskIds } from "data/redux/slice/taskSlice";
+} from "lib/redux/slice/dateSlice";
+import { selectTasks, setCurrentTaskIds } from "lib/redux/slice/taskSlice";
 import { getDaysFromView } from "util/dates";
 import classNames from "classnames";
 import containerStyles from "css/Container.module.css";

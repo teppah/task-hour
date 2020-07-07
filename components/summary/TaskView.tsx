@@ -1,13 +1,13 @@
 import { useDrag } from "react-dnd";
-import Task from "data/Task";
-import ItemTypes from "data/drag/ItemTypes";
+import Task from "lib/Task";
+import ItemTypes from "lib/drag/ItemTypes";
 import { useSelector, useDispatch } from "react-redux";
 import taskStyles from "css/Task.module.css";
 import {
   selectSelectedTaskId,
   setSelectedTaskId,
   selectTasks,
-} from "data/redux/slice/taskSlice";
+} from "lib/redux/slice/taskSlice";
 import classNames from "classnames";
 
 type Props = {

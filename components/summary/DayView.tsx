@@ -1,5 +1,5 @@
 import TimeSlice from "components/summary/TimeSlice";
-import Task from "data/Task";
+import Task from "lib/Task";
 import range from "lodash/range";
 import capitalize from "lodash/capitalize";
 import { getDayName } from "util/dates";
@@ -15,8 +15,8 @@ import { useSelector } from "react-redux";
 import {
   selectWeekStartDate,
   selectSelectedDate,
-} from "data/redux/slice/dateSlice";
-import { selectCurrentTaskIds, selectTasks } from "data/redux/slice/taskSlice";
+} from "lib/redux/slice/dateSlice";
+import { selectCurrentTaskIds, selectTasks } from "lib/redux/slice/taskSlice";
 type Props = {
   day: number;
 };

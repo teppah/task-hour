@@ -10,7 +10,7 @@ import {
   addDays,
   isSameDay,
 } from "date-fns";
-import getTasks from "data/get-tasks";
+import getTasks from "lib/get-tasks";
 import { range } from "lodash";
 
 /**

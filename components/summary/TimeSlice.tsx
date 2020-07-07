@@ -1,7 +1,7 @@
 import TaskView from "components/summary/TaskView";
-import Task, { createTask } from "data/Task";
+import Task, { createTask } from "lib/Task";
 import { useDrop } from "react-dnd";
-import ItemTypes from "data/drag/ItemTypes";
+import ItemTypes from "lib/drag/ItemTypes";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -13,7 +13,7 @@ import {
   setSelectedTaskId,
   changeTaskStartDate,
   changeTaskEndDate,
-} from "data/redux/slice/taskSlice";
+} from "lib/redux/slice/taskSlice";
 import { nanoid } from "nanoid";
 
 type Props = { taskId?: string; currentHour: Date };

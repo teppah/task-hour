@@ -7,7 +7,7 @@ import {
   deleteTask,
   setSelectedTaskId,
   setTaskCompletionStatus,
-} from "data/redux/slice/taskSlice";
+} from "lib/redux/slice/taskSlice";
 import btnStyles from "css/Button.module.css";
 import containerStyles from "css/Container.module.css";
 import { useState } from "react";
