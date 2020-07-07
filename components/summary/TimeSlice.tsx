@@ -17,11 +17,11 @@ import {
 import { nanoid } from "nanoid";
 import useTask from "lib/hooks/use-task";
 
-type Props = { taskId?: string; currentHour: Date };
+type Props = { taskId?: string; currentHour: Date; mutateDay: any };
 
-const TimeSlice = ({ taskId, currentHour }: Props) => {
+const TimeSlice = ({ taskId, currentHour, mutateDay }: Props) => {
   const dispatch = useDispatch();
-  const { task: currentTask, isLoading, isError } = useTask(taskId);
+  const { task: currentTask, isLoading, isError, mutate } = useTask(taskId);
 
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: [ItemTypes.TASK, ItemTypes.DRAG_HANDLE],
@@ -34,9 +34,16 @@ const TimeSlice = ({ taskId, currentHour }: Props) => {
       }
       switch (item.type) {
         case ItemTypes.TASK:
-          dispatch(
-            changeTaskStartDate({ taskId: item.taskId, date: currentHour })
+          mutate(
+            fetch(`/api/task?taskId=${item.taskId}`, {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ startDate: currentHour.toISOString() }),
+            })
           );
+          mutateDay();
           break;
         case ItemTypes.DRAG_HANDLE:
           dispatch(

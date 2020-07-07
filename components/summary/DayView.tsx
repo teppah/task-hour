@@ -49,7 +49,7 @@ const DayView = ({ day }: Props) => {
     }) // map to find task by id
     .map((taskId) => allTasks.find((t) => t.taskId === taskId));
 
-  const { slices, isLoading, isError } = useDay(currentDate);
+  const { slices, isLoading, isError, mutateDay } = useDay(currentDate);
   if (isLoading) {
     return <div>loading...</div>;
   }
@@ -64,7 +64,11 @@ const DayView = ({ day }: Props) => {
         const foundTask = slices ? slices[i] : null;
         // For now, assume there is only one task per hour
         return (
-          <TimeSlice taskId={foundTask?.taskId} currentHour={currentHour} />
+          <TimeSlice
+            taskId={foundTask?.taskId}
+            currentHour={currentHour}
+            mutateDay={mutateDay}
+          />
         );
       })}
       <style jsx>{`
