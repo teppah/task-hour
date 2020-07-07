@@ -28,9 +28,7 @@ const handler = nc<NextApiRequest, NextApiResponse>().get((req, res) => {
       );
     return;
   }
-  const tasks = getTasks()
-    .filter((t) => isSameDay(start, t.startDate))
-    .sort((t1, t2) => compareAsc(t1.startDate, t1.endDate));
+  const tasks = getTasks().filter((t) => isSameDay(start, t.startDate));
   const timeMap = {};
   // assume each slice is 1h
   range(24).map((i) => {
@@ -38,7 +36,6 @@ const handler = nc<NextApiRequest, NextApiResponse>().get((req, res) => {
     // for now, assume only one task is within the hour
     const found = tasks.find((t) => isSameHour(currentHour, t.startDate));
     if (found) {
-      tasks.shift();
     }
     timeMap[i] = found;
   });
