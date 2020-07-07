@@ -8,12 +8,16 @@ type SliceReturnType = {
 
 function useDay(dayStart: Date) {
   const isoDate = dayStart.toISOString();
-  const { data, error } = useSwr(`/api/slices?startTime=${isoDate}`, fetcher);
+  const { data, error, mutate } = useSwr(
+    `/api/slices?startTime=${isoDate}`,
+    fetcher
+  );
   const withType: SliceReturnType = data;
   return {
     slices: withType,
     isLoading: !error && !data,
     isError: error,
+    mutateDay: mutate,
   };
 }
 
