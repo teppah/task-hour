@@ -21,8 +21,7 @@ type Props = { taskId?: string; currentHour: Date };
 
 const TimeSlice = ({ taskId, currentHour }: Props) => {
   const dispatch = useDispatch();
-  const { task, isLoading, isError } = useTask(taskId);
-  const currentTask = taskId && !(isLoading || isError) ? task : null;
+  const { task: currentTask, isLoading, isError } = useTask(taskId);
 
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: [ItemTypes.TASK, ItemTypes.DRAG_HANDLE],

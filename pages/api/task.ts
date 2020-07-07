@@ -3,13 +3,17 @@ import Task, { createTask } from "lib/Task";
 import { set, subWeeks, subDays } from "date-fns";
 import { NextApiRequest, NextApiResponse } from "next";
 import getTasks from "lib/get-tasks";
+import { assignInWith, AssignCustomizer, isUndefined } from "lodash";
 
 type Response = {
   task: Task;
 };
 
-const handler = nc<NextApiRequest, NextApiResponse<Response>>().get(
-  (req, res) => {
+const customizer: AssignCustomizer = (objVal, srcVal) => {
+  return isUndefined(srcVal) ? objVal : srcVal;
+};
+const handler = nc<NextApiRequest, NextApiResponse<Response>>()
+  .get((req, res) => {
     const tempTasks = getTasks();
     const { taskId } = req.query;
     if (!taskId) {
@@ -18,7 +22,25 @@ const handler = nc<NextApiRequest, NextApiResponse<Response>>().get(
     }
     const returnedTask = tempTasks.find((t) => t.taskId === taskId);
     res.json({ task: returnedTask });
-  }
-);
+  })
+  .put((req, res) => {
+    const tasks = getTasks();
+    const { taskId } = req.query;
+    const { title, description, startDate, endDate, isComplete } = <Task>(
+      req.body
+    );
+    const toUpdate = tasks.find((t) => t.taskId === taskId);
+    if (!toUpdate) {
+      res.status(404).end("404 Task Not Found");
+      return;
+    }
+    assignInWith(
+      toUpdate,
+      { title, description, startDate, endDate, isComplete },
+      customizer
+    );
+
+    res.json({ task: toUpdate });
+  });
 
 export default handler;
