@@ -3,14 +3,14 @@ import Task, { createTask } from "lib/Task";
 import { set, subWeeks, subDays, parseISO } from "date-fns";
 import { NextApiRequest, NextApiResponse } from "next";
 import getTasks from "lib/get-tasks";
-import { assignInWith, AssignCustomizer, isUndefined } from "lodash";
+import { assignInWith, AssignCustomizer, isUndefined, isNull } from "lodash";
 
 type Response = {
   task: Task;
 };
 
 const customizer: AssignCustomizer = (objVal, srcVal) => {
-  return isUndefined(srcVal) ? objVal : srcVal;
+  return isUndefined(srcVal) || isNull(srcVal) ? objVal : srcVal;
 };
 const handler = nc<NextApiRequest, NextApiResponse<Response>>()
   .get((req, res) => {
