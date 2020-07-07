@@ -1,7 +1,7 @@
-import TaskView from "components/TaskView";
+import TaskView from "components/summary/TaskView";
 import Task, { createTask } from "data/Task";
 import { useDrop } from "react-dnd";
-import ItemTypes from "./drag/ItemTypes";
+import ItemTypes from "data/drag/ItemTypes";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {

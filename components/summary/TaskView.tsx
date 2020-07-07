@@ -1,6 +1,6 @@
 import { useDrag } from "react-dnd";
 import Task from "data/Task";
-import ItemTypes from "components/drag/ItemTypes";
+import ItemTypes from "data/drag/ItemTypes";
 import { useSelector, useDispatch } from "react-redux";
 import taskStyles from "css/Task.module.css";
 import {

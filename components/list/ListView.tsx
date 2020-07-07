@@ -1,5 +1,5 @@
 import { useDrop } from "react-dnd";
-import ItemTypes from "./drag/ItemTypes";
+import ItemTypes from "data/drag/ItemTypes";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectDatelessTasks,

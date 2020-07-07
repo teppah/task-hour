@@ -7,7 +7,7 @@ import {
 } from "data/redux/slice/taskSlice";
 import { useDrag } from "react-dnd";
 import React, { useState } from "react";
-import ItemTypes from "./drag/ItemTypes";
+import ItemTypes from "data/drag/ItemTypes";
 import taskStyles from "css/Task.module.css";
 import classNames from "classnames";
 

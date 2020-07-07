@@ -1,4 +1,4 @@
-import TimeSlice from "components/TimeSlice";
+import TimeSlice from "components/summary/TimeSlice";
 import Task from "data/Task";
 import range from "lodash/range";
 import capitalize from "lodash/capitalize";

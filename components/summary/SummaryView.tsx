@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 // use dynamic import to prevent statically generated styles from applying
-const DayView = dynamic(() => import("components/DayView"));
+const DayView = dynamic(() => import("components/summary/DayView"));
 import range from "lodash/range";
 import { isSameWeek } from "date-fns";
 import { useSelector, useDispatch } from "react-redux";
