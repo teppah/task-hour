@@ -11,11 +11,12 @@ import {
 import btnStyles from "css/Button.module.css";
 import containerStyles from "css/Container.module.css";
 import { useState } from "react";
+import useTask from "lib/hooks/use-task";
 
 const DetailedTaskView = () => {
   const selectedTaskId = useSelector(selectSelectedTaskId);
-  const selectedTask = useSelector(selectTasks).find(
-    (t) => t.taskId === selectedTaskId
+  const { task: selectedTask, isLoading, isError, mutate } = useTask(
+    selectedTaskId
   );
   const dispatch = useDispatch();
   const formik = useFormik({
@@ -30,17 +31,17 @@ const DetailedTaskView = () => {
       const newTitle = title !== initialValues.title ? title : null;
       const newDescription =
         description !== initialValues.description ? description : null;
-      dispatch(
-        updateTaskIfExist({
-          taskId: selectedTaskId,
-          title: newTitle,
-          description: newDescription,
-        })
-      );
-      dispatch(
-        setTaskCompletionStatus({
-          taskId: selectedTaskId,
-          isComplete: values.isComplete,
+      mutate(
+        fetch(`/api/task?taskId=${selectedTaskId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: newTitle,
+            description: newDescription,
+            isComplete: values.isComplete,
+          }),
         })
       );
     },
