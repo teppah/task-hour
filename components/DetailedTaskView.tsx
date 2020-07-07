@@ -2,11 +2,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import {
   selectSelectedTaskId,
-  selectTasks,
-  updateTaskIfExist,
   deleteTask,
   setSelectedTaskId,
-  setTaskCompletionStatus,
 } from "lib/redux/slice/taskSlice";
 import btnStyles from "css/Button.module.css";
 import containerStyles from "css/Container.module.css";
@@ -56,7 +53,10 @@ const DetailedTaskView = () => {
   }
   // assume for now that the task that will be deleted is the selected one
   const handleDelete = () => {
-    dispatch(deleteTask(selectedTaskId));
+    fetch(`/api/task?taskId=${selectedTaskId}`, {
+      method: "DELETE",
+    });
+    mutate(null);
     dispatch(setSelectedTaskId(null));
   };
 

@@ -3,7 +3,13 @@ import Task, { createTask } from "lib/Task";
 import { set, subWeeks, subDays, parseISO } from "date-fns";
 import { NextApiRequest, NextApiResponse } from "next";
 import getTasks from "lib/get-tasks";
-import { assignInWith, AssignCustomizer, isUndefined, isNull } from "lodash";
+import {
+  assignInWith,
+  AssignCustomizer,
+  isUndefined,
+  isNull,
+  remove,
+} from "lodash";
 
 type Response = {
   task: Task;
@@ -43,8 +49,21 @@ const handler = nc<NextApiRequest, NextApiResponse<Response>>()
       },
       customizer
     );
-
     res.json({ task: toUpdate });
+  })
+  .delete((req, res) => {
+    const tasks = getTasks();
+    const { taskId } = req.query;
+    if (!taskId) {
+      res.status(400).end("400 Malformed Request - Missing taskId");
+      return;
+    }
+    const toDelete = tasks.find((t) => t.taskId === taskId);
+    if (!toDelete) {
+      res.status(404).end(`404 Task Not Found: taskId=${taskId}`);
+    }
+    remove(tasks, (t) => t.taskId === taskId);
+    res.json({ task: toDelete });
   });
 
 export default handler;
