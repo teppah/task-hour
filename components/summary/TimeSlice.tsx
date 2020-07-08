@@ -16,6 +16,7 @@ import {
 } from "lib/redux/slice/taskSlice";
 import { nanoid } from "nanoid";
 import useTask from "lib/hooks/use-task";
+import { mutate as mutateGlobal } from "swr";
 
 type Props = { taskId?: string; currentHour: Date; mutateDay: any };
 
@@ -43,7 +44,9 @@ const TimeSlice = ({ taskId, currentHour, mutateDay }: Props) => {
               body: JSON.stringify({ startDate: currentHour.toISOString() }),
             })
           );
+          // when slice receives task, update whole day
           mutateDay();
+          mutateGlobal(`/api/tasks/dates`);
           break;
         case ItemTypes.DRAG_HANDLE:
           dispatch(
@@ -73,7 +76,9 @@ const TimeSlice = ({ taskId, currentHour, mutateDay }: Props) => {
   };
   return (
     <div className="slice" ref={drop} onClick={handleClick}>
-      {currentTask && <TaskView taskId={currentTask.taskId} />}
+      {currentTask && (
+        <TaskView taskId={currentTask.taskId} mutatePreviousDay={mutateDay} />
+      )}
       <style jsx>{`
         div.slice {
           @apply flex-none;

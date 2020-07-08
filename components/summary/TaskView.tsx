@@ -6,16 +6,16 @@ import taskStyles from "css/Task.module.css";
 import {
   selectSelectedTaskId,
   setSelectedTaskId,
-  selectTasks,
 } from "lib/redux/slice/taskSlice";
 import classNames from "classnames";
 import useTask from "lib/hooks/use-task";
 
 type Props = {
   taskId: string;
+  mutatePreviousDay: any;
 };
 
-const TaskView = ({ taskId }: Props) => {
+const TaskView = ({ taskId, mutatePreviousDay }: Props) => {
   const { task, isLoading, isError } = useTask(taskId);
   if (isLoading) {
     return <div>loading...</div>;
@@ -30,6 +30,14 @@ const TaskView = ({ taskId }: Props) => {
       taskId,
     },
     collect: (monitor) => ({ isTaskDragging: !!monitor.isDragging() }),
+    begin: (monitor) => {},
+    end: (item, monitor) => {
+      if (monitor.didDrop()) {
+        // if successfully dropped in a compatible target,
+        // force mutation of the day the cell was in before
+        mutatePreviousDay();
+      }
+    },
   });
 
   const [{}, dragHandle] = useDrag({
