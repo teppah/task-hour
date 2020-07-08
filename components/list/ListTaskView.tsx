@@ -10,16 +10,16 @@ import React, { useState } from "react";
 import ItemTypes from "lib/drag/ItemTypes";
 import taskStyles from "css/Task.module.css";
 import classNames from "classnames";
+import useTask from "lib/hooks/use-task";
 
 type Props = {
   taskId: string;
 };
 const ListTaskView = ({ taskId }: Props) => {
-  const task = useSelector(selectTaskById(taskId));
+  const { task, isLoading, isError, mutate } = useTask(taskId);
   const selectedTaskId = useSelector(selectSelectedTaskId);
   const isActive = taskId === selectedTaskId;
   const dispatch = useDispatch();
-  const [isCompleted, setIsCompleted] = useState(task.isComplete);
   const [{}, drag] = useDrag({
     item: {
       type: ItemTypes.TASK,
@@ -35,7 +35,6 @@ const ListTaskView = ({ taskId }: Props) => {
     [`${taskStyles.task}`]: true,
     [`${taskStyles.selected}`]: isActive,
   });
-
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target;
     dispatch(setTaskCompletionStatus({ taskId, isComplete: target.checked }));
