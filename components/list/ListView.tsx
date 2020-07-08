@@ -1,22 +1,36 @@
 import { useDrop } from "react-dnd";
 import ItemTypes from "lib/drag/ItemTypes";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  selectDatelessTasks,
-  changeTaskStartDate,
-} from "lib/redux/slice/taskSlice";
 import ListTaskView from "./ListTaskView";
 import containerStyles from "css/Container.module.css";
+import useDatelessTasks from "lib/hooks/use-dateless-tasks";
+import { mutate as mutateGlobal } from "swr";
 
 const TaskListView = () => {
-  const datelessTasks = useSelector(selectDatelessTasks);
-  const dispatch = useDispatch();
+  const { datelessTasks, isLoading, isError, mutate } = useDatelessTasks();
   const [{}, drop] = useDrop({
     accept: ItemTypes.TASK,
     drop: (item: any) => {
-      dispatch(changeTaskStartDate({ taskId: item.taskId, date: null }));
+      const taskId = item.taskId;
+      fetch(`/api/task/date?taskId=${taskId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          startDate: "null",
+          endDate: "null",
+        }),
+      })
+        .then((r) => r.json())
+        .then((json) => {
+          mutate();
+          mutateGlobal(`/api/task?taskId=${taskId}`, json.task);
+        });
     },
   });
+  if (isLoading) {
+    return <div>loading...</div>;
+  }
   return (
     <section className={containerStyles.container}>
       <h1>List of draggable tasks</h1>

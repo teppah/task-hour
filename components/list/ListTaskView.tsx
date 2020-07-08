@@ -37,9 +37,20 @@ const ListTaskView = ({ taskId }: Props) => {
   });
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target;
-    dispatch(setTaskCompletionStatus({ taskId, isComplete: target.checked }));
+    fetch(`/api/task?taskId=${task.taskId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ isComplete: target.checked }),
+    })
+      .then((r) => r.json())
+      .then((data) => mutate(data.task, true));
   };
-  const isComplete = task.isComplete;
+  if (isLoading) {
+    return <div>loading...</div>;
+  }
+  const isComplete = task?.isComplete;
   return (
     <div className={divName} ref={drag} onClick={handleClick}>
       <input
@@ -49,7 +60,7 @@ const ListTaskView = ({ taskId }: Props) => {
         checked={isComplete}
         onChange={handleCheck}
       />
-      <h1>{task.title}</h1>
+      <h1>{task?.title}</h1>
       <style jsx>{`
         div:first-of-type {
           @apply border-t;
