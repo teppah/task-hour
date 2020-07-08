@@ -47,6 +47,7 @@ const handler = nc<NextApiRequest, NextApiResponse<Response>>()
       {
         title,
         description,
+        // cannot set empty date in this path
         startDate: startDate ? parseISO(startDate) : null,
         endDate: endDate ? parseISO(endDate) : null,
         isComplete,
