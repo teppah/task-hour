@@ -23,7 +23,7 @@ const TaskView = ({ taskId }: Props) => {
   if (isError) {
     return <div>error: ${JSON.stringify(isError)}</div>;
   }
-  const { title } = task;
+  const title = task?.title;
   const [{ isTaskDragging }, dragTask] = useDrag({
     item: {
       type: ItemTypes.TASK,
