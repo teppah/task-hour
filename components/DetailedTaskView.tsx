@@ -28,19 +28,31 @@ const DetailedTaskView = () => {
       const newTitle = title !== initialValues.title ? title : null;
       const newDescription =
         description !== initialValues.description ? description : null;
+      // update local, but don't revalidate
       mutate(
-        fetch(`/api/task?taskId=${selectedTaskId}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            title: newTitle,
-            description: newDescription,
-            isComplete: values.isComplete,
-          }),
-        })
+        {
+          taskId: selectedTaskId,
+          title: newTitle,
+          description: newDescription,
+          isComplete: values.isComplete,
+          startDate: selectedTask.startDate,
+          endDate: selectedTask.endDate,
+        },
+        false
       );
+      // update
+      fetch(`/api/task?taskId=${selectedTaskId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: newTitle,
+          description: newDescription,
+          isComplete: values.isComplete,
+        }),
+        // then revalidate
+      }).then((r) => mutate());
     },
     enableReinitialize: true,
   });
