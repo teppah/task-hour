@@ -130,7 +130,7 @@ const DetailedTaskView = () => {
           @apply flex-1;
         }
         span {
-          @apply flex flex-row justify-center;
+          @apply flex flex-row justify-center items-center;
         }
         span > input {
           @apply mx-1;
