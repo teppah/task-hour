@@ -20,6 +20,7 @@ import { range } from "lodash";
 const handler = nc<NextApiRequest, NextApiResponse>().get((req, res) => {
   const { startTime } = req.query;
   const start = parseISO(<string>startTime);
+  const end = addDays(start, 1);
   if (!isValid(start)) {
     res
       .status(400)
@@ -28,7 +29,9 @@ const handler = nc<NextApiRequest, NextApiResponse>().get((req, res) => {
       );
     return;
   }
-  const tasks = getTasks().filter((t) => isSameDay(start, t.startDate));
+  const tasks = getTasks().filter((t) =>
+    isWithinInterval(t.startDate, { start, end })
+  );
   const timeMap = {};
   // assume each slice is 1h
   range(24).map((i) => {
