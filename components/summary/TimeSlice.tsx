@@ -26,18 +26,20 @@ const TimeSlice = ({ taskId, currentHour, mutateDay }: Props) => {
       }
       switch (item.type) {
         case ItemTypes.TASK:
-          mutate(
-            fetch(`/api/task?taskId=${item.taskId}`, {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ startDate: currentHour.toISOString() }),
-            })
-          );
-          // when slice receives task, update whole day
-          mutateDay();
-          mutateGlobal(`/api/tasks/dates`);
+          (async () => {
+            await mutate(
+              fetch(`/api/task?taskId=${item.taskId}`, {
+                method: "PUT",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ startDate: currentHour.toISOString() }),
+              })
+            );
+            // when slice receives task, update whole day
+            mutateDay();
+            mutateGlobal(`/api/tasks/dates`);
+          })();
           break;
         case ItemTypes.DRAG_HANDLE:
           // TODO
