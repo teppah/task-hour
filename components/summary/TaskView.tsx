@@ -9,6 +9,8 @@ import {
 } from "lib/redux/slice/taskSlice";
 import classNames from "classnames";
 import useTask from "lib/hooks/use-task";
+import { differenceInHours } from "date-fns";
+import { parseISO } from "date-fns";
 
 type Props = {
   taskId: string;
@@ -64,6 +66,9 @@ const TaskView = ({ taskId, mutatePreviousDay }: Props) => {
     task: true,
   });
 
+  const hoursDifference = differenceInHours(task.endDate, task.startDate);
+  const remsToAdd = (hoursDifference - 1) * 3;
+
   return (
     <div className={taskClass}>
       <section ref={dragTask} onClick={clickHandler}>
@@ -73,15 +78,17 @@ const TaskView = ({ taskId, mutatePreviousDay }: Props) => {
       <style jsx>{`
         div {
           @apply flex flex-col w-11/12;
-          height: 92%;
         }
         .task {
           @apply px-1 pt-1;
           @apply rounded-md;
+          height: calc(${remsToAdd}rem + 92%);
+          @apply relative;
+          @apply z-40;
+          @apply cursor-pointer;
         }
         section {
           @apply flex-1;
-          @apply cursor-pointer;
           background-color: inherit;
         }
         h1 {

@@ -14,7 +14,9 @@ type Props = { taskId?: string; currentHour: Date; mutateDay: any };
 
 const TimeSlice = ({ taskId, currentHour, mutateDay }: Props) => {
   const dispatch = useDispatch();
-  const { task: currentTask, isLoading, isError, mutate } = useTask(taskId);
+  const { task: currentTask, isLoading, isError, mutate: mutateTask } = useTask(
+    taskId
+  );
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: [ItemTypes.TASK, ItemTypes.DRAG_HANDLE],
     drop: (item: any) => {
@@ -27,7 +29,7 @@ const TimeSlice = ({ taskId, currentHour, mutateDay }: Props) => {
       switch (item.type) {
         case ItemTypes.TASK:
           (async () => {
-            await mutate(
+            await mutateTask(
               fetch(`/api/task?taskId=${item.taskId}`, {
                 method: "PUT",
                 headers: {
@@ -43,13 +45,17 @@ const TimeSlice = ({ taskId, currentHour, mutateDay }: Props) => {
           break;
         case ItemTypes.DRAG_HANDLE:
           (async () => {
-            await mutate(
+            await mutateTask(
               fetch(`/api/task?taskId=${item.taskId}`, {
                 method: "PUT",
                 headers: {
                   "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ endDate: currentHour.toISOString() }),
+                body: JSON.stringify({
+                  // have to add one extra hour since we want the task to end at the
+                  // end of this timeslice
+                  endDate: addHours(currentHour, 1).toISOString(),
+                }),
               })
             );
           })();
