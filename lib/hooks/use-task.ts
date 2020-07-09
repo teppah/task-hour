@@ -6,6 +6,10 @@ import { isDate } from "lodash";
 
 type TaskReturnType = {};
 
+function toBoolean(s: string) {
+  return s === "true";
+}
+
 function useTask(taskId: string) {
   const { data, error, mutate } = useSwr(`/api/task?taskId=${taskId}`, fetcher);
   const task = data?.task;
@@ -14,7 +18,8 @@ function useTask(taskId: string) {
     taskId: task?.taskId,
     title: task?.title,
     description: task?.description,
-    isComplete: task?.isComplete === "true",
+    // JSON.parse() already converts it to a boolean
+    isComplete: task?.isComplete,
     startDate: parseISO(task?.startDate),
     endDate: parseISO(task?.endDate),
   };
