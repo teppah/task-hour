@@ -11,6 +11,7 @@ import useTask from "lib/hooks/use-task";
 
 const DetailedTaskView = () => {
   const selectedTaskId = useSelector(selectSelectedTaskId);
+  console.log(selectedTaskId);
   const { task: selectedTask, isLoading, isError, mutate } = useTask(
     selectedTaskId
   );

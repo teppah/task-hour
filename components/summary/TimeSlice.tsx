@@ -8,6 +8,7 @@ import { setSelectedTaskId } from "lib/redux/slice/taskSlice";
 import { nanoid } from "nanoid";
 import useTask from "lib/hooks/use-task";
 import { mutate as mutateGlobal } from "swr";
+import { addHours } from "date-fns";
 
 type Props = { taskId?: string; currentHour: Date; mutateDay: any };
 
@@ -25,18 +26,20 @@ const TimeSlice = ({ taskId, currentHour, mutateDay }: Props) => {
       }
       switch (item.type) {
         case ItemTypes.TASK:
-          mutate(
-            fetch(`/api/task?taskId=${item.taskId}`, {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ startDate: currentHour.toISOString() }),
-            })
-          );
-          // when slice receives task, update whole day
-          mutateDay();
-          mutateGlobal(`/api/tasks/dates`);
+          (async () => {
+            await mutate(
+              fetch(`/api/task?taskId=${item.taskId}`, {
+                method: "PUT",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ startDate: currentHour.toISOString() }),
+              })
+            );
+            // when slice receives task, update whole day
+            mutateDay();
+            mutateGlobal(`/api/tasks/dates`);
+          })();
           break;
         case ItemTypes.DRAG_HANDLE:
           // TODO
@@ -49,16 +52,26 @@ const TimeSlice = ({ taskId, currentHour, mutateDay }: Props) => {
       canDrop: !!mon.canDrop(),
     }),
   });
-  const handleClick = () => {
+  const handleClick = async () => {
     if (!currentTask) {
-      const newId = nanoid();
-      const newTask = createTask(
-        newId,
-        "Task Title",
-        "Description here",
-        currentHour
-      );
-      dispatch(setSelectedTaskId(newId));
+      const toPost = {
+        title: "New Task",
+        description: "Task Description",
+        startDate: currentHour,
+        endDate: addHours(currentHour, 1),
+        isComplete: false,
+      };
+      const response = await fetch(`/api/task`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(toPost),
+      });
+      const json = await response.json();
+      const task: Task = json.task;
+      await mutateDay();
+      dispatch(setSelectedTaskId(task.taskId));
     }
   };
   return (

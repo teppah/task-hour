@@ -1,6 +1,6 @@
 import nc from "next-connect";
 import Task, { createTask } from "lib/Task";
-import { set, subWeeks, subDays, parseISO } from "date-fns";
+import { set, subWeeks, subDays, parseISO, isValid } from "date-fns";
 import { NextApiRequest, NextApiResponse } from "next";
 import getTasks from "lib/get-tasks";
 import {
@@ -10,6 +10,7 @@ import {
   isNull,
   remove,
 } from "lodash";
+import { nanoid } from "nanoid";
 
 type Response = {
   task: Task;
@@ -32,6 +33,27 @@ const handler = nc<NextApiRequest, NextApiResponse<Response>>()
       return;
     }
     res.json({ task: returnedTask });
+  })
+  .post((req, res) => {
+    const { title, description, startDate, endDate, isComplete } = req.body;
+    const start = parseISO(startDate);
+    const end = parseISO(endDate);
+    const completionStatus = isComplete === "true";
+    if (!title || !description || !isValid(start) || !isValid(end)) {
+      res.status(400).end(`400 Malformed Request`);
+      return;
+    }
+    const taskId = nanoid();
+    const toCreate: Task = {
+      taskId,
+      title,
+      description,
+      startDate: start,
+      endDate: end,
+      isComplete: completionStatus,
+    };
+    getTasks().push(toCreate);
+    res.json({ task: toCreate });
   })
   .put((req, res) => {
     const tasks = getTasks();
