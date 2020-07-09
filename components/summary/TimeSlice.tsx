@@ -42,7 +42,17 @@ const TimeSlice = ({ taskId, currentHour, mutateDay }: Props) => {
           })();
           break;
         case ItemTypes.DRAG_HANDLE:
-          // TODO
+          (async () => {
+            await mutate(
+              fetch(`/api/task?taskId=${item.taskId}`, {
+                method: "PUT",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ endDate: currentHour.toISOString() }),
+              })
+            );
+          })();
           break;
       }
       dispatch(setSelectedTaskId(item.taskId));
