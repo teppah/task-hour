@@ -2,7 +2,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import {
   selectSelectedTaskId,
-  deleteTask,
   setSelectedTaskId,
 } from "lib/redux/slice/taskSlice";
 import btnStyles from "css/Button.module.css";

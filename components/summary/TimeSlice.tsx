@@ -4,16 +4,7 @@ import { useDrop } from "react-dnd";
 import ItemTypes from "lib/drag/ItemTypes";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  selectTasks,
-  selectCurrentTaskIds,
-  selectTaskById,
-  updateTaskIfExist,
-  addTask,
-  setSelectedTaskId,
-  changeTaskStartDate,
-  changeTaskEndDate,
-} from "lib/redux/slice/taskSlice";
+import { setSelectedTaskId } from "lib/redux/slice/taskSlice";
 import { nanoid } from "nanoid";
 import useTask from "lib/hooks/use-task";
 import { mutate as mutateGlobal } from "swr";
@@ -23,7 +14,6 @@ type Props = { taskId?: string; currentHour: Date; mutateDay: any };
 const TimeSlice = ({ taskId, currentHour, mutateDay }: Props) => {
   const dispatch = useDispatch();
   const { task: currentTask, isLoading, isError, mutate } = useTask(taskId);
-
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: [ItemTypes.TASK, ItemTypes.DRAG_HANDLE],
     drop: (item: any) => {
@@ -49,9 +39,7 @@ const TimeSlice = ({ taskId, currentHour, mutateDay }: Props) => {
           mutateGlobal(`/api/tasks/dates`);
           break;
         case ItemTypes.DRAG_HANDLE:
-          dispatch(
-            changeTaskEndDate({ taskId: item.taskId, date: currentHour })
-          );
+          // TODO
           break;
       }
       dispatch(setSelectedTaskId(item.taskId));
@@ -70,7 +58,6 @@ const TimeSlice = ({ taskId, currentHour, mutateDay }: Props) => {
         "Description here",
         currentHour
       );
-      dispatch(addTask(newTask));
       dispatch(setSelectedTaskId(newId));
     }
   };
