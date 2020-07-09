@@ -25,14 +25,13 @@ const ListTaskView = ({ taskId }: Props) => {
     },
     collect: (monitor) => ({}),
   });
+  if (isLoading) {
+    return <div>loading...</div>;
+  }
   const handleClick = (e) => {
     e.preventDefault();
     dispatch(setSelectedTaskId(taskId));
   };
-  const divName = classNames({
-    [`${taskStyles.task}`]: true,
-    [`${taskStyles.selected}`]: isActive,
-  });
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target;
     fetch(`/api/task?taskId=${task.taskId}`, {
@@ -45,10 +44,12 @@ const ListTaskView = ({ taskId }: Props) => {
       .then((r) => r.json())
       .then((data) => mutate(data.task, true));
   };
-  if (isLoading) {
-    return <div>loading...</div>;
-  }
   const isComplete = task?.isComplete;
+  const divName = classNames({
+    [`${taskStyles.task}`]: true,
+    [`${taskStyles.selected}`]: isActive,
+    [`${taskStyles.completed}`]: isComplete,
+  });
   return (
     <div className={divName} ref={drag} onClick={handleClick}>
       <input
