@@ -62,6 +62,10 @@ const TimeSlice = ({ taskId, currentHour, mutateDay }: Props) => {
     }),
   });
   const handleClick = async () => {
+    if (taskId) {
+      console.log("task already present");
+      return;
+    }
     const toPost = {
       title: "New Task",
       description: "Task Description",
