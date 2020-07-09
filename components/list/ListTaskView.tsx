@@ -1,9 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import {
-  selectTaskById,
   selectSelectedTaskId,
   setSelectedTaskId,
-  setTaskCompletionStatus,
 } from "lib/redux/slice/taskSlice";
 import { useDrag } from "react-dnd";
 import React, { useState } from "react";
