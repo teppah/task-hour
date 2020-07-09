@@ -9,15 +9,18 @@ type TaskReturnType = {};
 function useTask(taskId: string) {
   const { data, error, mutate } = useSwr(`/api/task?taskId=${taskId}`, fetcher);
   const task = data?.task;
-  const withType: Task = task;
-  data && console.log(data);
-  data &&
-    !isDate(task?.startDate) &&
-    (withType.startDate = parseISO(task.startDate));
-  data && !isDate(task?.endDate) && (withType.endDate = parseISO(task.endDate));
-  data && console.log(withType);
+
+  const toReturn: Task = {
+    taskId: task?.taskId,
+    title: task?.title,
+    description: task?.description,
+    isComplete: task?.isComplete === "true",
+    startDate: parseISO(task?.startDate),
+    endDate: parseISO(task?.endDate),
+  };
+
   return {
-    task: withType,
+    task: data ? toReturn : null,
     isLoading: !error && !data,
     isError: error,
     mutate,
