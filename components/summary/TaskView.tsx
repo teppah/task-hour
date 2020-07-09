@@ -19,13 +19,6 @@ type Props = {
 
 const TaskView = ({ taskId, mutatePreviousDay }: Props) => {
   const { task, isLoading, isError } = useTask(taskId);
-  if (isLoading) {
-    return <div>loading...</div>;
-  }
-  if (isError) {
-    return <div>error: ${JSON.stringify(isError)}</div>;
-  }
-  const title = task?.title;
   const [{ isTaskDragging }, dragTask] = useDrag({
     item: {
       type: ItemTypes.TASK,
@@ -54,6 +47,12 @@ const TaskView = ({ taskId, mutatePreviousDay }: Props) => {
   const isActive = selectedTaskId && selectedTaskId === taskId;
 
   const dispatch = useDispatch();
+  if (isLoading) {
+    return <div>loading...</div>;
+  }
+  if (isError) {
+    return <div>error: {JSON.stringify(isError)}</div>;
+  }
   const clickHandler = (e) => {
     e.preventDefault();
     dispatch(setSelectedTaskId(taskId));
@@ -69,6 +68,7 @@ const TaskView = ({ taskId, mutatePreviousDay }: Props) => {
   const hoursDifference = differenceInHours(task.endDate, task.startDate);
   const remsToAdd = (hoursDifference - 1) * 3;
 
+  const title = task.title;
   return (
     <div className={taskClass}>
       <section ref={dragTask} onClick={clickHandler}>

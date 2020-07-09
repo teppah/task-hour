@@ -2,10 +2,8 @@ import TaskView from "components/summary/TaskView";
 import Task, { createTask } from "lib/Task";
 import { useDrop } from "react-dnd";
 import ItemTypes from "lib/drag/ItemTypes";
-import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setSelectedTaskId } from "lib/redux/slice/taskSlice";
-import { nanoid } from "nanoid";
 import useTask from "lib/hooks/use-task";
 import { mutate as mutateGlobal } from "swr";
 import { addHours } from "date-fns";
@@ -14,22 +12,14 @@ type Props = { taskId?: string; currentHour: Date; mutateDay: any };
 
 const TimeSlice = ({ taskId, currentHour, mutateDay }: Props) => {
   const dispatch = useDispatch();
-  const { task: currentTask, isLoading, isError, mutate: mutateTask } = useTask(
-    taskId
-  );
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: [ItemTypes.TASK, ItemTypes.DRAG_HANDLE],
     drop: (item: any) => {
-      if (currentTask) {
-        alert(
-          "there's already a task here u noob, u can't drop it here for now"
-        );
-        return;
-      }
       switch (item.type) {
         case ItemTypes.TASK:
           (async () => {
-            await mutateTask(
+            await mutateGlobal(
+              `/api/task?taskId=${item.taskId}`,
               fetch(`/api/task?taskId=${item.taskId}`, {
                 method: "PUT",
                 headers: {
@@ -45,7 +35,8 @@ const TimeSlice = ({ taskId, currentHour, mutateDay }: Props) => {
           break;
         case ItemTypes.DRAG_HANDLE:
           (async () => {
-            await mutateTask(
+            await mutateGlobal(
+              `/api/task?taskId=${item.taskId}`,
               fetch(`/api/task?taskId=${item.taskId}`, {
                 method: "PUT",
                 headers: {
@@ -58,6 +49,7 @@ const TimeSlice = ({ taskId, currentHour, mutateDay }: Props) => {
                 }),
               })
             );
+            mutateDay();
           })();
           break;
       }
@@ -69,32 +61,29 @@ const TimeSlice = ({ taskId, currentHour, mutateDay }: Props) => {
     }),
   });
   const handleClick = async () => {
-    if (!currentTask) {
-      const toPost = {
-        title: "New Task",
-        description: "Task Description",
-        startDate: currentHour,
-        endDate: addHours(currentHour, 1),
-        isComplete: false,
-      };
-      const response = await fetch(`/api/task`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(toPost),
-      });
-      const json = await response.json();
-      const task: Task = json.task;
-      await mutateDay();
-      dispatch(setSelectedTaskId(task.taskId));
-    }
+    const toPost = {
+      title: "New Task",
+      description: "Task Description",
+      startDate: currentHour,
+      endDate: addHours(currentHour, 1),
+      isComplete: false,
+    };
+    const response = await fetch(`/api/task`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(toPost),
+    });
+    const json = await response.json();
+    const task: Task = json.task;
+    await mutateDay();
+    dispatch(setSelectedTaskId(task.taskId));
   };
   return (
     <div className="slice" ref={drop} onClick={handleClick}>
-      {currentTask && (
-        <TaskView taskId={currentTask.taskId} mutatePreviousDay={mutateDay} />
-      )}
+      {taskId && <TaskView taskId={taskId} mutatePreviousDay={mutateDay} />}
+
       <style jsx>{`
         div.slice {
           @apply flex-none;
