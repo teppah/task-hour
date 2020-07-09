@@ -2,12 +2,13 @@ import nc from "next-connect";
 import { NextApiRequest, NextApiResponse } from "next";
 import Task from "lib/Task";
 import getTasks from "lib/get-tasks";
-import { parseISO, isValid } from "date-fns";
+import { parseISO, isValid, differenceInHours, addHours } from "date-fns";
 
 type Response = {
   task: Task;
 };
 
+// route automatically updates the endDate if startDate is changed
 const handler = nc<NextApiRequest, NextApiResponse<Response>>()
   // specifically update a task's dates
   .put((req, res) => {
@@ -25,8 +26,29 @@ const handler = nc<NextApiRequest, NextApiResponse<Response>>()
       res.status(404).end(`400 Task Not Found`);
       return;
     }
-    toUpdate.startDate = isValid(start) ? start : null;
-    toUpdate.endDate = isValid(end) ? end : null;
+    if (isValid(start)) {
+      const difference = differenceInHours(
+        toUpdate.endDate,
+        toUpdate.startDate
+      );
+      // if no end date specified, compute end date from difference
+      if (!isValid(end)) {
+        const newEnd = addHours(start, difference);
+        toUpdate.endDate = newEnd;
+      } else {
+        toUpdate.endDate = end;
+      }
+      toUpdate.startDate = start;
+    } else {
+      // if no start date specified, only update end date
+      if (isValid(end)) {
+        toUpdate.endDate = end;
+      } else {
+        // else clear all date to become dateless
+        toUpdate.startDate = null;
+        toUpdate.endDate = null;
+      }
+    }
     res.json({ task: toUpdate });
   });
 

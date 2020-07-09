@@ -1,7 +1,7 @@
-import { set, subWeeks, subDays } from "date-fns";
+import { set, subWeeks, subDays, startOfHour } from "date-fns";
 import { nanoid } from "nanoid";
 import Task, { createTask } from "./Task";
-const now = new Date();
+const now = startOfHour(new Date());
 const task1 = createTask(
   "aa9WrxMnxAE52SzL24VPX",
   "Task 1",
