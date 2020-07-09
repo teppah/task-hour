@@ -3,20 +3,12 @@ import Task from "lib/Task";
 import range from "lodash/range";
 import capitalize from "lodash/capitalize";
 import { getDayName } from "util/dates";
-import {
-  addDays,
-  getDate,
-  isSameDay,
-  isSameHour,
-  addHours,
-  isToday,
-} from "date-fns";
+import { addDays, getDate, isSameDay, addHours } from "date-fns";
 import { useSelector } from "react-redux";
 import {
   selectWeekStartDate,
   selectSelectedDate,
 } from "lib/redux/slice/dateSlice";
-import { selectCurrentTaskIds, selectTasks } from "lib/redux/slice/taskSlice";
 import useDay from "lib/hooks/use-day";
 type Props = {
   day: number;
@@ -37,17 +29,6 @@ const DayView = ({ day }: Props) => {
 
   const selectedDate = useSelector(selectSelectedDate);
   const isItToday = isSameDay(currentDate, selectedDate);
-
-  const weekTasks = useSelector(selectCurrentTaskIds);
-  const allTasks = useSelector(selectTasks);
-
-  // TODO: do not call allTasks.find() twice
-  const dayTasks = weekTasks
-    .filter((taskId) => {
-      const foundTask = allTasks.find((t) => t.taskId === taskId);
-      return isSameDay(currentDate, foundTask.startDate);
-    }) // map to find task by id
-    .map((taskId) => allTasks.find((t) => t.taskId === taskId));
 
   const { slices, isLoading, isError, mutateDay } = useDay(currentDate);
   if (isLoading) {
