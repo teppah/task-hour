@@ -6,14 +6,12 @@ import {
   selectWeekStartDate,
   setWeekStart,
 } from "lib/redux/slice/dateSlice";
-import { selectTasks } from "lib/redux/slice/taskSlice";
 import { isSameDay, isSameWeek, startOfWeek } from "date-fns";
 import containerStyles from "css/Container.module.css";
 
 const CalendarView = () => {
   const selectedDate = useSelector(selectSelectedDate);
   const weekStartDate = useSelector(selectWeekStartDate);
-  const allTasks = useSelector(selectTasks);
   const dispatch = useDispatch();
 
   return (
@@ -28,13 +26,6 @@ const CalendarView = () => {
           dispatch(setSelectedDate(day));
         }}
         calendarType={"US"}
-        tileContent={(props) => {
-          const { date } = props;
-          const todayTasks = allTasks.filter((t) =>
-            isSameDay(t.startDate, date)
-          );
-          return <p>{todayTasks.map((t) => "*")}</p>;
-        }}
       />
       <style jsx>{`
         section {
