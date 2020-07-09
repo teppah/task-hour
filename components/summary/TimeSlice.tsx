@@ -20,7 +20,8 @@ const TimeSlice = ({ taskId, currentHour, mutateDay }: Props) => {
           (async () => {
             await mutateGlobal(
               `/api/task?taskId=${item.taskId}`,
-              fetch(`/api/task?taskId=${item.taskId}`, {
+              // route automatically updates the endDate if startDate is changed
+              fetch(`/api/task/date?taskId=${item.taskId}`, {
                 method: "PUT",
                 headers: {
                   "Content-Type": "application/json",
@@ -37,7 +38,7 @@ const TimeSlice = ({ taskId, currentHour, mutateDay }: Props) => {
           (async () => {
             await mutateGlobal(
               `/api/task?taskId=${item.taskId}`,
-              fetch(`/api/task?taskId=${item.taskId}`, {
+              fetch(`/api/task/date?taskId=${item.taskId}`, {
                 method: "PUT",
                 headers: {
                   "Content-Type": "application/json",
