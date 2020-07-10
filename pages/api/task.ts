@@ -37,9 +37,12 @@ handler
       return;
     }
     try {
-      await databaseHelper.getTask(taskId);
+      const task = await databaseHelper.getTask(<string>taskId);
+      console.log(task);
     } catch (e) {
-      console.log(e);
+      if (e.requestResult.statusCode === 404) {
+        console.log(`task with taskId=${taskId} not found`);
+      }
     }
     res.json({ task: returnedTask });
   })
@@ -61,9 +64,9 @@ handler
       endDate: end,
       isComplete: completionStatus,
     };
-    const dbRes = await databaseHelper.createTask(toCreate);
+    const createdTask = await databaseHelper.createTask(toCreate);
     getTasks().push(toCreate);
-    res.json({ task: toCreate });
+    res.json({ task: createdTask });
   })
   .put((req, res) => {
     const tasks = getTasks();
