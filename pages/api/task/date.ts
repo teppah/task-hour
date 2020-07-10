@@ -1,5 +1,3 @@
-import nc from "next-connect";
-import { NextApiRequest, NextApiResponse } from "next";
 import Task from "lib/Task";
 import getTasks from "lib/get-tasks";
 import { parseISO, isValid, differenceInHours, addHours } from "date-fns";

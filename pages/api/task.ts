@@ -12,6 +12,7 @@ import {
 } from "lodash";
 import { nanoid } from "nanoid";
 import createHandler from "lib/api/handler";
+import databaseHelper from "lib/api/database-helper";
 
 type Response = {
   task: Task;
@@ -23,7 +24,7 @@ const customizer: AssignCustomizer = (objVal, srcVal) => {
 const handler = createHandler<Response>();
 
 handler
-  .get((req, res) => {
+  .get(async (req, res) => {
     const tempTasks = getTasks();
     const { taskId } = req.query;
     if (!taskId) {
@@ -35,9 +36,14 @@ handler
       res.status(404).end("404 Task Not Found");
       return;
     }
+    try {
+      await databaseHelper.getTask(taskId);
+    } catch (e) {
+      console.log(e);
+    }
     res.json({ task: returnedTask });
   })
-  .post((req, res) => {
+  .post(async (req, res) => {
     const { title, description, startDate, endDate, isComplete } = req.body;
     const start = parseISO(startDate);
     const end = parseISO(endDate);
@@ -55,6 +61,7 @@ handler
       endDate: end,
       isComplete: completionStatus,
     };
+    const dbRes = await databaseHelper.createTask(toCreate);
     getTasks().push(toCreate);
     res.json({ task: toCreate });
   })
