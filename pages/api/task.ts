@@ -25,26 +25,21 @@ const handler = createHandler<Response>();
 
 handler
   .get(async (req, res) => {
-    const tempTasks = getTasks();
     const { taskId } = req.query;
     if (!taskId) {
       res.status(400).end(`Error 400 - Missing taskId`);
       return;
     }
-    const returnedTask = tempTasks.find((t) => t.taskId === taskId);
-    if (!returnedTask) {
-      res.status(404).end("404 Task Not Found");
-      return;
-    }
     try {
       const task = await databaseHelper.getTask(<string>taskId);
-      console.log(task);
+      res.json({ task: task });
     } catch (e) {
       if (e.requestResult.statusCode === 404) {
-        console.log(`task with taskId=${taskId} not found`);
+        res.status(404).end(`404 Task Not Found`);
+      } else {
+        res.status(500).json(e);
       }
     }
-    res.json({ task: returnedTask });
   })
   .post(async (req, res) => {
     const { title, description, startDate, endDate, isComplete } = req.body;
@@ -65,45 +60,47 @@ handler
       isComplete: completionStatus,
     };
     const createdTask = await databaseHelper.createTask(toCreate);
-    getTasks().push(toCreate);
     res.json({ task: createdTask });
   })
-  .put((req, res) => {
-    const tasks = getTasks();
+  .put(async (req, res) => {
     const { taskId } = req.query;
     const { title, description, startDate, endDate, isComplete } = req.body;
-    const toUpdate = tasks.find((t) => t.taskId === taskId);
-    if (!toUpdate) {
-      res.status(404).end("404 Task Not Found");
-      return;
+    const toUpdate = await databaseHelper.getTask(<string>taskId);
+    try {
+      assignInWith(
+        toUpdate,
+        {
+          title,
+          description,
+          // cannot set empty date in this path
+          startDate: startDate ? parseISO(startDate) : null,
+          endDate: endDate ? parseISO(endDate) : null,
+          isComplete,
+        },
+        customizer
+      );
+      // TODO: implement task update
+      res.json({ task: toUpdate });
+    } catch (e) {
+      if (e.requestResult.statusCode === 404) {
+        res.status(404).end(`404 Task Not Found`);
+      } else {
+        res.status(500).json(e);
+      }
     }
-    assignInWith(
-      toUpdate,
-      {
-        title,
-        description,
-        // cannot set empty date in this path
-        startDate: startDate ? parseISO(startDate) : null,
-        endDate: endDate ? parseISO(endDate) : null,
-        isComplete,
-      },
-      customizer
-    );
-    res.json({ task: toUpdate });
   })
-  .delete((req, res) => {
-    const tasks = getTasks();
+  .delete(async (req, res) => {
     const { taskId } = req.query;
     if (!taskId) {
       res.status(400).end("400 Malformed Request - `Missing taskId`");
       return;
     }
-    const toDelete = tasks.find((t) => t.taskId === taskId);
+    const toDelete = await databaseHelper.getTask(<string>taskId);
     if (!toDelete) {
       res.status(404).end(`404 Task Not Found`);
       return;
     }
-    remove(tasks, (t) => t.taskId === taskId);
+    // TODO: implement delete task
     res.json({ task: toDelete });
   });
 

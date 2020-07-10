@@ -13,33 +13,33 @@ import {
 import getTasks from "lib/get-tasks";
 import { range } from "lodash";
 import createHandler from "lib/api/handler";
+import databaseHelper from "lib/api/database-helper";
 
 /**
  * Finds all tasks within day
  * startTime: ISO time string
  */
 const handler = createHandler();
-handler.get((req, res) => {
+handler.get(async (req, res) => {
   const { startTime } = req.query;
   const start = parseISO(<string>startTime);
   const end = addDays(start, 1);
   if (!isValid(start)) {
-    res
-      .status(400)
-      .end(
-        `Error 400 - Missing or invalid ISO time format(s): startTime=${startTime}`
-      );
+    res.status(400).end(`Error 400 - Missing or invalid ISO time format(s)`);
     return;
   }
-  const tasks = getTasks().filter((t) =>
-    isWithinInterval(t.startDate, { start, end })
+  const tasks = await databaseHelper.getTasks();
+  const filteredTasks = tasks.filter((t) =>
+    isWithinInterval(t.startDate, { start: start, end: end })
   );
   const timeMap = {};
   // assume each slice is 1h
   range(24).map((i) => {
     const currentHour = addHours(start, i);
     // for now, assume only one task is within the hour
-    const found = tasks.find((t) => isSameHour(currentHour, t.startDate));
+    const found = filteredTasks.find((t) =>
+      isSameHour(currentHour, t.startDate)
+    );
     if (found) {
     }
     timeMap[i] = found;
