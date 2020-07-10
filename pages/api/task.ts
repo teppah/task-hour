@@ -11,6 +11,7 @@ import {
   remove,
 } from "lodash";
 import { nanoid } from "nanoid";
+import createHandler from "lib/api/handler";
 
 type Response = {
   task: Task;
@@ -19,7 +20,9 @@ type Response = {
 const customizer: AssignCustomizer = (objVal, srcVal) => {
   return isUndefined(srcVal) || isNull(srcVal) ? objVal : srcVal;
 };
-const handler = nc<NextApiRequest, NextApiResponse<Response>>()
+const handler = createHandler<Response>();
+
+handler
   .get((req, res) => {
     const tempTasks = getTasks();
     const { taskId } = req.query;

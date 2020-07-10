@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { startOfWeek, startOfDay } from "date-fns";
-import { VIEWS } from "util/dates";
+import { VIEWS } from "lib/dates";
 
 // what this contain
 // selectedWeekStart: week selected in calendar that starts the week

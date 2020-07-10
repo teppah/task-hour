@@ -12,12 +12,14 @@ import {
 } from "date-fns";
 import getTasks from "lib/get-tasks";
 import { range } from "lodash";
+import createHandler from "lib/api/handler";
 
 /**
  * Finds all tasks within day
  * startTime: ISO time string
  */
-const handler = nc<NextApiRequest, NextApiResponse>().get((req, res) => {
+const handler = createHandler();
+handler.get((req, res) => {
   const { startTime } = req.query;
   const start = parseISO(<string>startTime);
   const end = addDays(start, 1);
