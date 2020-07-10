@@ -2,7 +2,7 @@ import TimeSlice from "components/summary/TimeSlice";
 import Task from "lib/Task";
 import range from "lodash/range";
 import capitalize from "lodash/capitalize";
-import { getDayName } from "util/dates";
+import { getDayName } from "lib/dates";
 import { addDays, getDate, isSameDay, addHours } from "date-fns";
 import { useSelector } from "react-redux";
 import {
