@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectSelectedView, setSelectedView } from "lib/redux/slice/dateSlice";
 import btnStyles from "css/Button.module.css";
 import containerStyles from "css/Container.module.css";
-import { VIEWS } from "util/dates";
+import { VIEWS } from "lib/dates";
 
 const ButtonArray = () => {
   const dispatch = useDispatch();

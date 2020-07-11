@@ -63,11 +63,11 @@ const DetailedTaskView = () => {
     );
   }
   // assume for now that the task that will be deleted is the selected one
-  const handleDelete = () => {
+  const handleDelete = async () => {
     fetch(`/api/task?taskId=${selectedTaskId}`, {
       method: "DELETE",
     });
-    mutate(null);
+    mutate(undefined);
     dispatch(setSelectedTaskId(null));
   };
 

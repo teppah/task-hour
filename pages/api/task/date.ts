@@ -1,15 +1,15 @@
-import nc from "next-connect";
-import { NextApiRequest, NextApiResponse } from "next";
 import Task from "lib/Task";
 import getTasks from "lib/get-tasks";
 import { parseISO, isValid, differenceInHours, addHours } from "date-fns";
+import createHandler from "lib/api/handler";
 
 type Response = {
   task: Task;
 };
 
+const handler = createHandler<Response>();
 // route automatically updates the endDate if startDate is changed
-const handler = nc<NextApiRequest, NextApiResponse<Response>>()
+handler
   // specifically update a task's dates
   .put((req, res) => {
     const { taskId } = req.query;

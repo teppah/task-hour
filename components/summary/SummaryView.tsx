@@ -4,7 +4,7 @@ const DayView = dynamic(() => import("components/summary/DayView"));
 import range from "lodash/range";
 import { useSelector, useDispatch } from "react-redux";
 import { selectSelectedView } from "lib/redux/slice/dateSlice";
-import { getDaysFromView } from "util/dates";
+import { getDaysFromView } from "lib/dates";
 import classNames from "classnames";
 import containerStyles from "css/Container.module.css";
 
