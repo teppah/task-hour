@@ -2,6 +2,7 @@ import serverClient from "./database";
 import Task from "lib/Task";
 import { query as q } from "faunadb";
 import { parseISO } from "date-fns";
+import { isNull, isUndefined, update } from "lodash";
 
 type ResType = {
   ref: any;
@@ -48,6 +49,43 @@ const databaseHelper = {
       tasks.push(t);
     }
     return tasks;
+  },
+  updateTaskStatus: async (
+    taskId,
+    {
+      title,
+      description,
+      isComplete,
+    }: { title?: string; description?: string; isComplete?: boolean }
+  ): Promise<Task> => {
+    const updateObj: any = {};
+    title && (updateObj.title = title);
+    description && (updateObj.description = description);
+    !isNull(isComplete) &&
+      !isUndefined(isComplete) &&
+      (updateObj.isComplete = isComplete);
+    const res: ResType = await serverClient.query(
+      q.Update(
+        // select Ref from Get document that matches the taskId provided to index
+        // https://stackoverflow.com/questions/60594689/can-i-update-a-faunadb-document-without-knowing-its-id
+        q.Select(["ref"], q.Get(q.Match(q.Index("task_by_taskId"), taskId))),
+        {
+          data: {
+            ...updateObj,
+          },
+        }
+      )
+    );
+    const updatedTask = await convertTask(res.data);
+    return updatedTask;
+  },
+  deleteTask: async (taskId: string): Promise<Task> => {
+    const toDelete: Task = await serverClient.query(
+      q.Delete(
+        q.Select(["ref"], q.Get(q.Match(q.Index("task_by_taskId"), taskId)))
+      )
+    );
+    return toDelete;
   },
 };
 

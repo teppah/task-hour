@@ -34,6 +34,7 @@ handler
       const task = await databaseHelper.getTask(<string>taskId);
       res.json({ task: task });
     } catch (e) {
+      console.log(e);
       if (e.requestResult.statusCode === 404) {
         res.status(404).end(`404 Task Not Found`);
       } else {
@@ -65,23 +66,15 @@ handler
   .put(async (req, res) => {
     const { taskId } = req.query;
     const { title, description, startDate, endDate, isComplete } = req.body;
-    const toUpdate = await databaseHelper.getTask(<string>taskId);
     try {
-      assignInWith(
-        toUpdate,
-        {
-          title,
-          description,
-          // cannot set empty date in this path
-          startDate: startDate ? parseISO(startDate) : null,
-          endDate: endDate ? parseISO(endDate) : null,
-          isComplete,
-        },
-        customizer
-      );
-      // TODO: implement task update
+      const toUpdate = await databaseHelper.updateTaskStatus(taskId, {
+        title,
+        description,
+        isComplete,
+      });
       res.json({ task: toUpdate });
     } catch (e) {
+      console.log(JSON.stringify(e));
       if (e.requestResult.statusCode === 404) {
         res.status(404).end(`404 Task Not Found`);
       } else {
@@ -95,13 +88,16 @@ handler
       res.status(400).end("400 Malformed Request - `Missing taskId`");
       return;
     }
-    const toDelete = await databaseHelper.getTask(<string>taskId);
-    if (!toDelete) {
-      res.status(404).end(`404 Task Not Found`);
-      return;
+    try {
+      const toDelete = await databaseHelper.deleteTask(<string>taskId);
+      res.json({ task: toDelete });
+    } catch (e) {
+      if (e.requestResult.statusCode === 404) {
+        res.status(404).end(`404 Task Not Found`);
+      } else {
+        res.status(500).json(e);
+      }
     }
-    // TODO: implement delete task
-    res.json({ task: toDelete });
   });
 
 export default handler;
