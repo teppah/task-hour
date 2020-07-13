@@ -65,7 +65,7 @@ handler
   })
   .put(async (req, res) => {
     const { taskId } = req.query;
-    const { title, description, startDate, endDate, isComplete } = req.body;
+    const { title, description, isComplete } = req.body;
     try {
       const toUpdate = await databaseHelper.updateTaskStatus(taskId, {
         title,

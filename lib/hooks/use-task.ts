@@ -6,10 +6,6 @@ import { isDate } from "lodash";
 
 type TaskReturnType = {};
 
-function toBoolean(s: string) {
-  return s === "true";
-}
-
 function useTask(taskId: string) {
   const { data, error, mutate } = useSwr(`/api/task?taskId=${taskId}`, fetcher);
   const task = data?.task;
@@ -23,7 +19,6 @@ function useTask(taskId: string) {
     startDate: parseISO(task?.startDate),
     endDate: parseISO(task?.endDate),
   };
-
   return {
     task: data ? toReturn : null,
     isLoading: !error && !data,

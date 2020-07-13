@@ -48,9 +48,11 @@ const TaskView = ({ taskId, mutatePreviousDay }: Props) => {
 
   const dispatch = useDispatch();
   if (isLoading) {
+    console.log(`loading`);
     return <div>loading...</div>;
   }
   if (isError) {
+    console.log(`error`);
     return <div>error: {JSON.stringify(isError)}</div>;
   }
   const clickHandler = (e) => {
@@ -68,11 +70,10 @@ const TaskView = ({ taskId, mutatePreviousDay }: Props) => {
   const hoursDifference = differenceInHours(task.endDate, task.startDate);
   const remsToAdd = (hoursDifference - 1) * 3;
 
-  const title = task.title;
   return (
     <div className={taskClass}>
       <section ref={dragTask} onClick={clickHandler}>
-        <h1>{title}</h1>
+        <h1>{task.title}</h1>
       </section>
       <div className="resize-handler" ref={dragHandle}></div>
       <style jsx>{`
