@@ -4,7 +4,6 @@ import ListTaskView from "./ListTaskView";
 import containerStyles from "css/Container.module.css";
 import useDatelessTasks from "lib/hooks/use-dateless-tasks";
 import { mutate as mutateGlobal } from "swr";
-import Task from "lib/Task";
 
 const TaskListView = () => {
   const { datelessTaskIds, isLoading, isError, mutate } = useDatelessTasks();

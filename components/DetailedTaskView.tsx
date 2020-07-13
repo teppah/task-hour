@@ -6,7 +6,6 @@ import {
 } from "lib/redux/slice/taskSlice";
 import btnStyles from "css/Button.module.css";
 import containerStyles from "css/Container.module.css";
-import { useState } from "react";
 import useTask from "lib/hooks/use-task";
 
 const DetailedTaskView = () => {
@@ -29,7 +28,7 @@ const DetailedTaskView = () => {
         description !== initialValues.description ? description : null;
 
       (async () => {
-        const localResult = await mutate(
+        mutate(
           {
             // since useTask extracts task from a JSON response,
             // need to imitate the JSON response by wrapping task inside a "task"
@@ -48,7 +47,7 @@ const DetailedTaskView = () => {
           false
         );
         // update local, but don't revalidate
-        const fetchResult = await fetch(`/api/task?taskId=${selectedTaskId}`, {
+        await fetch(`/api/task?taskId=${selectedTaskId}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
