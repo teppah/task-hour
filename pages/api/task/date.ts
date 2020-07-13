@@ -1,5 +1,4 @@
 import Task from "lib/Task";
-import getTasks from "lib/get-tasks";
 import { parseISO, isValid, differenceInHours, addHours } from "date-fns";
 import createHandler from "lib/api/handler";
 import databaseHelper from "lib/api/database-helper";

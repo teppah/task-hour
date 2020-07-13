@@ -1,15 +1,5 @@
-import nc from "next-connect";
 import Task, { createTask } from "lib/Task";
-import { set, subWeeks, subDays, parseISO, isValid } from "date-fns";
-import { NextApiRequest, NextApiResponse } from "next";
-import getTasks from "lib/get-tasks";
-import {
-  assignInWith,
-  AssignCustomizer,
-  isUndefined,
-  isNull,
-  remove,
-} from "lodash";
+import { parseISO, isValid } from "date-fns";
 import { nanoid } from "nanoid";
 import createHandler from "lib/api/handler";
 import databaseHelper from "lib/api/database-helper";
@@ -18,9 +8,6 @@ type Response = {
   task: Task;
 };
 
-const customizer: AssignCustomizer = (objVal, srcVal) => {
-  return isUndefined(srcVal) || isNull(srcVal) ? objVal : srcVal;
-};
 const handler = createHandler<Response>();
 
 handler
