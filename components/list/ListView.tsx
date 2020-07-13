@@ -35,9 +35,8 @@ const TaskListView = () => {
     <section className={containerStyles.container}>
       <h1>List of draggable tasks</h1>
       <div ref={drop}>
-        {datelessTasks.map((t) => (
-          <ListTaskView taskId={t.taskId} />
-        ))}
+        {datelessTasks &&
+          datelessTasks.map((t) => <ListTaskView taskId={t.taskId} />)}
       </div>
       <style jsx>{`
         section {

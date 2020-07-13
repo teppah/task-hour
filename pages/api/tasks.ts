@@ -13,14 +13,14 @@ type Response = {
 const handler = createHandler<Response>();
 
 handler.get(async (req, res) => {
-  const tempTasks = getTasks();
   try {
     const tasks = await databaseHelper.getTasks();
-    console.log(tasks);
+    res.json({ tasks: tasks });
   } catch (e) {
+    console.log(`ERROR`);
     console.log(e);
+    res.status(500).json(e);
   }
-  res.json({ tasks: tempTasks });
 });
 
 export default handler;
