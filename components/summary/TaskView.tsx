@@ -11,6 +11,7 @@ import classNames from "classnames";
 import useTask from "lib/hooks/use-task";
 import { differenceInHours } from "date-fns";
 import { parseISO } from "date-fns";
+import { delay } from "lodash";
 
 type Props = {
   taskId: string;
@@ -30,7 +31,7 @@ const TaskView = ({ taskId, mutatePreviousDay }: Props) => {
       if (monitor.didDrop()) {
         // if successfully dropped in a compatible target,
         // force mutation of the day the cell was in before
-        mutatePreviousDay();
+        delay(mutatePreviousDay, 1500);
       }
     },
   });

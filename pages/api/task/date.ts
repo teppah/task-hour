@@ -55,8 +55,8 @@ handler
       } else {
         if (isValid(toUpdate.endDate)) {
           const difference = differenceInHours(
-            toUpdate.startDate,
-            toUpdate.endDate
+            toUpdate.endDate,
+            toUpdate.startDate
           );
           const newEnd = addHours(start, difference);
           updateObj.endDate = newEnd;
@@ -72,6 +72,7 @@ handler
         updateObj.endDate = end;
       }
     }
+    console.log(updateObj);
     const updated = await databaseHelper.updateTaskDates(
       <string>taskId,
       updateObj.startDate,
