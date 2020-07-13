@@ -6,7 +6,6 @@ import {
 } from "lib/redux/slice/taskSlice";
 import btnStyles from "css/Button.module.css";
 import containerStyles from "css/Container.module.css";
-import { useState } from "react";
 import useTask from "lib/hooks/use-task";
 
 const DetailedTaskView = () => {
@@ -27,31 +26,41 @@ const DetailedTaskView = () => {
       const newTitle = title !== initialValues.title ? title : null;
       const newDescription =
         description !== initialValues.description ? description : null;
-      // update local, but don't revalidate
-      mutate(
-        {
-          taskId: selectedTaskId,
-          title: newTitle,
-          description: newDescription,
-          isComplete: values.isComplete,
-          startDate: selectedTask.startDate,
-          endDate: selectedTask.endDate,
-        },
-        false
-      );
-      // update
-      fetch(`/api/task?taskId=${selectedTaskId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title: newTitle,
-          description: newDescription,
-          isComplete: values.isComplete,
-        }),
-        // then revalidate
-      }).then((r) => mutate());
+
+      (async () => {
+        mutate(
+          {
+            // since useTask extracts task from a JSON response,
+            // need to imitate the JSON response by wrapping task inside a "task"
+            // property
+            task: {
+              taskId: selectedTaskId,
+              // if null, mutate with old values
+              title: newTitle ? newTitle : title,
+              description: newDescription ? newDescription : description,
+              isComplete: values.isComplete,
+              // make sure to pass ISO string to swr mutate
+              startDate: selectedTask.startDate.toISOString(),
+              endDate: selectedTask.endDate.toISOString(),
+            },
+          },
+          false
+        );
+        // update local, but don't revalidate
+        await fetch(`/api/task?taskId=${selectedTaskId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: newTitle,
+            description: newDescription,
+            isComplete: values.isComplete,
+          }),
+          // then revalidate
+        });
+        mutate();
+      })();
     },
     enableReinitialize: true,
   });
@@ -64,10 +73,11 @@ const DetailedTaskView = () => {
   }
   // assume for now that the task that will be deleted is the selected one
   const handleDelete = async () => {
-    fetch(`/api/task?taskId=${selectedTaskId}`, {
+    mutate(null, false);
+    await fetch(`/api/task?taskId=${selectedTaskId}`, {
       method: "DELETE",
     });
-    mutate(undefined);
+    mutate();
     dispatch(setSelectedTaskId(null));
   };
 

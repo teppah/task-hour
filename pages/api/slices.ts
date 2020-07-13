@@ -1,16 +1,11 @@
-import nc from "next-connect";
-import { NextApiRequest, NextApiResponse } from "next";
 import {
   isValid,
   parseISO,
   isWithinInterval,
-  compareAsc,
   addHours,
   isSameHour,
   addDays,
-  isSameDay,
 } from "date-fns";
-import getTasks from "lib/get-tasks";
 import { range } from "lodash";
 import createHandler from "lib/api/handler";
 import databaseHelper from "lib/api/database-helper";

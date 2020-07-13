@@ -1,7 +1,7 @@
 import serverClient from "./database";
 import Task from "lib/Task";
 import { query as q } from "faunadb";
-import { parseISO } from "date-fns";
+import { parseISO, isValid } from "date-fns";
 import { isNull, isUndefined, update } from "lodash";
 
 type ResType = {
@@ -72,6 +72,31 @@ const databaseHelper = {
         {
           data: {
             ...updateObj,
+          },
+        }
+      )
+    );
+    const updatedTask = await convertTask(res.data);
+    return updatedTask;
+  },
+  updateTaskDates: async (
+    taskId: string,
+    startDate: Date,
+    endDate: Date
+  ): Promise<Task> => {
+    const newStart = isValid(startDate)
+      ? q.Time(startDate.toISOString())
+      : "no date";
+    const newEnd = isValid(startDate)
+      ? q.Time(endDate.toISOString())
+      : "no date";
+    const res: ResType = await serverClient.query(
+      q.Update(
+        q.Select(["ref"], q.Get(q.Match(q.Index("task_by_taskId"), taskId))),
+        {
+          data: {
+            startDate: newStart,
+            endDate: newEnd,
           },
         }
       )

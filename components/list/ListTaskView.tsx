@@ -32,17 +32,27 @@ const ListTaskView = ({ taskId }: Props) => {
     e.preventDefault();
     dispatch(setSelectedTaskId(taskId));
   };
-  const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCheck = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target;
-    fetch(`/api/task?taskId=${task.taskId}`, {
+    mutate(
+      {
+        // make the hook work
+        task: {
+          ...task,
+          // override destructured property
+          isComplete: target.checked,
+        },
+      },
+      false
+    );
+    await fetch(`/api/task?taskId=${task.taskId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ isComplete: target.checked }),
-    })
-      .then((r) => r.json())
-      .then((data) => mutate(data.task, true));
+    });
+    mutate();
   };
   const isComplete = task?.isComplete;
   const divName = classNames({

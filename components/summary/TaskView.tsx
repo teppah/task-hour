@@ -11,6 +11,7 @@ import classNames from "classnames";
 import useTask from "lib/hooks/use-task";
 import { differenceInHours } from "date-fns";
 import { parseISO } from "date-fns";
+import { delay } from "lodash";
 
 type Props = {
   taskId: string;
@@ -30,7 +31,7 @@ const TaskView = ({ taskId, mutatePreviousDay }: Props) => {
       if (monitor.didDrop()) {
         // if successfully dropped in a compatible target,
         // force mutation of the day the cell was in before
-        mutatePreviousDay();
+        delay(mutatePreviousDay, 1500);
       }
     },
   });
@@ -48,6 +49,7 @@ const TaskView = ({ taskId, mutatePreviousDay }: Props) => {
 
   const dispatch = useDispatch();
   if (isLoading) {
+    console.log(`loading`);
     return <div>loading...</div>;
   }
   if (isError) {
@@ -68,11 +70,10 @@ const TaskView = ({ taskId, mutatePreviousDay }: Props) => {
   const hoursDifference = differenceInHours(task.endDate, task.startDate);
   const remsToAdd = (hoursDifference - 1) * 3;
 
-  const title = task.title;
   return (
     <div className={taskClass}>
       <section ref={dragTask} onClick={clickHandler}>
-        <h1>{title}</h1>
+        <h1>{task.title}</h1>
       </section>
       <div className="resize-handler" ref={dragHandle}></div>
       <style jsx>{`

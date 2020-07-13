@@ -4,7 +4,6 @@ import { useDrop } from "react-dnd";
 import ItemTypes from "lib/drag/ItemTypes";
 import { useSelector, useDispatch } from "react-redux";
 import { setSelectedTaskId } from "lib/redux/slice/taskSlice";
-import useTask from "lib/hooks/use-task";
 import { mutate as mutateGlobal } from "swr";
 import { addHours } from "date-fns";
 
@@ -18,7 +17,7 @@ const TimeSlice = ({ taskId, currentHour, mutateDay }: Props) => {
       switch (item.type) {
         case ItemTypes.TASK:
           (async () => {
-            await mutateGlobal(
+            const res = await mutateGlobal(
               `/api/task?taskId=${item.taskId}`,
               // route automatically updates the endDate if startDate is changed
               fetch(`/api/task/date?taskId=${item.taskId}`, {
@@ -26,7 +25,9 @@ const TimeSlice = ({ taskId, currentHour, mutateDay }: Props) => {
                 headers: {
                   "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ startDate: currentHour.toISOString() }),
+                body: JSON.stringify({
+                  startDate: currentHour.toISOString(),
+                }),
               })
             );
             // when slice receives task, update whole day
