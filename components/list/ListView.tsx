@@ -4,28 +4,28 @@ import ListTaskView from "./ListTaskView";
 import containerStyles from "css/Container.module.css";
 import useDatelessTasks from "lib/hooks/use-dateless-tasks";
 import { mutate as mutateGlobal } from "swr";
+import Task from "lib/Task";
 
 const TaskListView = () => {
-  const { datelessTasks, isLoading, isError, mutate } = useDatelessTasks();
+  const { datelessTaskIds, isLoading, isError, mutate } = useDatelessTasks();
   const [{}, drop] = useDrop({
     accept: ItemTypes.TASK,
     drop: (item: any) => {
       const taskId = item.taskId;
-      fetch(`/api/task/date?taskId=${taskId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          startDate: "null",
-          endDate: "null",
-        }),
-      })
-        .then((r) => r.json())
-        .then((json) => {
-          mutate();
-          mutateGlobal(`/api/task?taskId=${taskId}`, json.task);
+      (async () => {
+        const res = await fetch(`/api/task/date?taskId=${taskId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            startDate: "null",
+            endDate: "null",
+          }),
         });
+        mutate();
+        mutateGlobal(`/api/task?taskId=${taskId}`);
+      })();
     },
   });
   if (isLoading) {
@@ -35,8 +35,8 @@ const TaskListView = () => {
     <section className={containerStyles.container}>
       <h1>List of draggable tasks</h1>
       <div ref={drop}>
-        {datelessTasks &&
-          datelessTasks.map((t) => <ListTaskView taskId={t.taskId} />)}
+        {datelessTaskIds &&
+          datelessTaskIds.map((taskId) => <ListTaskView taskId={taskId} />)}
       </div>
       <style jsx>{`
         section {

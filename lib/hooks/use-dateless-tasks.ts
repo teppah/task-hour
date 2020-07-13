@@ -4,9 +4,9 @@ import Task from "lib/Task";
 
 function useDatelessTasks() {
   const { data, error, mutate } = useSWR(`/api/tasks/dates`, fetcher);
-  const withType: Task[] = data?.tasks;
+  const withType: string[] = data?.tasks;
   return {
-    datelessTasks: withType,
+    datelessTaskIds: withType,
     isLoading: !data && !error,
     isError: error,
     mutate,
