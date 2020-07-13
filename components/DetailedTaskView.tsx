@@ -46,9 +46,8 @@ const DetailedTaskView = () => {
           },
           false
         );
-        const fetchResult = await // update local, but don't revalidate
-        // update
-        fetch(`/api/task?taskId=${selectedTaskId}`, {
+        // update local, but don't revalidate
+        const fetchResult = await fetch(`/api/task?taskId=${selectedTaskId}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -74,10 +73,11 @@ const DetailedTaskView = () => {
   }
   // assume for now that the task that will be deleted is the selected one
   const handleDelete = async () => {
-    fetch(`/api/task?taskId=${selectedTaskId}`, {
+    mutate(null, false);
+    await fetch(`/api/task?taskId=${selectedTaskId}`, {
       method: "DELETE",
     });
-    mutate(undefined);
+    mutate();
     dispatch(setSelectedTaskId(null));
   };
 

@@ -53,7 +53,6 @@ const TaskView = ({ taskId, mutatePreviousDay }: Props) => {
     return <div>loading...</div>;
   }
   if (isError) {
-    console.log(`error`);
     return <div>error: {JSON.stringify(isError)}</div>;
   }
   const clickHandler = (e) => {

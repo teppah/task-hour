@@ -2,7 +2,6 @@ import useSwr from "swr";
 import fetcher from "lib/fetcher";
 import Task from "lib/Task";
 import { parseISO } from "date-fns";
-import { isDate } from "lodash";
 
 type TaskReturnType = {};
 
