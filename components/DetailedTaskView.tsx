@@ -29,8 +29,6 @@ const DetailedTaskView = () => {
         description !== initialValues.description ? description : null;
 
       (async () => {
-        console.log(selectedTask.endDate);
-        console.log(selectedTask.startDate);
         const localResult = await mutate(
           {
             // since useTask extracts task from a JSON response,
@@ -42,14 +40,13 @@ const DetailedTaskView = () => {
               title: newTitle ? newTitle : title,
               description: newDescription ? newDescription : description,
               isComplete: values.isComplete,
-              startDate: selectedTask.startDate,
-              endDate: selectedTask.endDate,
+              // make sure to pass ISO string to swr mutate
+              startDate: selectedTask.startDate.toISOString(),
+              endDate: selectedTask.endDate.toISOString(),
             },
           },
           false
         );
-        console.log(`---local`);
-        console.log(localResult);
         // update local, but don't revalidate
         const fetchResult = await fetch(`/api/task?taskId=${selectedTaskId}`, {
           method: "PUT",
@@ -63,8 +60,7 @@ const DetailedTaskView = () => {
           }),
           // then revalidate
         });
-        const json = await fetchResult.json();
-        mutate(json);
+        mutate();
       })();
     },
     enableReinitialize: true,
