@@ -27,34 +27,55 @@ handler
       res.status(404).end(`400 Task Not Found`);
       return;
     }
+    // LOGIC
+    // if start is present, end is present
+    //    specify both
+
+    // if start is not present, end is present
+    //    only update end
+
+    // if start is present, end is not present
+    //    check whether end time is present on retrieved task
+    //      if true
+    //          compute original date hour difference,
+    //          create new date with the difference
+    //      else
+    //          create new end date from specified start
+    //          add 1 hour (default)
+
+    // if neither are present, set dates to null
+    const updateObj: { startDate: Date; endDate: Date } = {
+      startDate: null,
+      endDate: null,
+    };
     if (isValid(start)) {
-      const difference = differenceInHours(
-        toUpdate.endDate,
-        toUpdate.startDate
-      );
-      // if no end date specified, compute end date from difference
-      if (!isValid(end)) {
-        const newEnd = addHours(start, difference);
-        toUpdate.endDate = newEnd;
-      } else {
-        toUpdate.endDate = end;
-      }
-      toUpdate.startDate = start;
-    } else {
-      // if no start date specified, only update end date
+      updateObj.startDate = start;
       if (isValid(end)) {
-        toUpdate.endDate = end;
+        updateObj.endDate = end;
       } else {
-        // else clear all date to become dateless
-        toUpdate.startDate = null;
-        toUpdate.endDate = null;
-        console.log(`dateless`);
+        if (isValid(toUpdate.endDate)) {
+          const difference = differenceInHours(
+            toUpdate.startDate,
+            toUpdate.endDate
+          );
+          const newEnd = addHours(start, difference);
+          updateObj.endDate = newEnd;
+        } else {
+          // default length: 1h
+          const newEnd = addHours(start, 1);
+          updateObj.endDate = newEnd;
+        }
+      }
+    } else {
+      if (isValid(end)) {
+        updateObj.startDate = toUpdate.startDate;
+        updateObj.endDate = end;
       }
     }
     const updated = await databaseHelper.updateTaskDates(
       <string>taskId,
-      toUpdate.startDate,
-      toUpdate.endDate
+      updateObj.startDate,
+      updateObj.endDate
     );
     res.json({ task: updated });
   });
