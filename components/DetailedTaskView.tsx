@@ -27,31 +27,41 @@ const DetailedTaskView = () => {
       const newTitle = title !== initialValues.title ? title : null;
       const newDescription =
         description !== initialValues.description ? description : null;
-      // update local, but don't revalidate
-      mutate(
-        {
-          taskId: selectedTaskId,
-          title: newTitle,
-          description: newDescription,
-          isComplete: values.isComplete,
-          startDate: selectedTask.startDate,
-          endDate: selectedTask.endDate,
-        },
-        false
-      );
-      // update
-      fetch(`/api/task?taskId=${selectedTaskId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title: newTitle,
-          description: newDescription,
-          isComplete: values.isComplete,
-        }),
-        // then revalidate
-      }).then((r) => mutate());
+
+      (async () => {
+        const localResult = await mutate(
+          {
+            // since useTask extracts task from a JSON response,
+            // need to imitate the JSON response by wrapping task inside a "task"
+            // property
+            task: {
+              taskId: selectedTaskId,
+              // if null, mutate with old values
+              title: newTitle ? newTitle : title,
+              description: newDescription ? newDescription : description,
+              isComplete: values.isComplete,
+              startDate: selectedTask.startDate,
+              endDate: selectedTask.endDate,
+            },
+          },
+          false
+        );
+        const fetchResult = await // update local, but don't revalidate
+        // update
+        fetch(`/api/task?taskId=${selectedTaskId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: newTitle,
+            description: newDescription,
+            isComplete: values.isComplete,
+          }),
+          // then revalidate
+        });
+        mutate();
+      })();
     },
     enableReinitialize: true,
   });
