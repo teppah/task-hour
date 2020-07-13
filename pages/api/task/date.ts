@@ -2,6 +2,7 @@ import Task from "lib/Task";
 import getTasks from "lib/get-tasks";
 import { parseISO, isValid, differenceInHours, addHours } from "date-fns";
 import createHandler from "lib/api/handler";
+import databaseHelper from "lib/api/database-helper";
 
 type Response = {
   task: Task;
@@ -11,7 +12,7 @@ const handler = createHandler<Response>();
 // route automatically updates the endDate if startDate is changed
 handler
   // specifically update a task's dates
-  .put((req, res) => {
+  .put(async (req, res) => {
     const { taskId } = req.query;
     const { startDate, endDate } = req.body;
     const start = parseISO(startDate);
@@ -20,7 +21,7 @@ handler
       res.status(400).end(`400 Malformed Request`);
       return;
     }
-    const tasks = getTasks();
+    const tasks = await databaseHelper.getTasks();
     const toUpdate = tasks.find((t) => t.taskId === taskId);
     if (!toUpdate) {
       res.status(404).end(`400 Task Not Found`);
@@ -47,9 +48,15 @@ handler
         // else clear all date to become dateless
         toUpdate.startDate = null;
         toUpdate.endDate = null;
+        console.log(`dateless`);
       }
     }
-    res.json({ task: toUpdate });
+    const updated = await databaseHelper.updateTaskDates(
+      <string>taskId,
+      toUpdate.startDate,
+      toUpdate.endDate
+    );
+    res.json({ task: updated });
   });
 
 export default handler;
