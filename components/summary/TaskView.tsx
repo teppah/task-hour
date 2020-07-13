@@ -70,6 +70,10 @@ const TaskView = ({ taskId, mutatePreviousDay }: Props) => {
   const hoursDifference = differenceInHours(task.endDate, task.startDate);
   const remsToAdd = (hoursDifference - 1) * 3;
 
+  console.log(`---render`);
+  console.log(task);
+  console.log(hoursDifference);
+  console.log(remsToAdd);
   return (
     <div className={taskClass}>
       <section ref={dragTask} onClick={clickHandler}>
