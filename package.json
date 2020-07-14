@@ -7,7 +7,6 @@
     "build": "next build",
     "start": "next start"
   },
-  "sideEffects": false,
   "dependencies": {
     "@reduxjs/toolkit": "^1.3.6",
     "@tippyjs/react": "^4.1.0",
@@ -43,5 +42,6 @@
     "styled-jsx-plugin-postcss": "^2.0.1",
     "tailwindcss": "^1.4.6",
     "typescript": "^3.9.5"
-  }
+  },
+  "sideEffects": false
 }

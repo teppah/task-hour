@@ -9,7 +9,7 @@ import {
 import classNames from "classnames";
 import useTask from "lib/hooks/use-task";
 import { differenceInHours } from "date-fns";
-import { delay } from "lodash";
+import delay from "lodash/delay";
 import Tippy from "@tippyjs/react";
 import DetailedTaskView from "components/DetailedTaskView";
 
