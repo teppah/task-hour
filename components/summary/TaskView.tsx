@@ -76,8 +76,6 @@ const TaskView = ({ taskId, mutatePreviousDay }: Props) => {
       placement="right"
       interactive={true}
       theme="light"
-      trigger="click"
-      hideOnClick={true}
       visible={isActive}
       onClickOutside={(instance, event) => {
         dispatch(setSelectedTaskId(null));
