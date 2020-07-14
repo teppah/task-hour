@@ -69,6 +69,8 @@ const ListTaskView = ({ taskId }: Props) => {
       interactive={true}
       theme="light"
       visible={isActive}
+      // doesn't need trigger=click and hideOnClick=true since visibility is controlled by
+      // the component (isActive computed state) and the component's click handler
       onClickOutside={(instance, event) => {
         dispatch(setSelectedTaskId(null));
       }}
