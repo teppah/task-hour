@@ -7,12 +7,13 @@ import { VIEWS } from "lib/dates";
 // selectedWeekStart: week selected in calendar that starts the week
 // (future)
 // selectedDay: selected day in calendar
-const now = new Date();
+const weekStartDate: Date = null;
+const selectedDate: Date = null;
 const dateSlice = createSlice({
   name: "dates",
   initialState: {
-    weekStartDate: startOfWeek(now),
-    selectedDate: startOfDay(now),
+    weekStartDate: weekStartDate,
+    selectedDate: selectedDate,
     selectedView: VIEWS.FULL_WEEK,
   },
   reducers: {

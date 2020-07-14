@@ -11,10 +11,13 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setSelectedTaskId } from "lib/redux/slice/taskSlice";
 import { GetServerSideProps } from "next";
+import { setWeekStart, setSelectedDate } from "lib/redux/slice/dateSlice";
+import { startOfWeek, startOfDay } from "date-fns";
 const CalendarView = dynamic(() => import("components/CalendarView"));
 const Index = ({ a }) => {
   console.log(a);
   const dispatch = useDispatch();
+  // deselect on escape
   const handleEscape = (e: KeyboardEvent) => {
     e.preventDefault();
     const escapeCode = 27;
@@ -22,7 +25,11 @@ const Index = ({ a }) => {
       dispatch(setSelectedTaskId(null));
     }
   };
-  // deselect task on escape
+  useEffect(() => {
+    const now = new Date();
+    dispatch(setWeekStart(startOfWeek(now)));
+    dispatch(setSelectedDate(startOfDay(now)));
+  }, []);
   useEffect(() => {
     window.addEventListener("keyup", handleEscape);
     return () => window.removeEventListener("keyup", handleEscape);
