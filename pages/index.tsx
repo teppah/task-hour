@@ -3,8 +3,6 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import SummaryView from "components/summary/SummaryView";
 import TaskListView from "components/list/ListView";
-import PomordoTimer from "components/PomordoTimer";
-import dynamic from "next/dynamic";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setSelectedTaskId } from "lib/redux/slice/taskSlice";
@@ -12,7 +10,7 @@ import { GetServerSideProps } from "next";
 import { setWeekStart, setSelectedDate } from "lib/redux/slice/dateSlice";
 import { startOfWeek, startOfDay } from "date-fns";
 import Navbar from "components/Navbar";
-const CalendarView = dynamic(() => import("components/CalendarView"));
+import CalendarView from "components/CalendarView";
 const Index = ({ a }) => {
   console.log(a);
   const dispatch = useDispatch();

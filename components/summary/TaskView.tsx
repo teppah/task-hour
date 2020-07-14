@@ -1,5 +1,4 @@
 import { useDrag } from "react-dnd";
-import Task from "lib/Task";
 import ItemTypes from "lib/drag/ItemTypes";
 import { useSelector, useDispatch } from "react-redux";
 import taskStyles from "css/Task.module.css";
@@ -10,7 +9,6 @@ import {
 import classNames from "classnames";
 import useTask from "lib/hooks/use-task";
 import { differenceInHours } from "date-fns";
-import { parseISO } from "date-fns";
 import { delay } from "lodash";
 import Tippy from "@tippyjs/react";
 import DetailedTaskView from "components/DetailedTaskView";
