@@ -8,11 +8,12 @@ import btnStyles from "css/Button.module.css";
 import containerStyles from "css/Container.module.css";
 import useTask from "lib/hooks/use-task";
 
-const DetailedTaskView = () => {
-  const selectedTaskId = useSelector(selectSelectedTaskId);
-  const { task: selectedTask, isLoading, isError, mutate } = useTask(
-    selectedTaskId
-  );
+type PropType = {
+  taskId: string;
+};
+
+const DetailedTaskView = ({ taskId }: PropType) => {
+  const { task: selectedTask, isLoading, isError, mutate } = useTask(taskId);
   const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
@@ -34,7 +35,7 @@ const DetailedTaskView = () => {
             // need to imitate the JSON response by wrapping task inside a "task"
             // property
             task: {
-              taskId: selectedTaskId,
+              taskId: taskId,
               // if null, mutate with old values
               title: newTitle ? newTitle : title,
               description: newDescription ? newDescription : description,
@@ -47,7 +48,7 @@ const DetailedTaskView = () => {
           false
         );
         // update local, but don't revalidate
-        await fetch(`/api/task?taskId=${selectedTaskId}`, {
+        await fetch(`/api/task?taskId=${taskId}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -74,7 +75,7 @@ const DetailedTaskView = () => {
   // assume for now that the task that will be deleted is the selected one
   const handleDelete = async () => {
     mutate(null, false);
-    await fetch(`/api/task?taskId=${selectedTaskId}`, {
+    await fetch(`/api/task?taskId=${taskId}`, {
       method: "DELETE",
     });
     mutate();

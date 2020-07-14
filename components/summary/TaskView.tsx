@@ -12,6 +12,8 @@ import useTask from "lib/hooks/use-task";
 import { differenceInHours } from "date-fns";
 import { parseISO } from "date-fns";
 import { delay } from "lodash";
+import Tippy from "@tippyjs/react";
+import DetailedTaskView from "components/DetailedTaskView";
 
 type Props = {
   taskId: string;
@@ -71,38 +73,47 @@ const TaskView = ({ taskId, mutatePreviousDay }: Props) => {
   const remsToAdd = (hoursDifference - 1) * 3;
 
   return (
-    <div className={taskClass}>
-      <section ref={dragTask} onClick={clickHandler}>
-        <h1>{task.title}</h1>
-      </section>
-      <div className="resize-handler" ref={dragHandle}></div>
-      <style jsx>{`
-        div {
-          @apply flex flex-col w-11/12;
-        }
-        .task {
-          @apply px-1 pt-1;
-          @apply rounded-md;
-          height: calc(${remsToAdd}rem + 92%);
-          @apply relative;
-          @apply z-40;
-          @apply cursor-pointer;
-        }
-        section {
-          @apply flex-1;
-          background-color: inherit;
-        }
-        h1 {
-          @apply text-xs;
-        }
-        div.resize-handler {
-          height: 0.35rem;
-          @apply border border-black;
-          @apply w-full;
-          cursor: ns-resize;
-        }
-      `}</style>
-    </div>
+    <Tippy
+      content={<DetailedTaskView taskId={taskId} />}
+      visible={isActive}
+      placement="right"
+      zIndex={9999}
+      interactive={true}
+      animation={false}
+    >
+      <div className={taskClass}>
+        <section ref={dragTask} onClick={clickHandler}>
+          <h1>{task.title}</h1>
+        </section>
+        <div className="resize-handler" ref={dragHandle}></div>
+        <style jsx>{`
+          div {
+            @apply flex flex-col w-11/12;
+          }
+          .task {
+            @apply px-1 pt-1;
+            @apply rounded-md;
+            height: calc(${remsToAdd}rem + 92%);
+            @apply relative;
+            @apply z-40;
+            @apply cursor-pointer;
+          }
+          section {
+            @apply flex-1;
+            background-color: inherit;
+          }
+          h1 {
+            @apply text-xs;
+          }
+          div.resize-handler {
+            height: 0.35rem;
+            @apply border border-black;
+            @apply w-full;
+            cursor: ns-resize;
+          }
+        `}</style>
+      </div>
+    </Tippy>
   );
 };
 

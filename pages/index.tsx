@@ -59,9 +59,6 @@ const Index = ({ a }) => {
           <div>
             <PomordoTimer />
           </div>
-          <div>
-            <DetailedTaskView />
-          </div>
         </div>
         <style jsx>{`
           .content {
