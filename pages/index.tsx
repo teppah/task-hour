@@ -2,18 +2,15 @@ import Head from "next/head";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import SummaryView from "components/summary/SummaryView";
-import DetailedTaskView from "components/DetailedTaskView";
 import TaskListView from "components/list/ListView";
-import ButtonArray from "components/ButtonArray";
-import PomordoTimer from "components/PomordoTimer";
-import dynamic from "next/dynamic";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setSelectedTaskId } from "lib/redux/slice/taskSlice";
 import { GetServerSideProps } from "next";
 import { setWeekStart, setSelectedDate } from "lib/redux/slice/dateSlice";
 import { startOfWeek, startOfDay } from "date-fns";
-const CalendarView = dynamic(() => import("components/CalendarView"));
+import Navbar from "components/Navbar";
+import CalendarView from "components/CalendarView";
 const Index = ({ a }) => {
   console.log(a);
   const dispatch = useDispatch();
@@ -40,38 +37,36 @@ const Index = ({ a }) => {
         <Head>
           <title>Task Hour</title>
         </Head>
-        <div className="nav"></div>
-        <div className="vertical-bar">
-          <div className="calendar">
-            <CalendarView />
-          </div>
-          <div>
-            <TaskListView />
-          </div>
+        <div className="nav">
+          <Navbar />
         </div>
-        <div id="summary">
-          <SummaryView />
-        </div>
-        <div className="vertical-bar">
-          <div>
-            <ButtonArray />
+        <div className="main">
+          <div className="vertical-bar">
+            <div className="calendar">
+              <CalendarView />
+            </div>
+            <div>
+              <TaskListView />
+            </div>
           </div>
-          <div>
-            <PomordoTimer />
-          </div>
-          <div>
-            <DetailedTaskView />
+          <div id="summary">
+            <SummaryView />
           </div>
         </div>
         <style jsx>{`
           .content {
             @apply flex flex-row;
             @apply flex-wrap;
+            @apply h-screen;
           }
           .nav {
             @apply w-screen;
+            @apply flex-grow;
             @apply h-12;
-            @apply bg-red-300;
+          }
+          .main {
+            @apply flex flex-row;
+            @apply flex-grow;
           }
           #summary {
             @apply flex-grow;

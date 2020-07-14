@@ -1,5 +1,4 @@
 import { useDrag } from "react-dnd";
-import Task from "lib/Task";
 import ItemTypes from "lib/drag/ItemTypes";
 import { useSelector, useDispatch } from "react-redux";
 import taskStyles from "css/Task.module.css";
@@ -10,8 +9,9 @@ import {
 import classNames from "classnames";
 import useTask from "lib/hooks/use-task";
 import { differenceInHours } from "date-fns";
-import { parseISO } from "date-fns";
-import { delay } from "lodash";
+import delay from "lodash/delay";
+import Tippy from "@tippyjs/react";
+import DetailedTaskView from "components/DetailedTaskView";
 
 type Props = {
   taskId: string;
@@ -71,38 +71,51 @@ const TaskView = ({ taskId, mutatePreviousDay }: Props) => {
   const remsToAdd = (hoursDifference - 1) * 3;
 
   return (
-    <div className={taskClass}>
-      <section ref={dragTask} onClick={clickHandler}>
-        <h1>{task.title}</h1>
-      </section>
-      <div className="resize-handler" ref={dragHandle}></div>
-      <style jsx>{`
-        div {
-          @apply flex flex-col w-11/12;
-        }
-        .task {
-          @apply px-1 pt-1;
-          @apply rounded-md;
-          height: calc(${remsToAdd}rem + 92%);
-          @apply relative;
-          @apply z-40;
-          @apply cursor-pointer;
-        }
-        section {
-          @apply flex-1;
-          background-color: inherit;
-        }
-        h1 {
-          @apply text-xs;
-        }
-        div.resize-handler {
-          height: 0.35rem;
-          @apply border border-black;
-          @apply w-full;
-          cursor: ns-resize;
-        }
-      `}</style>
-    </div>
+    <Tippy
+      content={<DetailedTaskView taskId={taskId} />}
+      placement="right"
+      interactive={true}
+      theme="light"
+      visible={isActive}
+      // doesn't need trigger=click and hideOnClick=true since visibility is controlled by
+      // the component (isActive computed state) and the component's click handler
+      onClickOutside={(instance, event) => {
+        dispatch(setSelectedTaskId(null));
+      }}
+    >
+      <div className={taskClass}>
+        <section ref={dragTask} onClick={clickHandler}>
+          <h1>{task.title}</h1>
+        </section>
+        <div className="resize-handler" ref={dragHandle}></div>
+        <style jsx>{`
+          div {
+            @apply flex flex-col w-11/12;
+          }
+          .task {
+            @apply px-1 pt-1;
+            @apply rounded-md;
+            height: calc(${remsToAdd}rem + 92%);
+            @apply relative;
+            @apply z-40;
+            @apply cursor-pointer;
+          }
+          section {
+            @apply flex-1;
+            background-color: inherit;
+          }
+          h1 {
+            @apply text-xs;
+          }
+          div.resize-handler {
+            height: 0.35rem;
+            @apply border border-black;
+            @apply w-full;
+            cursor: ns-resize;
+          }
+        `}</style>
+      </div>
+    </Tippy>
   );
 };
 

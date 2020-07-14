@@ -9,6 +9,8 @@ import ItemTypes from "lib/drag/ItemTypes";
 import taskStyles from "css/Task.module.css";
 import classNames from "classnames";
 import useTask from "lib/hooks/use-task";
+import Tippy from "@tippyjs/react";
+import DetailedTaskView from "components/DetailedTaskView";
 
 type Props = {
   taskId: string;
@@ -61,33 +63,46 @@ const ListTaskView = ({ taskId }: Props) => {
     [`${taskStyles.completed}`]: isComplete,
   });
   return (
-    <div className={divName} ref={drag} onClick={handleClick}>
-      <input
-        className="check"
-        type="checkbox"
-        name="isComplete"
-        checked={isComplete}
-        onChange={handleCheck}
-      />
-      <h1>{task?.title}</h1>
-      <style jsx>{`
-        div:first-of-type {
-          @apply border-t;
-        }
-        div {
-          @apply w-full h-full;
-          @apply h-10 p-1;
-          @apply border-b border-l border-r border-gray-800;
-          @apply cursor-pointer;
-          @apply flex flex-row items-center;
-        }
-        h1 {
-        }
-        .check {
-          @apply mx-2;
-        }
-      `}</style>
-    </div>
+    <Tippy
+      content={<DetailedTaskView taskId={taskId} />}
+      placement="right"
+      interactive={true}
+      theme="light"
+      visible={isActive}
+      // doesn't need trigger=click and hideOnClick=true since visibility is controlled by
+      // the component (isActive computed state) and the component's click handler
+      onClickOutside={(instance, event) => {
+        dispatch(setSelectedTaskId(null));
+      }}
+    >
+      <div className={divName} ref={drag} onClick={handleClick}>
+        <input
+          className="check"
+          type="checkbox"
+          name="isComplete"
+          checked={isComplete}
+          onChange={handleCheck}
+        />
+        <h1>{task?.title}</h1>
+        <style jsx>{`
+          div:first-of-type {
+            @apply border-t;
+          }
+          div {
+            @apply w-full h-full;
+            @apply h-10 p-1;
+            @apply border-b border-l border-r border-gray-800;
+            @apply cursor-pointer;
+            @apply flex flex-row items-center;
+          }
+          h1 {
+          }
+          .check {
+            @apply mx-2;
+          }
+        `}</style>
+      </div>
+    </Tippy>
   );
 };
 export default ListTaskView;

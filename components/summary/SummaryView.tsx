@@ -1,7 +1,5 @@
-import dynamic from "next/dynamic";
-// use dynamic import to prevent statically generated styles from applying
-const DayView = dynamic(() => import("components/summary/DayView"));
 import range from "lodash/range";
+import DayView from "./DayView";
 import { useSelector, useDispatch } from "react-redux";
 import { selectSelectedView } from "lib/redux/slice/dateSlice";
 import { getDaysFromView } from "lib/dates";

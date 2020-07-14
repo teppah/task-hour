@@ -1,6 +1,5 @@
 import { useState, useEffect, ChangeEvent } from "react";
 import btnStyles from "css/Button.module.css";
-import containerStyles from "css/Container.module.css";
 import classNames from "classnames";
 
 const PomordoTimer = () => {
@@ -54,7 +53,6 @@ const PomordoTimer = () => {
   };
 
   const containerClass = classNames({
-    [`${containerStyles.container}`]: true,
     done: done,
   });
   return (
@@ -86,6 +84,10 @@ const PomordoTimer = () => {
         <button className={btnStyles.btn}>Reset</button>
       </div>
       <style jsx>{`
+        section {
+          @apply p-4;
+          @apply flex flex-col items-center;
+        }
         .done {
           @apply bg-gray-500;
         }
