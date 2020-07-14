@@ -2,7 +2,7 @@ import TimeSlice from "components/summary/TimeSlice";
 import range from "lodash/range";
 import capitalize from "lodash/capitalize";
 import { getDayName } from "lib/dates";
-import { addDays, getDate, isSameDay, addHours } from "date-fns";
+import { addDays, getDate, isSameDay, addHours, isValid } from "date-fns";
 import { useSelector } from "react-redux";
 import {
   selectWeekStartDate,
@@ -14,23 +14,18 @@ type Props = {
 };
 
 const DayView = ({ day }: Props) => {
-  // 1. read the currentWeek here
-  // 2. get an array of all the tasks that need to be completed during this
-  //    week based on the date
-  // 3. sort the array by date DESCENDING
-  // 4. go through each hour: when task is between timesliceHour and
-  //    timesliceHour + 1, pass the task TimeSlice
-  // 5. TODO: array.pop() to reduce array size;
   const dayName = capitalize(getDayName(day));
+
   const currentWeekDate = useSelector(selectWeekStartDate);
+  const selectedDate = useSelector(selectSelectedDate);
+
   const currentDate = addDays(currentWeekDate, day);
   const currentDayDate = getDate(currentDate);
 
-  const selectedDate = useSelector(selectSelectedDate);
   const isItToday = isSameDay(currentDate, selectedDate);
 
   const { slices, isLoading, isError, mutateDay } = useDay(currentDate);
-  if (isLoading) {
+  if (isLoading || !isValid(currentWeekDate) || !isValid(selectedDate)) {
     return <div>loading...</div>;
   }
   return (
