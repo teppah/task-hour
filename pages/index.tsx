@@ -2,9 +2,7 @@ import Head from "next/head";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import SummaryView from "components/summary/SummaryView";
-import DetailedTaskView from "components/DetailedTaskView";
 import TaskListView from "components/list/ListView";
-import ButtonArray from "components/ButtonArray";
 import PomordoTimer from "components/PomordoTimer";
 import dynamic from "next/dynamic";
 import { useEffect } from "react";
@@ -55,14 +53,6 @@ const Index = ({ a }) => {
           </div>
           <div id="summary">
             <SummaryView />
-          </div>
-          <div className="vertical-bar">
-            <div>
-              <ButtonArray />
-            </div>
-            <div>
-              <PomordoTimer />
-            </div>
           </div>
         </div>
         <style jsx>{`

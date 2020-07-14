@@ -1,10 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import { selectSelectedView, setSelectedView } from "lib/redux/slice/dateSlice";
 import btnStyles from "css/Button.module.css";
-import containerStyles from "css/Container.module.css";
 import { VIEWS } from "lib/dates";
 
-const ButtonArray = () => {
+const ChangeWeekButton = () => {
   const dispatch = useDispatch();
   const selectedView = useSelector(selectSelectedView);
 
@@ -14,16 +13,13 @@ const ButtonArray = () => {
     dispatch(setSelectedView(selected));
   };
   return (
-    <section className={containerStyles.container}>
+    <>
       <button className={btnStyles.btn} onClick={weekChangeHandler}>
         {selectedView}
       </button>
-      <style jsx>{`
-        section {
-        }
-      `}</style>
-    </section>
+      <style jsx>{``}</style>
+    </>
   );
 };
 
-export default ButtonArray;
+export default ChangeWeekButton;
