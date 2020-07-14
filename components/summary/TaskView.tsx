@@ -75,11 +75,15 @@ const TaskView = ({ taskId, mutatePreviousDay }: Props) => {
   return (
     <Tippy
       content={<DetailedTaskView taskId={taskId} />}
-      visible={isActive}
       placement="right"
-      zIndex={9999}
       interactive={true}
-      animation={false}
+      theme="light"
+      trigger="click"
+      hideOnClick={true}
+      visible={isActive}
+      onHide={(instance) => {
+        dispatch(setSelectedTaskId(null));
+      }}
     >
       <div className={taskClass}>
         <section ref={dragTask} onClick={clickHandler}>

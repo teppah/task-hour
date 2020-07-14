@@ -124,6 +124,11 @@ const DetailedTaskView = ({ taskId }: PropType) => {
         </button>
       </form>
       <style jsx>{`
+        section {
+          @apply p-0;
+          @apply rounded-none;
+          @apply shadow-none;
+        }
         form {
         }
         button {
