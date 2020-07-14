@@ -81,7 +81,7 @@ const TaskView = ({ taskId, mutatePreviousDay }: Props) => {
       trigger="click"
       hideOnClick={true}
       visible={isActive}
-      onHide={(instance) => {
+      onClickOutside={(instance, event) => {
         dispatch(setSelectedTaskId(null));
       }}
     >
