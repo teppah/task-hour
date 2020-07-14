@@ -13,6 +13,7 @@ import { setSelectedTaskId } from "lib/redux/slice/taskSlice";
 import { GetServerSideProps } from "next";
 import { setWeekStart, setSelectedDate } from "lib/redux/slice/dateSlice";
 import { startOfWeek, startOfDay } from "date-fns";
+import Navbar from "components/Navbar";
 const CalendarView = dynamic(() => import("components/CalendarView"));
 const Index = ({ a }) => {
   console.log(a);
@@ -40,35 +41,44 @@ const Index = ({ a }) => {
         <Head>
           <title>Task Hour</title>
         </Head>
-        <div className="nav"></div>
-        <div className="vertical-bar">
-          <div className="calendar">
-            <CalendarView />
-          </div>
-          <div>
-            <TaskListView />
-          </div>
+        <div className="nav">
+          <Navbar />
         </div>
-        <div id="summary">
-          <SummaryView />
-        </div>
-        <div className="vertical-bar">
-          <div>
-            <ButtonArray />
+        <div className="main">
+          <div className="vertical-bar">
+            <div className="calendar">
+              <CalendarView />
+            </div>
+            <div>
+              <TaskListView />
+            </div>
           </div>
-          <div>
-            <PomordoTimer />
+          <div id="summary">
+            <SummaryView />
+          </div>
+          <div className="vertical-bar">
+            <div>
+              <ButtonArray />
+            </div>
+            <div>
+              <PomordoTimer />
+            </div>
           </div>
         </div>
         <style jsx>{`
           .content {
             @apply flex flex-row;
             @apply flex-wrap;
+            @apply h-screen;
           }
           .nav {
             @apply w-screen;
+            @apply flex-grow;
             @apply h-12;
-            @apply bg-red-300;
+          }
+          .main {
+            @apply flex flex-row;
+            @apply flex-grow;
           }
           #summary {
             @apply flex-grow;
