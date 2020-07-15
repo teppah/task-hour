@@ -14,20 +14,17 @@ type Props = {
 };
 
 const DayView = ({ day }: Props) => {
-  const dayName = capitalize(getDayName(day));
-
   const currentWeekDate = useSelector(selectWeekStartDate);
   const selectedDate = useSelector(selectSelectedDate);
 
   const currentDate = addDays(currentWeekDate, day);
-  const currentDayDate = getDate(currentDate);
+  const currentDayDate = isValid(currentDate) ? getDate(currentDate) : "";
 
   const isItToday = isSameDay(currentDate, selectedDate);
 
   const { slices, isLoading, isError, mutateDay } = useDay(currentDate);
-  if (isLoading || !isValid(currentWeekDate) || !isValid(selectedDate)) {
-    return <div>loading...</div>;
-  }
+
+  const dayName = capitalize(getDayName(day));
   return (
     <section className="day-view">
       <div className="day">
@@ -36,8 +33,8 @@ const DayView = ({ day }: Props) => {
       </div>
       {range(24).map((i) => {
         const currentHour = addHours(currentDate, i);
-        const foundTask = slices ? slices[i] : null;
         // For now, assume there is only one task per hour
+        const foundTask = isLoading ? null : slices[i];
         return (
           <TimeSlice
             taskId={foundTask?.taskId}
