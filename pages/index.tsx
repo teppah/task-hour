@@ -11,8 +11,7 @@ import { setWeekStart, setSelectedDate } from "lib/redux/slice/dateSlice";
 import { startOfWeek, startOfDay } from "date-fns";
 import Navbar from "components/Navbar";
 import CalendarView from "components/CalendarView";
-const Index = ({ a }) => {
-  console.log(a);
+const Index = () => {
   const dispatch = useDispatch();
   // deselect on escape
   const handleEscape = (e: KeyboardEvent) => {
@@ -88,13 +87,12 @@ const Index = ({ a }) => {
   );
 };
 
-// EXPERIMENT: try always SSR instead of SSG to see if it fixes date issue
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  return {
-    props: {
-      a: "hi",
-    },
-  };
-};
+// export const getServerSideProps: GetServerSideProps = async (ctx) => {
+// return {
+// props: {
+// a: "hi",
+// },
+// };
+// };
 
 export default Index;
