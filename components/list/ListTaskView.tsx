@@ -27,9 +27,6 @@ const ListTaskView = ({ taskId }: Props) => {
     },
     collect: (monitor) => ({}),
   });
-  if (isLoading) {
-    return <div>loading...</div>;
-  }
   const handleClick = (e) => {
     e.preventDefault();
     dispatch(setSelectedTaskId(taskId));
@@ -62,6 +59,8 @@ const ListTaskView = ({ taskId }: Props) => {
     [`${taskStyles.selected}`]: isActive,
     [`${taskStyles.completed}`]: isComplete,
   });
+  const title = task?.title;
+
   return (
     <Tippy
       content={<DetailedTaskView taskId={taskId} />}
@@ -83,7 +82,7 @@ const ListTaskView = ({ taskId }: Props) => {
           checked={isComplete}
           onChange={handleCheck}
         />
-        <h1>{task?.title}</h1>
+        <h1>{title}</h1>
         <style jsx>{`
           div:first-of-type {
             @apply border-t;
