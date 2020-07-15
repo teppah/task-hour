@@ -49,21 +49,22 @@ const TaskView = ({ taskId, mutatePreviousDay }: Props) => {
 
   const dispatch = useDispatch();
   if (isLoading) {
-    console.log(`loading`);
-    return <div>loading...</div>;
+    return <div></div>;
   }
   if (isError) {
-    return <div>error: {JSON.stringify(isError)}</div>;
+    console.log(`error in loading task ${taskId}: ${JSON.stringify(isError)}`);
+    return <div>error</div>;
   }
   const clickHandler = (e) => {
     e.preventDefault();
     dispatch(setSelectedTaskId(taskId));
   };
 
+  const isComplete = task.isComplete;
   const taskClass = classNames({
     [`${taskStyles.task}`]: true,
     [`${taskStyles.selected}`]: isActive,
-    [`${taskStyles.completed}`]: task.isComplete,
+    [`${taskStyles.completed}`]: isComplete,
     task: true,
   });
 
