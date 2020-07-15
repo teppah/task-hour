@@ -27,14 +27,11 @@ const TaskListView = () => {
       })();
     },
   });
-  if (isLoading) {
-    return <div>loading...</div>;
-  }
   return (
     <section className={containerStyles.container}>
       <h1>List of draggable tasks</h1>
       <div ref={drop}>
-        {datelessTaskIds &&
+        {!isLoading &&
           datelessTaskIds.map((taskId) => <ListTaskView taskId={taskId} />)}
       </div>
       <style jsx>{`
@@ -45,6 +42,7 @@ const TaskListView = () => {
           @apply border rounded border-blue-500;
           @apply flex-1;
           @apply w-full;
+          @apply h-full;
         }
       `}</style>
     </section>
