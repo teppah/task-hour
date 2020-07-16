@@ -1,4 +1,3 @@
-import Calendar from "react-calendar";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectSelectedDate,
@@ -6,9 +5,12 @@ import {
   selectWeekStartDate,
   setWeekStart,
 } from "lib/redux/slice/dateSlice";
-import { isSameDay, isSameWeek, startOfWeek } from "date-fns";
+import { isSameWeek, startOfWeek } from "date-fns";
 import containerStyles from "css/Container.module.css";
+import dynamic from "next/dynamic";
+import { CalendarProps } from "react-calendar";
 
+const Calendar = dynamic<CalendarProps>(() => import("react-calendar"));
 const CalendarView = () => {
   const selectedDate = useSelector(selectSelectedDate);
   const weekStartDate = useSelector(selectWeekStartDate);
