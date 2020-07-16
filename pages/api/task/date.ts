@@ -71,7 +71,6 @@ handler
         updateObj.endDate = end;
       }
     }
-    console.log(updateObj);
     const updated = await databaseHelper.updateTaskDates(
       <string>taskId,
       updateObj.startDate,
