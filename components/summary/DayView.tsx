@@ -1,5 +1,4 @@
 import TimeSlice from "components/summary/TimeSlice";
-import range from "lodash/range";
 import capitalize from "lodash/capitalize";
 import { getDayName } from "lib/dates";
 import { addDays, getDate, isSameDay, addHours, isValid } from "date-fns";
@@ -31,7 +30,7 @@ const DayView = ({ day }: Props) => {
         <h1>{currentDayDate}</h1>
         <h1>{dayName}</h1>
       </div>
-      {range(24).map((i) => {
+      {[...Array(24).keys()].map((i) => {
         const currentHour = addHours(currentDate, i);
         // For now, assume there is only one task per hour
         const foundTask = isLoading ? null : slices[i];
