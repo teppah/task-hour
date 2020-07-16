@@ -6,7 +6,10 @@ import { parseISO } from "date-fns";
 type TaskReturnType = {};
 
 function useTask(taskId: string) {
-  const { data, error, mutate } = useSwr(`/api/task?taskId=${taskId}`, fetcher);
+  const { data, error, mutate } = useSwr(
+    taskId ? `/api/task?taskId=${taskId}` : null,
+    fetcher
+  );
   const task = data?.task;
   const toReturn: Task = {
     taskId: task?.taskId,
