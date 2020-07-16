@@ -10,7 +10,7 @@ type SliceReturnType = {
 function useDay(dayStart: Date) {
   const isoDate = isValid(dayStart) ? dayStart.toISOString() : "invalid_date";
   const { data, error, mutate } = useSwr(
-    `/api/slices?startTime=${isoDate}`,
+    isValid(isoDate) ? `/api/slices?startTime=${isoDate}` : null,
     fetcher
   );
   const withType: SliceReturnType = data;
