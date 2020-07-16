@@ -1,6 +1,4 @@
 import TimeSlice from "components/summary/TimeSlice";
-import range from "lodash/range";
-import capitalize from "lodash/capitalize";
 import { getDayName } from "lib/dates";
 import { addDays, getDate, isSameDay, addHours, isValid } from "date-fns";
 import { useSelector } from "react-redux";
@@ -24,14 +22,14 @@ const DayView = ({ day }: Props) => {
 
   const { slices, isLoading, isError, mutateDay } = useDay(currentDate);
 
-  const dayName = capitalize(getDayName(day));
+  const dayName = getDayName(day);
   return (
     <section className="day-view">
       <div className="day">
         <h1>{currentDayDate}</h1>
         <h1>{dayName}</h1>
       </div>
-      {range(24).map((i) => {
+      {[...Array(24).keys()].map((i) => {
         const currentHour = addHours(currentDate, i);
         // For now, assume there is only one task per hour
         const foundTask = isLoading ? null : slices[i];

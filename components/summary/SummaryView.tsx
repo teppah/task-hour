@@ -1,4 +1,3 @@
-import range from "lodash/range";
 import DayView from "./DayView";
 import { useSelector, useDispatch } from "react-redux";
 import { selectSelectedView } from "lib/redux/slice/dateSlice";
@@ -23,7 +22,7 @@ const SummaryView = ({}: Props) => {
       <div className="time-col">
         <div></div>
         <div></div>
-        {range(24).map((i) => (
+        {[...Array(24).keys()].map((i) => (
           <div>{i}</div>
         ))}
       </div>
