@@ -11,7 +11,8 @@ import { setWeekStart, setSelectedDate } from "lib/redux/slice/dateSlice";
 import { startOfWeek, startOfDay } from "date-fns";
 import Navbar from "components/Navbar";
 import CalendarView from "components/CalendarView";
-const Index = () => {
+import useUser from "lib/hooks/user-user";
+const App = () => {
   const dispatch = useDispatch();
   // deselect on escape
   const handleEscape = (e: KeyboardEvent) => {
@@ -30,6 +31,9 @@ const Index = () => {
     window.addEventListener("keyup", handleEscape);
     return () => window.removeEventListener("keyup", handleEscape);
   });
+
+  const { user, mutateUser } = useUser({ redirectUrl: "/login" });
+
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="content">
@@ -95,4 +99,4 @@ const Index = () => {
 // };
 // };
 
-export default Index;
+export default App;
