@@ -1,4 +1,4 @@
-import useUser from "lib/hooks/user-user";
+import useUser from "lib/hooks/use-user";
 import { useFormik } from "formik";
 import User from "lib/user/User";
 

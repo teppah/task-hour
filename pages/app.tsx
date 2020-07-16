@@ -11,7 +11,7 @@ import { setWeekStart, setSelectedDate } from "lib/redux/slice/dateSlice";
 import { startOfWeek, startOfDay } from "date-fns";
 import Navbar from "components/Navbar";
 import CalendarView from "components/CalendarView";
-import useUser from "lib/hooks/user-user";
+import useUser from "lib/hooks/use-user";
 const App = () => {
   const dispatch = useDispatch();
   // deselect on escape

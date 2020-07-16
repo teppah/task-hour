@@ -1,6 +1,6 @@
 import ChangeWeekButton from "./ChangeWeekButton";
 import TimerPopupButton from "./TimerPopupButton";
-import useUser from "lib/hooks/user-user";
+import useUser from "lib/hooks/use-user";
 import btnStyles from "css/Button.module.css";
 import { useRouter } from "next/router";
 
