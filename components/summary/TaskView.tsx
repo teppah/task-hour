@@ -9,7 +9,6 @@ import {
 import classNames from "classnames";
 import useTask from "lib/hooks/use-task";
 import { differenceInHours } from "date-fns";
-import delay from "lodash/delay";
 import Tippy from "@tippyjs/react";
 import DetailedTaskView from "components/DetailedTaskView";
 
@@ -31,7 +30,9 @@ const TaskView = ({ taskId, mutatePreviousDay }: Props) => {
       if (monitor.didDrop()) {
         // if successfully dropped in a compatible target,
         // force mutation of the day the cell was in before
-        delay(mutatePreviousDay, 1500);
+        setTimeout(() => {
+          mutatePreviousDay();
+        }, 1500);
       }
     },
   });

@@ -1,5 +1,4 @@
 import TimeSlice from "components/summary/TimeSlice";
-import capitalize from "lodash/capitalize";
 import { getDayName } from "lib/dates";
 import { addDays, getDate, isSameDay, addHours, isValid } from "date-fns";
 import { useSelector } from "react-redux";
@@ -23,7 +22,7 @@ const DayView = ({ day }: Props) => {
 
   const { slices, isLoading, isError, mutateDay } = useDay(currentDate);
 
-  const dayName = capitalize(getDayName(day));
+  const dayName = getDayName(day);
   return (
     <section className="day-view">
       <div className="day">
