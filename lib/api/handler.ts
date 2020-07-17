@@ -11,7 +11,6 @@ const session = ironSession({
 });
 
 function createHandler<T = any>() {
-  console.log(process.env.IRON_SESSION_PW);
   const handler = nc<
     NextApiRequest & { session: Session },
     NextApiResponse<T>
