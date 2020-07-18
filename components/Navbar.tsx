@@ -1,7 +1,7 @@
 import ChangeWeekButton from "./ChangeWeekButton";
 import TimerPopupButton from "./TimerPopupButton";
 import useUser from "lib/hooks/use-user";
-import btnStyles from "css/Button.module.css";
+import btnStyles from "styles/Button.module.css";
 import { useRouter } from "next/router";
 
 const Navbar = () => {

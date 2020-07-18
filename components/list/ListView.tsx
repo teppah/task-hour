@@ -1,7 +1,7 @@
 import { useDrop } from "react-dnd";
 import ItemTypes from "lib/drag/ItemTypes";
 import ListTaskView from "./ListTaskView";
-import containerStyles from "css/Container.module.css";
+import containerStyles from "styles/Container.module.css";
 import useDatelessTasks from "lib/hooks/use-dateless-tasks";
 import { mutate as mutateGlobal } from "swr";
 

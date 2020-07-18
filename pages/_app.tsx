@@ -1,4 +1,4 @@
-import "css/tailwind.css";
+import "styles/tailwind.css";
 import "react-calendar/dist/Calendar.css";
 import store from "lib/redux/store";
 import { Provider } from "react-redux";
