@@ -8,13 +8,10 @@ type ResType = {
   data: any;
 };
 const userHelper = {
-  getUser: async (
-    email: string,
-    passwordHash: string
-  ): Promise<ServerSideUser> => {
+  getUserByEmail: async (email: string): Promise<ServerSideUser> => {
     try {
       const res: ResType = await serverClient.query(
-        q.Get(q.Match(q.Index("user_by_email_and_hash"), [email, passwordHash]))
+        q.Get(q.Match(q.Index("user_by_email"), email))
       );
       const user: ServerSideUser = res.data;
       return user;

@@ -13,7 +13,7 @@ const Navbar = () => {
   ) => {
     e.preventDefault();
     const logoutData = await fetch(`/api/auth/logout`).then((r) => r.json());
-    await mutateUser(logoutData);
+    mutateUser(logoutData);
     router.push(`/`);
   };
   return (

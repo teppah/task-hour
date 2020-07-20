@@ -47,7 +47,7 @@ const Login = () => {
         <label>
           Password:
           <input
-            type="text"
+            type="password"
             name="password"
             id="password"
             value={formik.values.password}

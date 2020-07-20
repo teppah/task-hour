@@ -11,9 +11,11 @@ handler.post(async (req, res) => {
     res.status(400).end("400 Missing Fields");
     return;
   }
-  const hashed = await argon2.hash(password);
-  const foundUser = await userHelper.getUser(email, hashed);
-  if (!foundUser) {
+  const foundUser = await userHelper.getUserByEmail(email);
+  const authenticated = foundUser
+    ? await argon2.verify(foundUser.passwordHash, password)
+    : false;
+  if (!foundUser || !authenticated) {
     res.status(404).end(`404 User Not Found`);
     return;
   }
