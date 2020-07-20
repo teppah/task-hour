@@ -1,6 +1,6 @@
 import { parseISO, isValid } from "date-fns";
 import createHandler from "lib/api/handler";
-import databaseHelper from "lib/api/database-helper";
+import taskHelper from "lib/api/task-helper";
 
 type Response = {
   tasks: string[];
@@ -12,7 +12,7 @@ handler
   // get all tasks with empty start dates here
   // only return taskIds
   .get(async (req, res) => {
-    const tasks = await databaseHelper.getTasks();
+    const tasks = await taskHelper.getTasks();
     const filtered = tasks
       .filter((t) => !isValid(t.startDate))
       .map((t) => t.taskId);

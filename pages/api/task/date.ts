@@ -1,7 +1,7 @@
 import Task from "lib/Task";
 import { parseISO, isValid, differenceInHours, addHours } from "date-fns";
 import createHandler from "lib/api/handler";
-import databaseHelper from "lib/api/database-helper";
+import taskHelper from "lib/api/task-helper";
 
 type Response = {
   task: Task;
@@ -20,7 +20,7 @@ handler
       res.status(400).end(`400 Malformed Request`);
       return;
     }
-    const tasks = await databaseHelper.getTasks();
+    const tasks = await taskHelper.getTasks();
     const toUpdate = tasks.find((t) => t.taskId === taskId);
     if (!toUpdate) {
       res.status(404).end(`400 Task Not Found`);
@@ -71,7 +71,7 @@ handler
         updateObj.endDate = end;
       }
     }
-    const updated = await databaseHelper.updateTaskDates(
+    const updated = await taskHelper.updateTaskDates(
       <string>taskId,
       updateObj.startDate,
       updateObj.endDate
