@@ -9,7 +9,7 @@ type ResType = {
   ts: any;
   data: any;
 };
-const databaseHelper = {
+const taskHelper = {
   createTask: async (task: Task): Promise<Task> => {
     const restOfData = {
       taskId: task.taskId,
@@ -127,4 +127,4 @@ async function convertTask(task): Promise<Task> {
   };
 }
 
-export default databaseHelper;
+export default taskHelper;

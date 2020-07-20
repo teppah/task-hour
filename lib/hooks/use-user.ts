@@ -1,7 +1,7 @@
 import useSWR from "swr";
 import fetcher from "lib/fetcher";
 import { useEffect } from "react";
-import User from "lib/user/User";
+import ClientSideUser from "lib/user/ClientSideUser";
 import Router from "next/router";
 
 type UseUserOptions = {
@@ -15,7 +15,7 @@ function useUser({
   redirectUrl,
   redirectIfFound = false,
 }: UseUserOptions = {}) {
-  const { data: user, mutate: mutateUser } = useSWR<User>(
+  const { data: user, mutate: mutateUser } = useSWR<ClientSideUser>(
     `/api/auth/user`,
     fetcher
   );

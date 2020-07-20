@@ -1,7 +1,7 @@
 import ChangeWeekButton from "./ChangeWeekButton";
 import TimerPopupButton from "./TimerPopupButton";
 import useUser from "lib/hooks/use-user";
-import btnStyles from "css/Button.module.css";
+import btnStyles from "styles/Button.module.css";
 import { useRouter } from "next/router";
 
 const Navbar = () => {
@@ -13,7 +13,7 @@ const Navbar = () => {
   ) => {
     e.preventDefault();
     const logoutData = await fetch(`/api/auth/logout`).then((r) => r.json());
-    await mutateUser(logoutData);
+    mutateUser(logoutData);
     router.push(`/`);
   };
   return (

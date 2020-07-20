@@ -4,8 +4,8 @@ import {
   selectSelectedTaskId,
   setSelectedTaskId,
 } from "lib/redux/slice/taskSlice";
-import btnStyles from "css/Button.module.css";
-import containerStyles from "css/Container.module.css";
+import btnStyles from "styles/Button.module.css";
+import containerStyles from "styles/Container.module.css";
 import useTask from "lib/hooks/use-task";
 
 type PropType = {

@@ -1,11 +1,11 @@
 import createHandler from "lib/api/handler";
-import User from "lib/user/User";
+import ClientSideUser from "lib/user/ClientSideUser";
 
-const handler = createHandler<User>();
+const handler = createHandler<ClientSideUser>();
 
 handler.get(async (req, res) => {
   req.session.destroy();
-  res.json({ isLoggedIn: false, username: null });
+  res.json({ isLoggedIn: false, username: null, email: null, userId: null });
 });
 
 export default handler;

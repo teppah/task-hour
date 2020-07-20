@@ -15,6 +15,11 @@ const Index = () => {
           <a>Login</a>
         </Link>
       </div>
+      <div>
+        <Link href="/signup">
+          <a>Sign Up</a>
+        </Link>
+      </div>
       <h1>Login status: {JSON.stringify(user?.isLoggedIn)}</h1>
       {user?.isLoggedIn && <h1>Username: {user.username}</h1>}
     </div>

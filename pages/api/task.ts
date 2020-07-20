@@ -2,7 +2,7 @@ import Task, { createTask } from "lib/Task";
 import { parseISO, isValid } from "date-fns";
 import { nanoid } from "nanoid";
 import createHandler from "lib/api/handler";
-import databaseHelper from "lib/api/database-helper";
+import taskHelper from "lib/api/task-helper";
 
 type Response = {
   task: Task;
@@ -18,7 +18,7 @@ handler
       return;
     }
     try {
-      const task = await databaseHelper.getTask(<string>taskId);
+      const task = await taskHelper.getTask(<string>taskId);
       res.json({ task: task });
     } catch (e) {
       console.log(e);
@@ -47,14 +47,14 @@ handler
       endDate: end,
       isComplete: completionStatus,
     };
-    const createdTask = await databaseHelper.createTask(toCreate);
+    const createdTask = await taskHelper.createTask(toCreate);
     res.json({ task: createdTask });
   })
   .put(async (req, res) => {
     const { taskId } = req.query;
     const { title, description, isComplete } = req.body;
     try {
-      const toUpdate = await databaseHelper.updateTaskStatus(taskId, {
+      const toUpdate = await taskHelper.updateTaskStatus(taskId, {
         title,
         description,
         isComplete,
@@ -76,7 +76,7 @@ handler
       return;
     }
     try {
-      const toDelete = await databaseHelper.deleteTask(<string>taskId);
+      const toDelete = await taskHelper.deleteTask(<string>taskId);
       res.json({ task: toDelete });
     } catch (e) {
       if (e.requestResult.statusCode === 404) {

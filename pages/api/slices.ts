@@ -8,7 +8,7 @@ import {
 } from "date-fns";
 import { range } from "lodash";
 import createHandler from "lib/api/handler";
-import databaseHelper from "lib/api/database-helper";
+import taskHelper from "lib/api/task-helper";
 
 /**
  * Finds all tasks within day
@@ -23,7 +23,7 @@ handler.get(async (req, res) => {
     res.status(400).end(`Error 400 - Missing or invalid ISO time format(s)`);
     return;
   }
-  const tasks = await databaseHelper.getTasks();
+  const tasks = await taskHelper.getTasks();
   const filteredTasks = tasks.filter((t) =>
     isWithinInterval(t.startDate, { start: start, end: end })
   );

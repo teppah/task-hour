@@ -1,7 +1,7 @@
 import Tippy from "@tippyjs/react";
 import PomordoTimer from "./PomordoTimer";
 
-import btnStyles from "css/Button.module.css";
+import btnStyles from "styles/Button.module.css";
 const TimerPopupButton = () => {
   return (
     <Tippy
