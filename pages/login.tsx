@@ -1,6 +1,6 @@
 import useUser from "lib/hooks/use-user";
 import { useFormik } from "formik";
-import User from "lib/user/User";
+import ClientSideUser from "lib/user/ClientSideUser";
 
 const Login = () => {
   const { mutateUser } = useUser({
@@ -23,7 +23,7 @@ const Login = () => {
           },
           body: JSON.stringify(body),
         });
-        const userDataPromise: Promise<User> = loginFetch.json();
+        const userDataPromise: Promise<ClientSideUser> = loginFetch.json();
         await mutateUser(userDataPromise);
       })();
     },

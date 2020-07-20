@@ -1,7 +1,7 @@
 import createHandler from "lib/api/handler";
-import User from "lib/user/User";
+import ClientSideUser from "lib/user/ClientSideUser";
 
-const handler = createHandler<User>();
+const handler = createHandler<ClientSideUser>();
 
 handler.get((req, res) => {
   const user = req.session.get("user");
