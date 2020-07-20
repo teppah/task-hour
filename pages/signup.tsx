@@ -1,6 +1,6 @@
 import { useFormik } from "formik";
 import useUser from "lib/hooks/use-user";
-import ky from "ky";
+import ky from "ky/umd";
 import ClientSideUser from "lib/user/ClientSideUser";
 
 const SignUp = () => {
