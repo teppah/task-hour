@@ -9,6 +9,10 @@ const handler = createHandler<ClientSideUser>();
 
 handler.post(async (req, res) => {
   const { username, email, password } = req.body;
+  if (!username || !email || !password) {
+    res.status(400).end("400 Missing Fields");
+    return;
+  }
   const hashed = await argon2.hash(password);
   const toCreate: ServerSideUser = {
     userId: nanoid(12),
