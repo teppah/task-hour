@@ -5,7 +5,7 @@ const handler = createHandler<ClientSideUser>();
 
 handler.get(async (req, res) => {
   req.session.destroy();
-  res.json({ isLoggedIn: false, username: null });
+  res.json({ isLoggedIn: false, username: null, email: null, userId: null });
 });
 
 export default handler;

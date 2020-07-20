@@ -23,6 +23,18 @@ const userHelper = {
       return null;
     }
   },
+  getUserById: async (userId: string): Promise<ServerSideUser> => {
+    try {
+      const res: ResType = await serverClient.query(
+        q.Get(q.Match(q.Index("user_by_userId"), userId))
+      );
+      const user: ServerSideUser = res.data;
+      return user;
+    } catch (e) {
+      logError("getUserById", e);
+      return null;
+    }
+  },
   createUser: async (user: ServerSideUser): Promise<ServerSideUser> => {
     try {
       const res: ResType = await serverClient.query(
@@ -41,8 +53,8 @@ const userHelper = {
   },
 };
 function logError(fnName: string, e: any) {
-  console.log(`Error in "${fnName}()" of taskHelper:`);
-  console.log(e);
+  console.error(`----------Error in "${fnName}()" of taskHelper:-----------`);
+  console.error(e);
 }
 
 export default userHelper;
