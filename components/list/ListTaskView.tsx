@@ -4,7 +4,7 @@ import {
   setSelectedTaskId,
 } from "lib/redux/slice/taskSlice";
 import { useDrag } from "react-dnd";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ItemTypes from "lib/drag/ItemTypes";
 import taskStyles from "styles/Task.module.css";
 import classNames from "classnames";
@@ -29,32 +29,34 @@ const ListTaskView = ({ taskId }: Props) => {
     },
     collect: (monitor) => ({}),
   });
+  const [isComplete, setIsComplete] = useState(task?.isComplete);
+
   const handleClick = (e) => {
     e.preventDefault();
     dispatch(setSelectedTaskId(taskId));
   };
   const handleCheck = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const target = e.target;
     mutate(
       {
         // make the hook work
         task: {
           ...task,
           // override destructured property
-          isComplete: target.checked,
+          isComplete: !isComplete,
         },
       },
       false
     );
+    setIsComplete(!isComplete);
     // maybe should not re-render one extra time due to setting mutate data
     const response = await ky
       .put(`/api/task?taskId=${task.taskId}`, {
-        json: { isComplete: target.checked },
+        json: { isComplete: !isComplete },
       })
       .json<{ task: Task }>();
     mutate(response);
   };
-  const isComplete = task?.isComplete;
+
   const divName = classNames({
     [`${taskStyles.task}`]: true,
     [`${taskStyles.selected}`]: isActive,
@@ -83,7 +85,9 @@ const ListTaskView = ({ taskId }: Props) => {
           checked={isComplete}
           onChange={handleCheck}
         />
-        <h1>{title}</h1>
+        <h1>
+          {title} {JSON.stringify(isComplete)}
+        </h1>
         <style jsx>{`
           div:first-of-type {
             @apply border-t;
