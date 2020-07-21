@@ -2,6 +2,7 @@ import Task from "lib/Task";
 import { parseISO, isValid, differenceInHours, addHours } from "date-fns";
 import createHandler from "lib/api/handler";
 import taskHelper from "lib/api/task-helper";
+import ServerSideUser from "lib/user/ServerSideUser";
 
 type Response = {
   task: Task;
@@ -12,6 +13,12 @@ const handler = createHandler<Response>();
 handler
   // specifically update a task's dates
   .put(async (req, res) => {
+    const currentUser = req.session.get<ServerSideUser>("user");
+    if (!currentUser) {
+      res.status(403).end("403 Forbidden");
+      return;
+    }
+
     const { taskId } = req.query;
     const { startDate, endDate } = req.body;
     const start = parseISO(startDate);

@@ -9,6 +9,7 @@ import {
 import { range } from "lodash";
 import createHandler from "lib/api/handler";
 import taskHelper from "lib/api/task-helper";
+import ServerSideUser from "lib/user/ServerSideUser";
 
 /**
  * Finds all tasks within day
@@ -16,6 +17,11 @@ import taskHelper from "lib/api/task-helper";
  */
 const handler = createHandler();
 handler.get(async (req, res) => {
+  const currentUser = req.session.get<ServerSideUser>("user");
+  if (!currentUser) {
+    res.status(403).end("403 Forbidden");
+    return;
+  }
   const { startTime } = req.query;
   const start = parseISO(<string>startTime);
   const end = addDays(start, 1);
