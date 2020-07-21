@@ -1,3 +1,4 @@
-const fetcher = (path: string) => fetch(path).then((r) => r.json());
+import ky from "ky/umd";
+const fetcher = (path: string) => ky.get(path).json<any>();
 
 export default fetcher;

@@ -3,6 +3,8 @@ import TimerPopupButton from "./TimerPopupButton";
 import useUser from "lib/hooks/use-user";
 import btnStyles from "styles/Button.module.css";
 import { useRouter } from "next/router";
+import ky from "ky/umd";
+import ClientSideUser from "lib/user/ClientSideUser";
 
 const Navbar = () => {
   const { user, mutateUser } = useUser();
@@ -12,7 +14,7 @@ const Navbar = () => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-    const logoutData = await fetch(`/api/auth/logout`).then((r) => r.json());
+    const logoutData = await ky.get(`/api/auth/logout`).json<ClientSideUser>();
     mutateUser(logoutData);
     router.push(`/`);
   };

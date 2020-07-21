@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useFormik } from "formik";
+import ky from "ky/umd";
 import {
   selectSelectedTaskId,
   setSelectedTaskId,
@@ -7,6 +8,7 @@ import {
 import btnStyles from "styles/Button.module.css";
 import containerStyles from "styles/Container.module.css";
 import useTask from "lib/hooks/use-task";
+import Task from "lib/Task";
 
 type PropType = {
   taskId: string;
@@ -47,20 +49,16 @@ const DetailedTaskView = ({ taskId }: PropType) => {
           },
           false
         );
-        // update local, but don't revalidate
-        await fetch(`/api/task?taskId=${taskId}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            title: newTitle,
-            description: newDescription,
-            isComplete: values.isComplete,
-          }),
-          // then revalidate
-        });
-        mutate();
+        const body = {
+          title: newTitle,
+          description: newDescription,
+          isComplete: values.isComplete,
+        };
+        const response = await ky
+          .put(`/api/task?taskId=${taskId}`, { json: body })
+          .json<{ task: Task }>();
+        // maybe should not re-render one extra time due to setting mutate data
+        mutate(response);
       })();
     },
     enableReinitialize: true,
@@ -72,13 +70,9 @@ const DetailedTaskView = ({ taskId }: PropType) => {
       </section>
     );
   }
-  // assume for now that the task that will be deleted is the selected one
   const handleDelete = async () => {
     mutate(null, false);
-    await fetch(`/api/task?taskId=${taskId}`, {
-      method: "DELETE",
-    });
-    mutate();
+    ky.delete(`/api/task?taskId=${taskId}`);
     dispatch(setSelectedTaskId(null));
   };
 
