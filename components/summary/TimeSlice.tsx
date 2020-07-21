@@ -5,6 +5,7 @@ import ItemTypes from "lib/drag/ItemTypes";
 import { useSelector, useDispatch } from "react-redux";
 import { setSelectedTaskId } from "lib/redux/slice/taskSlice";
 import { mutate as mutateGlobal } from "swr";
+import ky from "ky/umd";
 import { addHours } from "date-fns";
 
 type Props = { taskId?: string; currentHour: Date; mutateDay: any };
@@ -17,19 +18,14 @@ const TimeSlice = ({ taskId, currentHour, mutateDay }: Props) => {
       switch (item.type) {
         case ItemTypes.TASK:
           (async () => {
-            const res = await mutateGlobal(
-              `/api/task?taskId=${item.taskId}`,
-              // route automatically updates the endDate if startDate is changed
-              fetch(`/api/task/date?taskId=${item.taskId}`, {
-                method: "PUT",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                  startDate: currentHour.toISOString(),
-                }),
+            const updatedRes = await ky
+              .put(`/api/task/date?taskId=${item.taskId}`, {
+                // route automatically updates the endDate if startDate is changed
+                json: { startDate: currentHour.toISOString() },
               })
-            );
+              .json<{ task: Task }>();
+
+            mutateGlobal(`/api/task?taskId=${item.taskId}`, updatedRes, false);
             // when slice receives task, update whole day
             mutateDay();
             mutateGlobal(`/api/tasks/dates`);
@@ -37,20 +33,16 @@ const TimeSlice = ({ taskId, currentHour, mutateDay }: Props) => {
           break;
         case ItemTypes.DRAG_HANDLE:
           (async () => {
-            await mutateGlobal(
-              `/api/task?taskId=${item.taskId}`,
-              fetch(`/api/task/date?taskId=${item.taskId}`, {
-                method: "PUT",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
+            const updatedRes = await ky
+              .put(`/api/task/date?taskId=${item.taskId}`, {
+                json: {
                   // have to add one extra hour since we want the task to end at the
                   // end of this timeslice
                   endDate: addHours(currentHour, 1).toISOString(),
-                }),
+                },
               })
-            );
+              .json<{ task: Task }>();
+            mutateGlobal(`/api/task?taskId=${item.taskId}`, updatedRes, false);
             mutateDay();
           })();
           break;
@@ -74,22 +66,16 @@ const TimeSlice = ({ taskId, currentHour, mutateDay }: Props) => {
       endDate: addHours(currentHour, 1),
       isComplete: false,
     };
-    const response = await fetch(`/api/task`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(toPost),
-    });
-    const json = await response.json();
-    const task: Task = json.task;
+    const json = await ky
+      .post(`/api/task`, { json: toPost })
+      .json<{ task: Task }>();
+    const task = json.task;
     await mutateDay();
     dispatch(setSelectedTaskId(task.taskId));
   };
   return (
     <div className="slice" ref={drop} onClick={handleClick}>
       {taskId && <TaskView taskId={taskId} mutatePreviousDay={mutateDay} />}
-
       <style jsx>{`
         div.slice {
           @apply flex-none;

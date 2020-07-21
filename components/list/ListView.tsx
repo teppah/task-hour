@@ -4,6 +4,7 @@ import ListTaskView from "./ListTaskView";
 import containerStyles from "styles/Container.module.css";
 import useDatelessTasks from "lib/hooks/use-dateless-tasks";
 import { mutate as mutateGlobal } from "swr";
+import ky from "ky/umd";
 
 const TaskListView = () => {
   const { datelessTaskIds, isLoading, isError, mutate } = useDatelessTasks();
@@ -12,15 +13,8 @@ const TaskListView = () => {
     drop: (item: any) => {
       const taskId = item.taskId;
       (async () => {
-        const res = await fetch(`/api/task/date?taskId=${taskId}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            startDate: "null",
-            endDate: "null",
-          }),
+        await ky.put(`/api/task/date?taskId=${taskId}`, {
+          json: { startDate: null, endDate: null },
         });
         mutate();
         mutateGlobal(`/api/task?taskId=${taskId}`);

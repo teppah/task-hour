@@ -11,6 +11,8 @@ import classNames from "classnames";
 import useTask from "lib/hooks/use-task";
 import Tippy from "@tippyjs/react";
 import DetailedTaskView from "components/DetailedTaskView";
+import ky from "ky/umd";
+import Task from "lib/Task";
 
 type Props = {
   taskId: string;
@@ -44,14 +46,13 @@ const ListTaskView = ({ taskId }: Props) => {
       },
       false
     );
-    await fetch(`/api/task?taskId=${task.taskId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ isComplete: target.checked }),
-    });
-    mutate();
+    // maybe should not re-render one extra time due to setting mutate data
+    const response = await ky
+      .put(`/api/task?taskId=${task.taskId}`, {
+        json: { isComplete: target.checked },
+      })
+      .json<{ task: Task }>();
+    mutate(response);
   };
   const isComplete = task?.isComplete;
   const divName = classNames({
