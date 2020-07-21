@@ -26,6 +26,7 @@ const TaskListView = () => {
       <h1>List of draggable tasks</h1>
       <div ref={drop}>
         {!isLoading &&
+          !isError &&
           datelessTaskIds.map((taskId) => <ListTaskView taskId={taskId} />)}
       </div>
       <style jsx>{`

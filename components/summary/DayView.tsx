@@ -32,7 +32,7 @@ const DayView = ({ day }: Props) => {
       {[...Array(24).keys()].map((i) => {
         const currentHour = addHours(currentDate, i);
         // For now, assume there is only one task per hour
-        const foundTask = isLoading ? null : slices[i];
+        const foundTask = isLoading || isError ? null : slices[i];
         return (
           <TimeSlice
             taskId={foundTask?.taskId}
