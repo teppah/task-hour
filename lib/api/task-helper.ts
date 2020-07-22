@@ -18,6 +18,7 @@ const taskHelper = {
       description: task.description,
       isComplete: task.isComplete,
     };
+    // shouldn't throw 404
     const res: ResType = await serverClient.query(
       q.Create(q.Collection("tasks"), {
         data: {

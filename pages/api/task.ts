@@ -17,20 +17,15 @@ handler
   .get(async (req, res) => {
     const { taskId } = req.query;
     if (!taskId) {
-      res.status(400).end(`Error 400 - Missing taskId`);
+      res.status(400).end(`400 Missing taskId`);
       return;
     }
     const user = req.session.get<ServerSideUser>("user");
-    try {
-      const task = await taskHelper.getTask(user.userId, taskId as string);
+    const task = await taskHelper.getTask(user.userId, taskId as string);
+    if (task) {
       res.json({ task: task });
-    } catch (e) {
-      console.log(e);
-      if (e.requestResult.statusCode === 404) {
-        res.status(404).end(`404 Task Not Found`);
-      } else {
-        res.status(500).json(e);
-      }
+    } else {
+      res.status(404).end("404 Not Found");
     }
   })
   .post(async (req, res) => {
@@ -60,45 +55,33 @@ handler
     const user = req.session.get<ServerSideUser>("user");
     const { taskId } = req.query;
     const { title, description, isComplete } = req.body;
-    try {
-      const toUpdate = await taskHelper.updateTaskStatus(
-        user.userId,
-        taskId as string,
-        {
-          title,
-          description,
-          isComplete,
-        }
-      );
-      res.json({ task: toUpdate });
-    } catch (e) {
-      console.log(JSON.stringify(e));
-      if (e.requestResult.statusCode === 404) {
-        res.status(404).end(`404 Task Not Found`);
-      } else {
-        res.status(500).json(e);
+    const toUpdate = await taskHelper.updateTaskStatus(
+      user.userId,
+      taskId as string,
+      {
+        title,
+        description,
+        isComplete,
       }
+    );
+    if (toUpdate) {
+      res.json({ task: toUpdate });
+    } else {
+      res.status(404).end("404 Not Found");
     }
   })
   .delete(async (req, res) => {
     const user = req.session.get<ServerSideUser>("user");
     const { taskId } = req.query;
     if (!taskId) {
-      res.status(400).end("400 Malformed Request - `Missing taskId`");
+      res.status(400).end("400 Missing taskId");
       return;
     }
-    try {
-      const toDelete = await taskHelper.deleteTask(
-        user.userId,
-        taskId as string
-      );
+    const toDelete = await taskHelper.deleteTask(user.userId, taskId as string);
+    if (toDelete) {
       res.json({ task: toDelete });
-    } catch (e) {
-      if (e.requestResult.statusCode === 404) {
-        res.status(404).end(`404 Task Not Found`);
-      } else {
-        res.status(500).json(e);
-      }
+    } else {
+      res.status(404).end("404 Not Found");
     }
   });
 

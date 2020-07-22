@@ -20,13 +20,13 @@ handler
     const start = parseISO(startDate);
     const end = parseISO(endDate);
     if (!taskId) {
-      res.status(400).end(`400 Malformed Request`);
+      res.status(400).end(`400 Missing taskId`);
       return;
     }
     const user = req.session.get<ServerSideUser>("user");
     const toUpdate = await taskHelper.getTask(user.userId, taskId as string);
     if (!toUpdate) {
-      res.status(404).end(`400 Task Not Found`);
+      res.status(404).end(`400 Not Found`);
       return;
     }
     // LOGIC
@@ -79,6 +79,7 @@ handler
       updateObj.startDate,
       updateObj.endDate
     );
+    // already checked for task existence, should not be 404
     res.json({ task: updated });
   });
 

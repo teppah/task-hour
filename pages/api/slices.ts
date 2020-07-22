@@ -23,7 +23,7 @@ handler.use(authenticatedRoute).get(async (req, res) => {
   const end = addDays(start, 1);
   const user = req.session.get<ServerSideUser>("user");
   if (!isValid(start)) {
-    res.status(400).end(`Error 400 - Missing or invalid ISO time format(s)`);
+    res.status(400).end(`400 Invalid Time Format(s)`);
     return;
   }
   const tasks = await taskHelper.getTasks(user.userId);
