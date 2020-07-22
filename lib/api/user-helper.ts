@@ -16,8 +16,11 @@ const userHelper = {
       const user: ServerSideUser = res.data;
       return user;
     } catch (e) {
-      logError("getUser", e);
-      return null;
+      if (e.requestResult?.statusCode === 404) {
+        return null;
+      } else {
+        throw e;
+      }
     }
   },
   getUserById: async (userId: string): Promise<ServerSideUser> => {
@@ -28,8 +31,11 @@ const userHelper = {
       const user: ServerSideUser = res.data;
       return user;
     } catch (e) {
-      logError("getUserById", e);
-      return null;
+      if (e.requestResult?.statusCode === 404) {
+        return null;
+      } else {
+        throw e;
+      }
     }
   },
   createUser: async (user: ServerSideUser): Promise<ServerSideUser> => {
@@ -44,14 +50,13 @@ const userHelper = {
       const createdUser: ServerSideUser = res.data;
       return createdUser;
     } catch (e) {
-      logError("createUser", e);
-      return null;
+      if (e.requestResult?.statusCode === 404) {
+        return null;
+      } else {
+        throw e;
+      }
     }
   },
 };
-function logError(fnName: string, e: any) {
-  console.error(`----------Error in "${fnName}()" of taskHelper:-----------`);
-  console.error(e);
-}
 
 export default userHelper;

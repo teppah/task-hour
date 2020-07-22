@@ -46,18 +46,26 @@ const taskHelper = {
     }
   },
   getTasks: async (userId: string): Promise<Task[]> => {
-    const res: ResType = await serverClient.query(
-      q.Map(
-        q.Paginate(q.Match(q.Index("tasks_by_userId"), userId)),
-        q.Lambda((document) => q.Get(document))
-      )
-    );
-    const tasks: Task[] = [];
-    for (const doc of res.data) {
-      const t = await convertTask(doc.data);
-      tasks.push(t);
+    try {
+      const res: ResType = await serverClient.query(
+        q.Map(
+          q.Paginate(q.Match(q.Index("tasks_by_userId"), userId)),
+          q.Lambda((document) => q.Get(document))
+        )
+      );
+      const tasks: Task[] = [];
+      for (const doc of res.data) {
+        const t = await convertTask(doc.data);
+        tasks.push(t);
+      }
+      return tasks;
+    } catch (e) {
+      if (e.requestResult?.statusCode === 404) {
+        return null;
+      } else {
+        throw e;
+      }
     }
-    return tasks;
   },
   updateTaskStatus: async (
     userId: string,
@@ -74,23 +82,33 @@ const taskHelper = {
     !isNull(isComplete) &&
       !isUndefined(isComplete) &&
       (updateObj.isComplete = isComplete);
-    const res: ResType = await serverClient.query(
-      q.Update(
-        // select Ref from Get document that matches the taskId provided to index
-        // https://stackoverflow.com/questions/60594689/can-i-update-a-faunadb-document-without-knowing-its-id
-        q.Select(
-          ["ref"],
-          q.Get(q.Match(q.Index("task_by_userId_and_taskId"), [userId, taskId]))
-        ),
-        {
-          data: {
-            ...updateObj,
-          },
-        }
-      )
-    );
-    const updatedTask = await convertTask(res.data);
-    return updatedTask;
+    try {
+      const res: ResType = await serverClient.query(
+        q.Update(
+          // select Ref from Get document that matches the taskId provided to index
+          // https://stackoverflow.com/questions/60594689/can-i-update-a-faunadb-document-without-knowing-its-id
+          q.Select(
+            ["ref"],
+            q.Get(
+              q.Match(q.Index("task_by_userId_and_taskId"), [userId, taskId])
+            )
+          ),
+          {
+            data: {
+              ...updateObj,
+            },
+          }
+        )
+      );
+      const updatedTask = await convertTask(res.data);
+      return updatedTask;
+    } catch (e) {
+      if (e.requestResult?.statusCode === 404) {
+        return null;
+      } else {
+        throw e;
+      }
+    }
   },
   updateTaskDates: async (
     taskId: string,
@@ -103,30 +121,48 @@ const taskHelper = {
     const newEnd = isValid(startDate)
       ? q.Time(endDate.toISOString())
       : "no date";
-    const res: ResType = await serverClient.query(
-      q.Update(
-        q.Select(["ref"], q.Get(q.Match(q.Index("task_by_taskId"), taskId))),
-        {
-          data: {
-            startDate: newStart,
-            endDate: newEnd,
-          },
-        }
-      )
-    );
-    const updatedTask = await convertTask(res.data);
-    return updatedTask;
+    try {
+      const res: ResType = await serverClient.query(
+        q.Update(
+          q.Select(["ref"], q.Get(q.Match(q.Index("task_by_taskId"), taskId))),
+          {
+            data: {
+              startDate: newStart,
+              endDate: newEnd,
+            },
+          }
+        )
+      );
+      const updatedTask = await convertTask(res.data);
+      return updatedTask;
+    } catch (e) {
+      if (e.requestResult?.statusCode === 404) {
+        return null;
+      } else {
+        throw e;
+      }
+    }
   },
   deleteTask: async (userId: string, taskId: string): Promise<Task> => {
-    const toDelete: Task = await serverClient.query(
-      q.Delete(
-        q.Select(
-          ["ref"],
-          q.Get(q.Match(q.Index("task_by_userId_and_taskId"), [userId, taskId]))
+    try {
+      const toDelete: Task = await serverClient.query(
+        q.Delete(
+          q.Select(
+            ["ref"],
+            q.Get(
+              q.Match(q.Index("task_by_userId_and_taskId"), [userId, taskId])
+            )
+          )
         )
-      )
-    );
-    return toDelete;
+      );
+      return toDelete;
+    } catch (e) {
+      if (e.requestResult?.statusCode === 404) {
+        return null;
+      } else {
+        throw e;
+      }
+    }
   },
 };
 
