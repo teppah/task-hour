@@ -70,7 +70,8 @@ const TimeSlice = ({ taskId, currentHour, mutateDay }: Props) => {
       .post(`/api/task`, { json: toPost })
       .json<{ task: Task }>();
     const task = json.task;
-    await mutateDay();
+    mutateDay();
+    mutateGlobal(`/api/task?taskId=${task.taskId}`, json, false);
     dispatch(setSelectedTaskId(task.taskId));
   };
   return (
