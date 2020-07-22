@@ -12,8 +12,9 @@ type Response = {
 const handler = createHandler<Response>();
 // route automatically updates the endDate if startDate is changed
 handler
+  .use(authenticatedRoute)
   // specifically update a task's dates
-  .put(authenticatedRoute, async (req, res) => {
+  .put(async (req, res) => {
     const { taskId } = req.query;
     const { startDate, endDate } = req.body;
     const start = parseISO(startDate);
@@ -22,8 +23,8 @@ handler
       res.status(400).end(`400 Malformed Request`);
       return;
     }
-    const tasks = await taskHelper.getTasks();
-    const toUpdate = tasks.find((t) => t.taskId === taskId);
+    const user = req.session.get<ServerSideUser>("user");
+    const toUpdate = await taskHelper.getTask(user.userId, taskId as string);
     if (!toUpdate) {
       res.status(404).end(`400 Task Not Found`);
       return;
@@ -74,7 +75,7 @@ handler
       }
     }
     const updated = await taskHelper.updateTaskDates(
-      <string>taskId,
+      taskId as string,
       updateObj.startDate,
       updateObj.endDate
     );

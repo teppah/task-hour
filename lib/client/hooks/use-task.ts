@@ -12,6 +12,7 @@ function useTask(taskId: string) {
   );
   const task = data?.task;
   const toReturn: Task = {
+    userId: task?.userId,
     taskId: task?.taskId,
     title: task?.title,
     description: task?.description,

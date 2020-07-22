@@ -4,6 +4,7 @@ import useUser from "lib/client/hooks/use-user";
 import btnStyles from "styles/Button.module.css";
 import { useRouter } from "next/router";
 import ky from "ky/umd";
+import { cache } from "swr";
 import ClientSideUser from "lib/shared/user/ClientSideUser";
 
 const Navbar = () => {
@@ -15,8 +16,8 @@ const Navbar = () => {
   ) => {
     e.preventDefault();
     const logoutData = await ky.get(`/api/auth/logout`).json<ClientSideUser>();
-    mutateUser(logoutData);
-    router.push(`/`);
+    mutateUser(logoutData, false);
+    cache.clear(true);
   };
   return (
     <>
