@@ -23,11 +23,11 @@ const SummaryView = ({}: Props) => {
         <div></div>
         <div></div>
         {[...Array(24).keys()].map((i) => (
-          <div>{i}</div>
+          <div key={i}>{i}</div>
         ))}
       </div>
       {days.map((day) => (
-        <DayView day={day} />
+        <DayView day={day} key={day} />
       ))}
       <style jsx>{`
         .summary-view {
