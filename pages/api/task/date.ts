@@ -1,8 +1,8 @@
-import Task from "lib/Task";
+import Task from "lib/shared/Task";
 import { parseISO, isValid, differenceInHours, addHours } from "date-fns";
 import createHandler from "lib/api/handler";
 import taskHelper from "lib/api/task-helper";
-import ServerSideUser from "lib/user/ServerSideUser";
+import ServerSideUser from "lib/shared/user/ServerSideUser";
 import authenticatedRoute from "lib/api/authenticated-route";
 
 type Response = {

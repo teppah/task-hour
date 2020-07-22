@@ -1,10 +1,10 @@
 import ChangeWeekButton from "./ChangeWeekButton";
 import TimerPopupButton from "./TimerPopupButton";
-import useUser from "lib/hooks/use-user";
+import useUser from "lib/client/hooks/use-user";
 import btnStyles from "styles/Button.module.css";
 import { useRouter } from "next/router";
 import ky from "ky/umd";
-import ClientSideUser from "lib/user/ClientSideUser";
+import ClientSideUser from "lib/shared/user/ClientSideUser";
 
 const Navbar = () => {
   const { user, mutateUser } = useUser();

@@ -1,7 +1,7 @@
 import { RequestHandler } from "next-connect";
 import { NextApiResponse } from "next";
 import { ApiRequestType } from "./handler";
-import ServerSideUser from "lib/user/ServerSideUser";
+import ServerSideUser from "lib/shared/user/ServerSideUser";
 
 // authentication middleware
 const authenticatedRoute: RequestHandler<ApiRequestType, NextApiResponse> = (

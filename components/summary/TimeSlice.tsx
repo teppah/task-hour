@@ -1,9 +1,9 @@
 import TaskView from "components/summary/TaskView";
-import Task, { createTask } from "lib/Task";
+import Task, { createTask } from "lib/shared/Task";
 import { useDrop } from "react-dnd";
-import ItemTypes from "lib/drag/ItemTypes";
+import ItemTypes from "lib/client/drag/ItemTypes";
 import { useSelector, useDispatch } from "react-redux";
-import { setSelectedTaskId } from "lib/redux/slice/taskSlice";
+import { setSelectedTaskId } from "lib/client/redux/slice/taskSlice";
 import { mutate as mutateGlobal } from "swr";
 import ky from "ky/umd";
 import { addHours } from "date-fns";

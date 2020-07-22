@@ -1,4 +1,4 @@
-import useUser from "lib/hooks/use-user";
+import useUser from "lib/client/hooks/use-user";
 
 import Link from "next/link";
 const Index = () => {

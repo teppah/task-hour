@@ -1,7 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
-import { selectSelectedView, setSelectedView } from "lib/redux/slice/dateSlice";
+import {
+  selectSelectedView,
+  setSelectedView,
+} from "lib/client/redux/slice/dateSlice";
 import btnStyles from "styles/Button.module.css";
-import { VIEWS } from "lib/dates";
+import { VIEWS } from "lib/client/dates";
 
 const ChangeWeekButton = () => {
   const dispatch = useDispatch();
