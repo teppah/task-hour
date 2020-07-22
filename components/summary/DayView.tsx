@@ -26,8 +26,8 @@ const DayView = ({ day }: Props) => {
   return (
     <section className="day-view">
       <div className="day">
-        <h1>{currentDayDate}</h1>
-        <h1>{dayName}</h1>
+        <h1 key={0}>{currentDayDate}</h1>
+        <h1 key={1}>{dayName}</h1>
       </div>
       {[...Array(24).keys()].map((i) => {
         const currentHour = addHours(currentDate, i);
@@ -38,6 +38,7 @@ const DayView = ({ day }: Props) => {
             taskId={foundTask?.taskId}
             currentHour={currentHour}
             mutateDay={mutateDay}
+            key={i}
           />
         );
       })}

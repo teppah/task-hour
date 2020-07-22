@@ -16,7 +16,7 @@ handler.post(async (req, res) => {
     ? await argon2.verify(foundUser.passwordHash, password)
     : false;
   if (!foundUser || !authenticated) {
-    res.status(404).end(`404 User Not Found`);
+    res.notFound();
     return;
   }
   req.session.set("user", foundUser);
