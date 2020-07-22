@@ -3,6 +3,8 @@ import { parseISO, isValid } from "date-fns";
 import { nanoid } from "nanoid";
 import createHandler from "lib/api/handler";
 import taskHelper from "lib/api/task-helper";
+import ServerSideUser from "lib/user/ServerSideUser";
+import authenticatedRoute from "lib/api/authenticated-route";
 
 type Response = {
   task: Task;
@@ -11,7 +13,7 @@ type Response = {
 const handler = createHandler<Response>();
 
 handler
-  .get(async (req, res) => {
+  .get(authenticatedRoute, async (req, res) => {
     const { taskId } = req.query;
     if (!taskId) {
       res.status(400).end(`Error 400 - Missing taskId`);

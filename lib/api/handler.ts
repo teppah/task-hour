@@ -10,11 +10,9 @@ const session = ironSession({
   },
 });
 
+export type ApiRequestType = NextApiRequest & { session: Session };
 function createHandler<T = any>() {
-  const handler = nc<
-    NextApiRequest & { session: Session },
-    NextApiResponse<T>
-  >();
+  const handler = nc<ApiRequestType, NextApiResponse<T>>();
   handler.use(session);
   return handler;
 }
