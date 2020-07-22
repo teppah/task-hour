@@ -2,6 +2,7 @@ import Task, { createTask } from "lib/Task";
 import createHandler from "lib/api/handler";
 import taskHelper from "lib/api/task-helper";
 import ServerSideUser from "lib/user/ServerSideUser";
+import authenticatedRoute from "lib/api/authenticated-route";
 
 type Response = {
   tasks: Task[];
@@ -9,12 +10,7 @@ type Response = {
 
 const handler = createHandler<Response>();
 
-handler.get(async (req, res) => {
-  const currentUser = req.session.get<ServerSideUser>("user");
-  if (!currentUser) {
-    res.status(403).end("403 Forbidden");
-    return;
-  }
+handler.get(authenticatedRoute, async (req, res) => {
   try {
     const tasks = await taskHelper.getTasks();
     res.json({ tasks: tasks });
