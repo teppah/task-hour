@@ -1,5 +1,5 @@
 import serverClient from "./database";
-import Task from "lib/Task";
+import Task from "lib/shared/Task";
 import { query as q } from "faunadb";
 import { parseISO, isValid } from "date-fns";
 import { isNull, isUndefined, update } from "lodash";

@@ -4,7 +4,7 @@ import {
   setSelectedDate,
   selectWeekStartDate,
   setWeekStart,
-} from "lib/redux/slice/dateSlice";
+} from "lib/client/redux/slice/dateSlice";
 import { isSameWeek, startOfWeek } from "date-fns";
 import containerStyles from "styles/Container.module.css";
 import dynamic from "next/dynamic";

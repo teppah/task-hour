@@ -2,17 +2,17 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   selectSelectedTaskId,
   setSelectedTaskId,
-} from "lib/redux/slice/taskSlice";
+} from "lib/client/redux/slice/taskSlice";
 import { useDrag } from "react-dnd";
 import React, { useState, useEffect } from "react";
-import ItemTypes from "lib/drag/ItemTypes";
+import ItemTypes from "lib/client/drag/ItemTypes";
 import taskStyles from "styles/Task.module.css";
 import classNames from "classnames";
-import useTask from "lib/hooks/use-task";
+import useTask from "lib/client/hooks/use-task";
 import Tippy from "@tippyjs/react";
 import DetailedTaskView from "components/DetailedTaskView";
 import ky from "ky/umd";
-import Task from "lib/Task";
+import Task from "lib/shared/Task";
 
 type Props = {
   taskId: string;

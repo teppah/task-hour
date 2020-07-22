@@ -1,7 +1,7 @@
 import useSWR from "swr";
-import fetcher from "lib/fetcher";
+import fetcher from "lib/client/fetcher";
 import { useEffect } from "react";
-import ClientSideUser from "lib/user/ClientSideUser";
+import ClientSideUser from "lib/shared/user/ClientSideUser";
 import Router from "next/router";
 
 type UseUserOptions = {

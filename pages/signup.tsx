@@ -1,7 +1,7 @@
 import { useFormik } from "formik";
-import useUser from "lib/hooks/use-user";
+import useUser from "lib/client/hooks/use-user";
 import ky from "ky/umd";
-import ClientSideUser from "lib/user/ClientSideUser";
+import ClientSideUser from "lib/shared/user/ClientSideUser";
 
 const SignUp = () => {
   const { mutateUser } = useUser({

@@ -1,6 +1,6 @@
 import useSWR from "swr";
-import fetcher from "lib/fetcher";
-import Task from "lib/Task";
+import fetcher from "lib/client/fetcher";
+import Task from "lib/shared/Task";
 
 function useDatelessTasks() {
   const { data, error, mutate } = useSWR(`/api/tasks/dates`, fetcher);

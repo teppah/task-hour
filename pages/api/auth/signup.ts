@@ -1,7 +1,7 @@
 import createHandler from "lib/api/handler";
-import ClientSideUser from "lib/user/ClientSideUser";
+import ClientSideUser from "lib/shared/user/ClientSideUser";
 import argon2 from "argon2";
-import ServerSideUser from "lib/user/ServerSideUser";
+import ServerSideUser from "lib/shared/user/ServerSideUser";
 import { nanoid } from "nanoid";
 import userHelper from "lib/api/user-helper";
 

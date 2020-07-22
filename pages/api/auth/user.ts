@@ -1,5 +1,5 @@
 import createHandler from "lib/api/handler";
-import ClientSideUser from "lib/user/ClientSideUser";
+import ClientSideUser from "lib/shared/user/ClientSideUser";
 import userHelper from "lib/api/user-helper";
 
 const handler = createHandler<ClientSideUser>();

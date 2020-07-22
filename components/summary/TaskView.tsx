@@ -1,13 +1,13 @@
 import { useDrag } from "react-dnd";
-import ItemTypes from "lib/drag/ItemTypes";
+import ItemTypes from "lib/client/drag/ItemTypes";
 import { useSelector, useDispatch } from "react-redux";
 import taskStyles from "styles/Task.module.css";
 import {
   selectSelectedTaskId,
   setSelectedTaskId,
-} from "lib/redux/slice/taskSlice";
+} from "lib/client/redux/slice/taskSlice";
 import classNames from "classnames";
-import useTask from "lib/hooks/use-task";
+import useTask from "lib/client/hooks/use-task";
 import { differenceInHours } from "date-fns";
 import Tippy from "@tippyjs/react";
 import DetailedTaskView from "components/DetailedTaskView";

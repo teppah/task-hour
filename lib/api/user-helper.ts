@@ -1,5 +1,5 @@
 import { query as q } from "faunadb";
-import ServerSideUser from "lib/user/ServerSideUser";
+import ServerSideUser from "lib/shared/user/ServerSideUser";
 import serverClient from "./database";
 
 type ResType = {

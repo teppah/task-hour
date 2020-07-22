@@ -5,13 +5,16 @@ import SummaryView from "components/summary/SummaryView";
 import TaskListView from "components/list/ListView";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setSelectedTaskId } from "lib/redux/slice/taskSlice";
+import { setSelectedTaskId } from "lib/client/redux/slice/taskSlice";
 import { GetServerSideProps } from "next";
-import { setWeekStart, setSelectedDate } from "lib/redux/slice/dateSlice";
+import {
+  setWeekStart,
+  setSelectedDate,
+} from "lib/client/redux/slice/dateSlice";
 import { startOfWeek, startOfDay } from "date-fns";
 import Navbar from "components/Navbar";
 import CalendarView from "components/CalendarView";
-import useUser from "lib/hooks/use-user";
+import useUser from "lib/client/hooks/use-user";
 const App = () => {
   const dispatch = useDispatch();
   // deselect on escape

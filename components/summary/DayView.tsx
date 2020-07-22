@@ -1,12 +1,12 @@
 import TimeSlice from "components/summary/TimeSlice";
-import { getDayName } from "lib/dates";
+import { getDayName } from "lib/client/dates";
 import { addDays, getDate, isSameDay, addHours, isValid } from "date-fns";
 import { useSelector } from "react-redux";
 import {
   selectWeekStartDate,
   selectSelectedDate,
-} from "lib/redux/slice/dateSlice";
-import useDay from "lib/hooks/use-day";
+} from "lib/client/redux/slice/dateSlice";
+import useDay from "lib/client/hooks/use-day";
 type Props = {
   day: number;
 };

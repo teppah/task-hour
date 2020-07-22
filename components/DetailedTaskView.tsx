@@ -4,11 +4,11 @@ import ky from "ky/umd";
 import {
   selectSelectedTaskId,
   setSelectedTaskId,
-} from "lib/redux/slice/taskSlice";
+} from "lib/client/redux/slice/taskSlice";
 import btnStyles from "styles/Button.module.css";
 import containerStyles from "styles/Container.module.css";
-import useTask from "lib/hooks/use-task";
-import Task from "lib/Task";
+import useTask from "lib/client/hooks/use-task";
+import Task from "lib/shared/Task";
 
 type PropType = {
   taskId: string;
