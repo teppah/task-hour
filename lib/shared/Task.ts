@@ -1,6 +1,7 @@
 import { addHours } from "date-fns";
 
 type Task = {
+  userId: string;
   taskId: string;
   title: string;
   description: string;
@@ -9,6 +10,7 @@ type Task = {
   isComplete: boolean;
 };
 export function createTask(
+  userId: string,
   taskId: string,
   title: string,
   description: string,
@@ -17,6 +19,7 @@ export function createTask(
   isComplete: boolean = false
 ): Task {
   return {
+    userId,
     taskId,
     title,
     description,

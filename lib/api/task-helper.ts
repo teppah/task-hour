@@ -12,6 +12,7 @@ type ResType = {
 const taskHelper = {
   createTask: async (task: Task): Promise<Task> => {
     const restOfData = {
+      userId: task.userId,
       taskId: task.taskId,
       title: task.title,
       description: task.description,
@@ -29,9 +30,9 @@ const taskHelper = {
     const converted = await convertTask(res.data);
     return converted;
   },
-  getTask: async (taskId: string): Promise<Task> => {
+  getTask: async (userId: string, taskId: string): Promise<Task> => {
     const res: ResType = await serverClient.query(
-      q.Get(q.Match(q.Index("task_by_taskId"), taskId))
+      q.Get(q.Match(q.Index("task_by_userId_and_taskId"), [userId, taskId]))
     );
     const converted = await convertTask(res.data);
     return converted;
@@ -118,6 +119,7 @@ async function convertTask(task): Promise<Task> {
   const start: string = await serverClient.query(q.ToString(task.startDate));
   const end: string = await serverClient.query(q.ToString(task.endDate));
   return {
+    userId: task.userId,
     taskId: task.taskId,
     title: task.title,
     description: task.description,

@@ -20,8 +20,9 @@ handler
       res.status(400).end(`Error 400 - Missing taskId`);
       return;
     }
+    const user = req.session.get<ServerSideUser>("user");
     try {
-      const task = await taskHelper.getTask(<string>taskId);
+      const task = await taskHelper.getTask(user.userId, taskId as string);
       res.json({ task: task });
     } catch (e) {
       console.log(e);
@@ -33,6 +34,7 @@ handler
     }
   })
   .post(async (req, res) => {
+    const user = req.session.get<ServerSideUser>("user");
     const { title, description, startDate, endDate, isComplete } = req.body;
     const start = parseISO(startDate);
     const end = parseISO(endDate);
@@ -43,6 +45,7 @@ handler
     }
     const taskId = nanoid();
     const toCreate: Task = {
+      userId: user.userId,
       taskId,
       title,
       description,
