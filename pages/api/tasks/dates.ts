@@ -15,7 +15,8 @@ handler
   // get all tasks with empty start dates here
   // only return taskIds
   .get(async (req, res) => {
-    const tasks = await taskHelper.getTasks();
+    const user = req.session.get<ServerSideUser>("user");
+    const tasks = await taskHelper.getTasks(user.userId);
     const filtered = tasks
       .filter((t) => !isValid(t.startDate))
       .map((t) => t.taskId);

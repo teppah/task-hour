@@ -31,16 +31,24 @@ const taskHelper = {
     return converted;
   },
   getTask: async (userId: string, taskId: string): Promise<Task> => {
-    const res: ResType = await serverClient.query(
-      q.Get(q.Match(q.Index("task_by_userId_and_taskId"), [userId, taskId]))
-    );
-    const converted = await convertTask(res.data);
-    return converted;
+    try {
+      const res: ResType = await serverClient.query(
+        q.Get(q.Match(q.Index("task_by_userId_and_taskId"), [userId, taskId]))
+      );
+      const converted = await convertTask(res.data);
+      return converted;
+    } catch (e) {
+      if (e.requestResult?.statusCode === 404) {
+        return null;
+      } else {
+        throw e;
+      }
+    }
   },
-  getTasks: async (): Promise<Task[]> => {
+  getTasks: async (userId: string): Promise<Task[]> => {
     const res: ResType = await serverClient.query(
       q.Map(
-        q.Paginate(q.Documents(q.Collection("tasks"))),
+        q.Paginate(q.Match(q.Index("tasks_by_userId"), userId)),
         q.Lambda((document) => q.Get(document))
       )
     );

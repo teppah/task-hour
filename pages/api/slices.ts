@@ -19,13 +19,14 @@ import authenticatedRoute from "lib/api/authenticated-route";
 const handler = createHandler();
 handler.use(authenticatedRoute).get(async (req, res) => {
   const { startTime } = req.query;
-  const start = parseISO(<string>startTime);
+  const start = parseISO(startTime as string);
   const end = addDays(start, 1);
+  const user = req.session.get<ServerSideUser>("user");
   if (!isValid(start)) {
     res.status(400).end(`Error 400 - Missing or invalid ISO time format(s)`);
     return;
   }
-  const tasks = await taskHelper.getTasks();
+  const tasks = await taskHelper.getTasks(user.userId);
   const filteredTasks = tasks.filter((t) =>
     isWithinInterval(t.startDate, { start: start, end: end })
   );

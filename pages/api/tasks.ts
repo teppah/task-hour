@@ -11,8 +11,9 @@ type Response = {
 const handler = createHandler<Response>();
 
 handler.use(authenticatedRoute).get(async (req, res) => {
+  const user = req.session.get<ServerSideUser>("user");
   try {
-    const tasks = await taskHelper.getTasks();
+    const tasks = await taskHelper.getTasks(user.userId);
     res.json({ tasks: tasks });
   } catch (e) {
     console.log(`ERROR`);
