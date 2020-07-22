@@ -57,14 +57,19 @@ handler
     res.json({ task: createdTask });
   })
   .put(async (req, res) => {
+    const user = req.session.get<ServerSideUser>("user");
     const { taskId } = req.query;
     const { title, description, isComplete } = req.body;
     try {
-      const toUpdate = await taskHelper.updateTaskStatus(taskId, {
-        title,
-        description,
-        isComplete,
-      });
+      const toUpdate = await taskHelper.updateTaskStatus(
+        user.userId,
+        taskId as string,
+        {
+          title,
+          description,
+          isComplete,
+        }
+      );
       res.json({ task: toUpdate });
     } catch (e) {
       console.log(JSON.stringify(e));
@@ -76,13 +81,17 @@ handler
     }
   })
   .delete(async (req, res) => {
+    const user = req.session.get<ServerSideUser>("user");
     const { taskId } = req.query;
     if (!taskId) {
       res.status(400).end("400 Malformed Request - `Missing taskId`");
       return;
     }
     try {
-      const toDelete = await taskHelper.deleteTask(<string>taskId);
+      const toDelete = await taskHelper.deleteTask(
+        user.userId,
+        taskId as string
+      );
       res.json({ task: toDelete });
     } catch (e) {
       if (e.requestResult.statusCode === 404) {

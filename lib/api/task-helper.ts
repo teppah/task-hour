@@ -52,7 +52,8 @@ const taskHelper = {
     return tasks;
   },
   updateTaskStatus: async (
-    taskId,
+    userId: string,
+    taskId: string,
     {
       title,
       description,
@@ -69,7 +70,10 @@ const taskHelper = {
       q.Update(
         // select Ref from Get document that matches the taskId provided to index
         // https://stackoverflow.com/questions/60594689/can-i-update-a-faunadb-document-without-knowing-its-id
-        q.Select(["ref"], q.Get(q.Match(q.Index("task_by_taskId"), taskId))),
+        q.Select(
+          ["ref"],
+          q.Get(q.Match(q.Index("task_by_userId_and_taskId"), [userId, taskId]))
+        ),
         {
           data: {
             ...updateObj,
@@ -105,10 +109,13 @@ const taskHelper = {
     const updatedTask = await convertTask(res.data);
     return updatedTask;
   },
-  deleteTask: async (taskId: string): Promise<Task> => {
+  deleteTask: async (userId: string, taskId: string): Promise<Task> => {
     const toDelete: Task = await serverClient.query(
       q.Delete(
-        q.Select(["ref"], q.Get(q.Match(q.Index("task_by_taskId"), taskId)))
+        q.Select(
+          ["ref"],
+          q.Get(q.Match(q.Index("task_by_userId_and_taskId"), [userId, taskId]))
+        )
       )
     );
     return toDelete;
