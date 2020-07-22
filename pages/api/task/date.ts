@@ -12,8 +12,9 @@ type Response = {
 const handler = createHandler<Response>();
 // route automatically updates the endDate if startDate is changed
 handler
+  .use(authenticatedRoute)
   // specifically update a task's dates
-  .put(authenticatedRoute, async (req, res) => {
+  .put(async (req, res) => {
     const { taskId } = req.query;
     const { startDate, endDate } = req.body;
     const start = parseISO(startDate);

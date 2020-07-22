@@ -17,7 +17,7 @@ import authenticatedRoute from "lib/api/authenticated-route";
  * startTime: ISO time string
  */
 const handler = createHandler();
-handler.get(authenticatedRoute, async (req, res) => {
+handler.use(authenticatedRoute).get(async (req, res) => {
   const { startTime } = req.query;
   const start = parseISO(<string>startTime);
   const end = addDays(start, 1);

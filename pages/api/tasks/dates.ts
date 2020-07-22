@@ -11,9 +11,10 @@ type Response = {
 const handler = createHandler<Response>();
 
 handler
+  .use(authenticatedRoute)
   // get all tasks with empty start dates here
   // only return taskIds
-  .get(authenticatedRoute, async (req, res) => {
+  .get(async (req, res) => {
     const tasks = await taskHelper.getTasks();
     const filtered = tasks
       .filter((t) => !isValid(t.startDate))

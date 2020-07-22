@@ -13,7 +13,8 @@ type Response = {
 const handler = createHandler<Response>();
 
 handler
-  .get(authenticatedRoute, async (req, res) => {
+  .use(authenticatedRoute)
+  .get(async (req, res) => {
     const { taskId } = req.query;
     if (!taskId) {
       res.status(400).end(`Error 400 - Missing taskId`);

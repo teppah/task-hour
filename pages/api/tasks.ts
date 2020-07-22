@@ -10,7 +10,7 @@ type Response = {
 
 const handler = createHandler<Response>();
 
-handler.get(authenticatedRoute, async (req, res) => {
+handler.use(authenticatedRoute).get(async (req, res) => {
   try {
     const tasks = await taskHelper.getTasks();
     res.json({ tasks: tasks });
