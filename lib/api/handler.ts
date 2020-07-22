@@ -1,4 +1,4 @@
-import nc from "next-connect";
+import nc, { ErrorHandler } from "next-connect";
 import { NextApiRequest, NextApiResponse } from "next";
 import { ironSession, Session } from "next-iron-session";
 
@@ -11,8 +11,20 @@ const session = ironSession({
 });
 
 export type ApiRequestType = NextApiRequest & { session: Session };
+const errorHandler: ErrorHandler<ApiRequestType, NextApiResponse> = (
+  err,
+  req,
+  res,
+  next
+) => {
+  console.error(JSON.stringify(err));
+  res.status(500).end(`500 Internal Server Error: ${JSON.stringify(err)}`);
+};
+
 function createHandler<T = any>() {
-  const handler = nc<ApiRequestType, NextApiResponse<T>>();
+  const handler = nc<ApiRequestType, NextApiResponse<T>>({
+    onError: errorHandler,
+  });
   handler.use(session);
   return handler;
 }
