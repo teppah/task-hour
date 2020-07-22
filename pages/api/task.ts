@@ -25,7 +25,7 @@ handler
     if (task) {
       res.json({ task: task });
     } else {
-      res.status(404).end("404 Not Found");
+      res.notFound();
     }
   })
   .post(async (req, res) => {
@@ -67,7 +67,7 @@ handler
     if (toUpdate) {
       res.json({ task: toUpdate });
     } else {
-      res.status(404).end("404 Not Found");
+      res.notFound();
     }
   })
   .delete(async (req, res) => {
@@ -81,7 +81,7 @@ handler
     if (toDelete) {
       res.json({ task: toDelete });
     } else {
-      res.status(404).end("404 Not Found");
+      res.notFound();
     }
   });
 

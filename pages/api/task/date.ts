@@ -26,7 +26,7 @@ handler
     const user = req.session.get<ServerSideUser>("user");
     const toUpdate = await taskHelper.getTask(user.userId, taskId as string);
     if (!toUpdate) {
-      res.status(404).end(`400 Not Found`);
+      res.notFound();
       return;
     }
     // LOGIC
