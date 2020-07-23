@@ -60,7 +60,6 @@ const Navbar = () => {
             @apply flex flex-row items-center justify-end;
             @apply bg-white;
             @apply px-20;
-            @apply mb-2;
           }
           li {
             @apply px-2;

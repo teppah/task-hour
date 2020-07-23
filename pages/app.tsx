@@ -59,7 +59,7 @@ const App = () => {
             .content {
               @apply flex flex-row;
               @apply flex-wrap;
-              @apply h-screen;
+              @apply h-full;
             }
             .main {
               @apply flex flex-row;
@@ -67,7 +67,7 @@ const App = () => {
             }
             #summary {
               @apply flex-grow;
-              height: calc(100vh - 3rem);
+              height: calc(100vh - 2.25rem);
               @apply overflow-y-auto;
             }
             .vertical-bar {
