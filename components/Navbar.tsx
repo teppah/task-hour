@@ -22,22 +22,36 @@ const Navbar = () => {
   return (
     <>
       <ul className="bar">
-        <li>
-          <ChangeWeekButton />
-        </li>
-        <li>
-          <TimerPopupButton />
-        </li>
         {user?.isLoggedIn && (
-          <li>
-            <h2>USERNAME: "{user.username}"</h2>
-          </li>
+          <>
+            <li>
+              <ChangeWeekButton />
+            </li>
+            <li>
+              <TimerPopupButton />
+            </li>
+            <li>
+              <h2>Hello, {user.username}!</h2>
+            </li>
+            <li>
+              <button className={btnStyles.btn} onClick={handleLogout}>
+                Logout
+              </button>
+            </li>
+          </>
         )}
-        <li>
-          <button className={btnStyles.btn} onClick={handleLogout}>
-            Logout
-          </button>
-        </li>
+        {!user?.isLoggedIn && (
+          <>
+            <li>
+              <button
+                className={btnStyles.btn}
+                onClick={() => router.push("/signin")}
+              >
+                Sign in
+              </button>
+            </li>
+          </>
+        )}
       </ul>
       <style jsx>
         {`
@@ -46,6 +60,7 @@ const Navbar = () => {
             @apply flex flex-row items-center justify-end;
             @apply bg-white;
             @apply px-20;
+            @apply mb-2;
           }
           li {
             @apply px-2;
