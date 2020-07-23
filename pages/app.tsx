@@ -75,11 +75,6 @@ const App = () => {
               width: 18rem;
             }
           `}</style>
-          <style jsx global>{`
-            body {
-              @apply bg-gray-200;
-            }
-          `}</style>
         </div>
       </DndProvider>
     </PageLayout>

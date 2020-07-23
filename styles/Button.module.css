@@ -1,15 +1,14 @@
 .btn {
-  @apply px-2 py-1;
-  @apply bg-blue-300;
-  @apply border-2 border-blue-500;
-  @apply rounded-lg;
+  @apply px-3 py-1;
+  @apply rounded-md;
+  @apply font-bold bg-blue-500 text-white;
 }
 
 .btn:hover {
-  @apply bg-blue-400;
+  @apply bg-blue-700;
 }
+.btn:focus,
 .btn:active {
-  @apply bg-blue-500;
-  @apply border-blue-700;
-  @apply text-white;
+  @apply outline-none;
+  @apply shadow-outline;
 }

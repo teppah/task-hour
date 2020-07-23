@@ -4,6 +4,7 @@ import ClientSideUser from "lib/shared/user/ClientSideUser";
 import ky from "ky/umd";
 import PageLayout from "components/PageLayout";
 import containerStyles from "styles/Container.module.css";
+import btnStyles from "styles/Button.module.css";
 
 const Login = () => {
   const { mutateUser } = useUser({
@@ -59,33 +60,38 @@ const Login = () => {
               />
             </div>
             <div className="buttons">
-              <button type="submit">Submit</button>
+              <button type="submit" className={btnStyles.btn}>
+                Submit
+              </button>
             </div>
           </form>
         </div>
         <style jsx>{`
           section {
-            @apply flex flex-col items-center;
+            @apply flex flex-col items-center justify-center;
+            @apply h-full;
           }
           div.in {
             @apply flex flex-col items-start;
-            @apply mb-2;
+            @apply mb-4;
           }
           form {
             @apply flex flex-col;
           }
+          label {
+            @apply mb-2;
+          }
           input {
             @apply border rounded;
+            @apply px-2 py-1;
             @apply shadow;
+          }
+          input:focus {
+            @apply outline-none shadow-outline;
           }
           div.buttons {
             @apply mt-4;
-            @apply flex flex-row;
-          }
-          button {
-            @apply px-3 py-1;
-            @apply rounded-md;
-            @apply font-bold bg-blue-500 text-white;
+            @apply flex flex-row justify-center;
           }
         `}</style>
       </section>
