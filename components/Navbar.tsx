@@ -7,6 +7,7 @@ import ky from "ky/umd";
 import { cache } from "swr";
 import ClientSideUser from "lib/shared/user/ClientSideUser";
 import Link from "next/link";
+import linkStyles from "styles/modules/Link.module.css";
 
 const Navbar = () => {
   const { user, mutateUser } = useUser();
@@ -27,12 +28,12 @@ const Navbar = () => {
           <ul>
             <li>
               <Link href="/">
-                <a>Home</a>
+                <a className={linkStyles.link}>Home</a>
               </Link>
             </li>
             <li>
               <Link href="/app">
-                <a>App</a>
+                <a className={linkStyles.link}>App</a>
               </Link>
             </li>
           </ul>

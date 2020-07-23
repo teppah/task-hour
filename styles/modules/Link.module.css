@@ -1,0 +1,16 @@
+.link {
+  @apply text-gray-600;
+}
+
+.link:hover {
+  @apply text-black;
+  @apply underline;
+}
+
+.link:focus,
+.link:active {
+  @apply outline-none;
+}
+.link:active {
+  @apply text-blue-700;
+}

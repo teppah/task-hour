@@ -5,7 +5,7 @@ import {
   selectSelectedTaskId,
   setSelectedTaskId,
 } from "lib/client/redux/slice/taskSlice";
-import btnStyles from "styles/module/Button.module.css";
+import btnStyles from "styles/modules/Button.module.css";
 import containerStyles from "styles/modules/Container.module.css";
 import useTask from "lib/client/hooks/use-task";
 import Task from "lib/shared/Task";
