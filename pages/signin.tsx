@@ -5,9 +5,11 @@ import ky from "ky/umd";
 import PageLayout from "components/PageLayout";
 import containerStyles from "styles/Container.module.css";
 import btnStyles from "styles/Button.module.css";
+import { useRouter } from "next/router";
 
 const Login = () => {
-  const { mutateUser } = useUser({
+  const router = useRouter();
+  const { mutateUser, isLoading, error } = useUser({
     redirectUrl: "/app",
     redirectIfFound: true,
   });
@@ -24,7 +26,8 @@ const Login = () => {
           const loggedInUser = await ky
             .post(`/api/auth/login`, { json: body })
             .json<ClientSideUser>();
-          await mutateUser(loggedInUser);
+          await mutateUser(loggedInUser, false);
+          router.push("/app");
         } catch (e) {
           console.error(e);
         }
@@ -61,7 +64,7 @@ const Login = () => {
             </div>
             <div className="buttons">
               <button type="submit" className={btnStyles.btn}>
-                Submit
+                Sign In
               </button>
             </div>
           </form>
@@ -79,7 +82,8 @@ const Login = () => {
             @apply flex flex-col;
           }
           label {
-            @apply mb-2;
+            @apply mb-1;
+            @apply font-bold;
           }
           input {
             @apply border rounded;
@@ -90,7 +94,7 @@ const Login = () => {
             @apply outline-none shadow-outline;
           }
           div.buttons {
-            @apply mt-4;
+            @apply mt-2;
             @apply flex flex-row justify-center;
           }
         `}</style>

@@ -67,7 +67,7 @@ const App = () => {
             }
             #summary {
               @apply flex-grow;
-              height: calc(100vh - 2.25rem);
+              height: calc(100vh - var(--navbar-height));
               @apply overflow-y-auto;
             }
             .vertical-bar {
