@@ -6,7 +6,7 @@ import {
 import { useDrag } from "react-dnd";
 import React, { useState, useEffect } from "react";
 import ItemTypes from "lib/client/drag/ItemTypes";
-import taskStyles from "styles/Task.module.css";
+import taskStyles from "styles/modules/Task.module.css";
 import classNames from "classnames";
 import useTask from "lib/client/hooks/use-task";
 import Tippy from "@tippyjs/react";

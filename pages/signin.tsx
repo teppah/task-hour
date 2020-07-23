@@ -3,10 +3,10 @@ import { useFormik } from "formik";
 import ClientSideUser from "lib/shared/user/ClientSideUser";
 import ky from "ky/umd";
 import PageLayout from "components/PageLayout";
-import containerStyles from "styles/Container.module.css";
-import btnStyles from "styles/Button.module.css";
+import containerStyles from "styles/modules/Container.module.css";
+import btnStyles from "styles/modules/Button.module.css";
 import { useRouter } from "next/router";
-import inputStyles from "styles/Inputs.module.css";
+import inputStyles from "styles/modules/Inputs.module.css";
 
 const Login = () => {
   const router = useRouter();
