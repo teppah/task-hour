@@ -6,6 +6,7 @@ import PageLayout from "components/PageLayout";
 import containerStyles from "styles/Container.module.css";
 import btnStyles from "styles/Button.module.css";
 import { useRouter } from "next/router";
+import inputStyles from "styles/Inputs.module.css";
 
 const Login = () => {
   const router = useRouter();
@@ -19,19 +20,17 @@ const Login = () => {
       email: "",
       password: "",
     },
-    onSubmit: (values, helper) => {
+    onSubmit: async (values, helper) => {
       const body = { email: values.email, password: values.password };
-      (async () => {
-        try {
-          const loggedInUser = await ky
-            .post(`/api/auth/login`, { json: body })
-            .json<ClientSideUser>();
-          await mutateUser(loggedInUser, false);
-          router.push("/app");
-        } catch (e) {
-          console.error(e);
-        }
-      })();
+      try {
+        const loggedInUser = await ky
+          .post(`/api/auth/login`, { json: body })
+          .json<ClientSideUser>();
+        await mutateUser(loggedInUser, false);
+        router.push("/app");
+      } catch (e) {
+        console.error(e);
+      }
     },
   });
 
@@ -43,13 +42,13 @@ const Login = () => {
           <form onSubmit={formik.handleSubmit}>
             <div className="in">
               <label htmlFor="email">Email:</label>
-
               <input
                 type="email"
                 name="email"
                 id="email"
                 value={formik.values.email}
                 onChange={formik.handleChange}
+                className={inputStyles.field}
               />
             </div>
             <div className="in">
@@ -60,6 +59,7 @@ const Login = () => {
                 id="password"
                 value={formik.values.password}
                 onChange={formik.handleChange}
+                className={inputStyles.field}
               />
             </div>
             <div className="buttons">
@@ -84,14 +84,6 @@ const Login = () => {
           label {
             @apply mb-1;
             @apply font-bold;
-          }
-          input {
-            @apply border rounded;
-            @apply px-2 py-1;
-            @apply shadow;
-          }
-          input:focus {
-            @apply outline-none shadow-outline;
           }
           div.buttons {
             @apply mt-2;

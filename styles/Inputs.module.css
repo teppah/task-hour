@@ -1,0 +1,8 @@
+.field {
+  @apply border rounded;
+  @apply px-2 py-1;
+  @apply shadow;
+}
+.field:focus {
+  @apply outline-none shadow-outline;
+}
