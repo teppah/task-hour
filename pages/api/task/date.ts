@@ -75,6 +75,7 @@ handler
       }
     }
     const updated = await taskHelper.updateTaskDates(
+      user.userId,
       taskId as string,
       updateObj.startDate,
       updateObj.endDate

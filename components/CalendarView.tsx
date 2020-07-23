@@ -6,7 +6,7 @@ import {
   setWeekStart,
 } from "lib/client/redux/slice/dateSlice";
 import { isSameWeek, startOfWeek } from "date-fns";
-import containerStyles from "styles/Container.module.css";
+import containerStyles from "styles/modules/Container.module.css";
 import dynamic from "next/dynamic";
 import { CalendarProps } from "react-calendar";
 

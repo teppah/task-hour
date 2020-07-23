@@ -3,6 +3,7 @@ import Task from "lib/shared/Task";
 import { query as q } from "faunadb";
 import { parseISO, isValid } from "date-fns";
 import { isNull, isUndefined, update } from "lodash";
+import { COLLECTIONS, TASK_INDEXES } from "./db-constants/fauna-indexes";
 
 type ResType = {
   ref: any;
@@ -20,7 +21,7 @@ const taskHelper = {
     };
     // shouldn't throw 404
     const res: ResType = await serverClient.query(
-      q.Create(q.Collection("tasks"), {
+      q.Create(q.Collection(COLLECTIONS.TASKS), {
         data: {
           startDate: q.Time(task.startDate.toISOString()),
           endDate: q.Time(task.endDate.toISOString()),
@@ -34,7 +35,9 @@ const taskHelper = {
   getTask: async (userId: string, taskId: string): Promise<Task> => {
     try {
       const res: ResType = await serverClient.query(
-        q.Get(q.Match(q.Index("task_by_userId_and_taskId"), [userId, taskId]))
+        q.Get(
+          q.Match(q.Index(TASK_INDEXES.BY_USERID_AND_TASKID), [userId, taskId])
+        )
       );
       const converted = await convertTask(res.data);
       return converted;
@@ -50,7 +53,7 @@ const taskHelper = {
     try {
       const res: ResType = await serverClient.query(
         q.Map(
-          q.Paginate(q.Match(q.Index("tasks_by_userId"), userId)),
+          q.Paginate(q.Match(q.Index(TASK_INDEXES.BY_USERID), userId)),
           q.Lambda((document) => q.Get(document))
         )
       );
@@ -91,7 +94,10 @@ const taskHelper = {
           q.Select(
             ["ref"],
             q.Get(
-              q.Match(q.Index("task_by_userId_and_taskId"), [userId, taskId])
+              q.Match(q.Index(TASK_INDEXES.BY_USERID_AND_TASKID), [
+                userId,
+                taskId,
+              ])
             )
           ),
           {
@@ -112,6 +118,7 @@ const taskHelper = {
     }
   },
   updateTaskDates: async (
+    userId: string,
     taskId: string,
     startDate: Date,
     endDate: Date
@@ -125,7 +132,15 @@ const taskHelper = {
     try {
       const res: ResType = await serverClient.query(
         q.Update(
-          q.Select(["ref"], q.Get(q.Match(q.Index("task_by_taskId"), taskId))),
+          q.Select(
+            ["ref"],
+            q.Get(
+              q.Match(q.Index(TASK_INDEXES.BY_USERID_AND_TASKID), [
+                userId,
+                taskId,
+              ])
+            )
+          ),
           {
             data: {
               startDate: newStart,
@@ -151,7 +166,10 @@ const taskHelper = {
           q.Select(
             ["ref"],
             q.Get(
-              q.Match(q.Index("task_by_userId_and_taskId"), [userId, taskId])
+              q.Match(q.Index(TASK_INDEXES.BY_USERID_AND_TASKID), [
+                userId,
+                taskId,
+              ])
             )
           )
         )

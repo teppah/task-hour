@@ -3,7 +3,7 @@ import {
   selectSelectedView,
   setSelectedView,
 } from "lib/client/redux/slice/dateSlice";
-import btnStyles from "styles/Button.module.css";
+import btnStyles from "styles/modules/Button.module.css";
 import { VIEWS } from "lib/client/dates";
 
 const ChangeWeekButton = () => {

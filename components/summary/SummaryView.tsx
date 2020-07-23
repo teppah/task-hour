@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { selectSelectedView } from "lib/client/redux/slice/dateSlice";
 import { getDaysFromView } from "lib/client/dates";
 import classNames from "classnames";
-import containerStyles from "styles/Container.module.css";
+import containerStyles from "styles/modules/Container.module.css";
 
 type Props = {};
 const SummaryView = ({}: Props) => {
