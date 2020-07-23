@@ -1,62 +1,51 @@
-import { useFormik } from "formik";
 import useUser from "lib/client/hooks/use-user";
-import ky from "ky/umd";
+import { useFormik } from "formik";
 import ClientSideUser from "lib/shared/user/ClientSideUser";
+import ky from "ky/umd";
 import PageLayout from "components/PageLayout";
 import containerStyles from "styles/Container.module.css";
-import inputStyles from "styles/Inputs.module.css";
 import btnStyles from "styles/Button.module.css";
 import { useRouter } from "next/router";
+import inputStyles from "styles/Inputs.module.css";
 
-const SignUp = () => {
+const Login = () => {
   const router = useRouter();
-  const { mutateUser } = useUser({
+  const { mutateUser, isLoading, error } = useUser({
     redirectUrl: "/app",
     redirectIfFound: true,
   });
+
   const formik = useFormik({
     initialValues: {
-      username: "",
       email: "",
       password: "",
     },
     onSubmit: async (values, helper) => {
-      const body = {
-        username: values.username,
-        email: values.email,
-        password: values.password,
-      };
-      const signedUpUser = await ky
-        .post(`/api/auth/signup`, { json: body })
-        .json<ClientSideUser>();
-      mutateUser(signedUpUser, false);
+      const body = { email: values.email, password: values.password };
+      try {
+        const loggedInUser = await ky
+          .post(`/api/auth/login`, { json: body })
+          .json<ClientSideUser>();
+        await mutateUser(loggedInUser, false);
+        router.push("/app");
+      } catch (e) {
+        console.error(e);
+      }
     },
   });
+
   return (
     <PageLayout>
       <section>
         <div className={containerStyles.container}>
-          Sign Up
+          Login
           <form onSubmit={formik.handleSubmit}>
-            <div className="in">
-              <label htmlFor="username">Username:</label>
-              <input
-                type="text"
-                name="username"
-                id="username"
-                placeholder="Username"
-                value={formik.values.username}
-                onChange={formik.handleChange}
-                className={inputStyles.field}
-              />
-            </div>
             <div className="in">
               <label htmlFor="email">Email:</label>
               <input
                 type="email"
                 name="email"
                 id="email"
-                placeholder="Email"
                 value={formik.values.email}
                 onChange={formik.handleChange}
                 className={inputStyles.field}
@@ -68,7 +57,6 @@ const SignUp = () => {
                 type="password"
                 name="password"
                 id="password"
-                placeholder="Password"
                 value={formik.values.password}
                 onChange={formik.handleChange}
                 className={inputStyles.field}
@@ -76,26 +64,26 @@ const SignUp = () => {
             </div>
             <div className="buttons">
               <button type="submit" className={btnStyles.btn}>
-                Submit
+                Sign In
               </button>
             </div>
           </form>
         </div>
         <style jsx>{`
           section {
-            @apply h-full w-full;
             @apply flex flex-col items-center justify-center;
-          }
-          label {
-            @apply font-bold;
-            @apply mb-1;
+            @apply h-full;
           }
           div.in {
             @apply flex flex-col items-start;
             @apply mb-4;
           }
           form {
-            @apply flex flex-col items-center;
+            @apply flex flex-col;
+          }
+          label {
+            @apply mb-1;
+            @apply font-bold;
           }
           div.buttons {
             @apply mt-2;
@@ -106,4 +94,5 @@ const SignUp = () => {
     </PageLayout>
   );
 };
-export default SignUp;
+
+export default Login;

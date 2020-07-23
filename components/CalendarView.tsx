@@ -38,6 +38,9 @@ const CalendarView = () => {
           @apply text-purple-500 font-bold;
           @apply h-1;
         }
+        inter-font: {
+          font-family: "Inter", sans-serif;
+        }
       `}</style>
     </section>
   );
