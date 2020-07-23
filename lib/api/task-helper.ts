@@ -118,6 +118,7 @@ const taskHelper = {
     }
   },
   updateTaskDates: async (
+    userId: string,
     taskId: string,
     startDate: Date,
     endDate: Date
@@ -133,7 +134,12 @@ const taskHelper = {
         q.Update(
           q.Select(
             ["ref"],
-            q.Get(q.Match(q.Index(TASK_INDEXES.BY_TASKID), taskId))
+            q.Get(
+              q.Match(q.Index(TASK_INDEXES.BY_USERID_AND_TASKID), [
+                userId,
+                taskId,
+              ])
+            )
           ),
           {
             data: {
