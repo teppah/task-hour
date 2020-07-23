@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import ClientSideUser from "lib/shared/user/ClientSideUser";
 import ky from "ky/umd";
 import PageLayout from "components/PageLayout";
+import containerStyles from "styles/Container.module.css";
 
 const Login = () => {
   const { mutateUser } = useUser({
@@ -32,38 +33,62 @@ const Login = () => {
 
   return (
     <PageLayout>
-      <div>
-        Login
-        <form onSubmit={formik.handleSubmit}>
-          <label>
-            Email:
-            <input
-              type="text"
-              name="email"
-              id="email"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-            />
-          </label>
+      <section>
+        <div className={containerStyles.container}>
+          Login
+          <form onSubmit={formik.handleSubmit}>
+            <div className="in">
+              <label htmlFor="email">Email:</label>
 
-          <label>
-            Password:
-            <input
-              type="password"
-              name="password"
-              id="password"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-            />
-          </label>
-          <button type="submit">Submit</button>
-        </form>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+              />
+            </div>
+            <div className="in">
+              <label htmlFor="password">Password:</label>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                value={formik.values.password}
+                onChange={formik.handleChange}
+              />
+            </div>
+            <div className="buttons">
+              <button type="submit">Submit</button>
+            </div>
+          </form>
+        </div>
         <style jsx>{`
+          section {
+            @apply flex flex-col items-center;
+          }
+          div.in {
+            @apply flex flex-col items-start;
+            @apply mb-2;
+          }
+          form {
+            @apply flex flex-col;
+          }
           input {
-            @apply border border-black;
+            @apply border rounded;
+            @apply shadow;
+          }
+          div.buttons {
+            @apply mt-4;
+            @apply flex flex-row;
+          }
+          button {
+            @apply px-3 py-1;
+            @apply rounded-md;
+            @apply font-bold bg-blue-500 text-white;
           }
         `}</style>
-      </div>
+      </section>
     </PageLayout>
   );
 };
