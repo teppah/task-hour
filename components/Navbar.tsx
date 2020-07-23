@@ -41,9 +41,11 @@ const Navbar = () => {
         <li>
           {user?.isLoggedIn && (
             <ul>
-              <li>
-                <ChangeWeekButton />
-              </li>
+              {router.route === "/app" && (
+                <li>
+                  <ChangeWeekButton />
+                </li>
+              )}
               <li>
                 <TimerPopupButton />
               </li>
