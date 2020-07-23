@@ -4,6 +4,7 @@ import store from "lib/client/redux/store";
 import { Provider } from "react-redux";
 import "tippy.js/dist/tippy.css";
 import "tippy.js/themes/light.css";
+import "styles/global.css";
 
 const App = ({ Component, pageProps }) => {
   return (
