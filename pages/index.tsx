@@ -2,27 +2,28 @@ import useUser from "lib/client/hooks/use-user";
 import Link from "next/link";
 import PageLayout from "components/PageLayout";
 const Index = () => {
-  const { user, isLoading } = useUser();
   return (
     <PageLayout>
-      <div>
-        <Link href="/app">
-          <a>Go To Application</a>
-        </Link>
-      </div>
-      <div>
-        <Link href="/signin">
-          <a>Sign In</a>
-        </Link>
-      </div>
-      <div>
-        <Link href="/signup">
-          <a>Sign Up</a>
-        </Link>
-      </div>
-      <h1>isLoading {JSON.stringify(isLoading)}</h1>
-      <h1>Login status: {JSON.stringify(user?.isLoggedIn)}</h1>
-      {user?.isLoggedIn && <h1>Username: {user.username}</h1>}
+      <section>
+        <h1>TaskHour</h1>
+        <blockquote>ultra pre-alpha v0.1 or whatever</blockquote>
+      </section>
+      <style jsx>{`
+        section {
+          @apply h-full w-full;
+          @apply flex flex-col items-center;
+          @apply pt-20;
+        }
+        h1 {
+          @apply font-bold;
+          @apply text-6xl;
+        }
+        blockquote {
+          @apply text-gray-600 italic;
+          @apply border-gray-500 rounded-sm border-l-2;
+          @apply pl-2;
+        }
+      `}</style>
     </PageLayout>
   );
 };
