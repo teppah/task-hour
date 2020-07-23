@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import ky from "ky/umd";
 import { cache } from "swr";
 import ClientSideUser from "lib/shared/user/ClientSideUser";
+import Link from "next/link";
 
 const Navbar = () => {
   const { user, mutateUser } = useUser();
@@ -22,49 +23,79 @@ const Navbar = () => {
   return (
     <>
       <ul className="bar">
-        {user?.isLoggedIn && (
-          <>
+        <li className="permanent">
+          <ul>
             <li>
-              <ChangeWeekButton />
+              <Link href="/">
+                <a>Home</a>
+              </Link>
             </li>
             <li>
-              <TimerPopupButton />
+              <Link href="/app">
+                <a>App</a>
+              </Link>
             </li>
-            <li>
-              <h2>Hello, {user.username}!</h2>
-            </li>
-            <li>
-              <button className={btnStyles.btn} onClick={handleLogout}>
-                Logout
-              </button>
-            </li>
-          </>
-        )}
-        {!user?.isLoggedIn && (
-          <>
-            <li>
-              <button
-                className={btnStyles.btn}
-                onClick={() => router.push("/signin")}
-              >
-                Sign in
-              </button>
-            </li>
-          </>
-        )}
+          </ul>
+        </li>
+        <li>
+          {user?.isLoggedIn && (
+            <ul>
+              <li>
+                <ChangeWeekButton />
+              </li>
+              <li>
+                <TimerPopupButton />
+              </li>
+              <li>
+                <h2>Hello, {user.username}!</h2>
+              </li>
+              <li>
+                <button className={btnStyles.btn} onClick={handleLogout}>
+                  Logout
+                </button>
+              </li>
+            </ul>
+          )}
+          {!user?.isLoggedIn && (
+            <ul>
+              <li>
+                <Link href="/signin">
+                  <a>Sign in</a>
+                </Link>
+              </li>
+              <li>
+                <button
+                  className={btnStyles.btn}
+                  onClick={() => router.push("/signup")}
+                >
+                  Sign up
+                </button>
+              </li>
+            </ul>
+          )}
+        </li>
       </ul>
       <style jsx>
         {`
           .bar {
             @apply w-full h-full;
-            @apply flex flex-row items-center justify-end;
+            @apply flex flex-row justify-end;
             @apply bg-white;
             @apply px-20;
             height: var(--navbar-height);
           }
+          ul {
+            @apply flex flex-row;
+          }
           li {
             @apply px-2;
             @apply flex flex-row items-center;
+          }
+          .permanent {
+            @apply flex-1;
+          }
+          .permanent > .bar {
+            @apply justify-start;
           }
           h1 {
             @apply font-bold;

@@ -29,7 +29,6 @@ const SignUp = () => {
       const signedUpUser = await ky
         .post(`/api/auth/signup`, { json: body })
         .json<ClientSideUser>();
-      router.push("/app");
       mutateUser(signedUpUser, false);
     },
   });
