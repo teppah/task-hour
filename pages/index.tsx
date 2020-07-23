@@ -2,7 +2,7 @@ import useUser from "lib/client/hooks/use-user";
 
 import Link from "next/link";
 const Index = () => {
-  const { user, mutateUser } = useUser();
+  const { user, isLoading } = useUser();
   return (
     <div>
       <div>
@@ -11,7 +11,7 @@ const Index = () => {
         </Link>
       </div>
       <div>
-        <Link href="/login">
+        <Link href="/signin">
           <a>Login</a>
         </Link>
       </div>

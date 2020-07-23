@@ -35,7 +35,7 @@ const App = () => {
     return () => window.removeEventListener("keyup", handleEscape);
   });
 
-  const { user, mutateUser } = useUser({ redirectUrl: "/login" });
+  const { user, mutateUser } = useUser({ redirectUrl: "/signin" });
 
   return (
     <DndProvider backend={HTML5Backend}>

@@ -15,7 +15,7 @@ function useUser({
   redirectUrl,
   redirectIfFound = false,
 }: UseUserOptions = {}) {
-  const { data: user, mutate: mutateUser } = useSWR<ClientSideUser>(
+  const { data: user, mutate: mutateUser, error } = useSWR<ClientSideUser>(
     `/api/auth/user`,
     fetcher
   );
@@ -38,7 +38,7 @@ function useUser({
       Router.push(redirectUrl);
     }
   }, [user, redirectUrl, redirectIfFound]);
-  return { user, mutateUser };
+  return { user, mutateUser, error, isLoading: !error && !user };
 }
 
 export default useUser;
