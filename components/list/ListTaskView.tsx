@@ -13,6 +13,7 @@ import Tippy from "@tippyjs/react";
 import DetailedTaskView from "components/DetailedTaskView";
 import ky from "ky/umd";
 import Task from "lib/shared/Task";
+import { useRouter } from "next/router";
 
 type Props = {
   taskId: string;
@@ -30,10 +31,15 @@ const ListTaskView = ({ taskId }: Props) => {
     collect: (monitor) => ({}),
   });
   const [isComplete, setIsComplete] = useState(task?.isComplete);
-
+  const router = useRouter();
   const handleClick = (e) => {
     e.preventDefault();
-    dispatch(setSelectedTaskId(taskId));
+    router.replace({
+      pathname: "/app",
+      query: {
+        taskId,
+      },
+    });
   };
   const handleCheck = async (e: React.ChangeEvent<HTMLInputElement>) => {
     mutate(
@@ -74,7 +80,7 @@ const ListTaskView = ({ taskId }: Props) => {
       // doesn't need trigger=click and hideOnClick=true since visibility is controlled by
       // the component (isActive computed state) and the component's click handler
       onClickOutside={(instance, event) => {
-        dispatch(setSelectedTaskId(null));
+        router.replace("/app");
       }}
     >
       <div className={divName} ref={drag} onClick={handleClick}>

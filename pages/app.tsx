@@ -16,14 +16,16 @@ import Navbar from "components/Navbar";
 import CalendarView from "components/CalendarView";
 import useUser from "lib/client/hooks/use-user";
 import PageLayout from "components/PageLayout";
+import { useRouter } from "next/router";
 const App = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
   // deselect on escape
   const handleEscape = (e: KeyboardEvent) => {
     e.preventDefault();
     const escapeCode = 27;
     if (e.keyCode === escapeCode) {
-      dispatch(setSelectedTaskId(null));
+      router.replace("/app");
     }
   };
   useEffect(() => {
@@ -35,6 +37,13 @@ const App = () => {
     window.addEventListener("keyup", handleEscape);
     return () => window.removeEventListener("keyup", handleEscape);
   });
+  useEffect(() => {
+    if (router.query.taskId) {
+      dispatch(setSelectedTaskId(router.query.taskId as string));
+    } else {
+      dispatch(setSelectedTaskId(null));
+    }
+  }, [router.query]);
 
   const { user, mutateUser } = useUser({ redirectUrl: "/signin" });
 

@@ -1,10 +1,10 @@
 .link {
-  @apply text-gray-600;
+  color: var(--less-navy);
 }
 
 .link:hover {
-  @apply text-black;
-  @apply underline;
+  @apply cursor-pointer;
+  color: var(--navy);
 }
 
 .link:focus,
@@ -12,5 +12,6 @@
   @apply outline-none;
 }
 .link:active {
-  @apply text-blue-700;
+  @apply underline;
+  @apply text-black;
 }

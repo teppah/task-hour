@@ -7,11 +7,13 @@ import { setSelectedTaskId } from "lib/client/redux/slice/taskSlice";
 import { mutate as mutateGlobal } from "swr";
 import ky from "ky/umd";
 import { addHours } from "date-fns";
+import { useRouter } from "next/router";
 
 type Props = { taskId?: string; currentHour: Date; mutateDay: any };
 
 const TimeSlice = ({ taskId, currentHour, mutateDay }: Props) => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: [ItemTypes.TASK, ItemTypes.DRAG_HANDLE],
     drop: (item: any) => {
@@ -47,7 +49,12 @@ const TimeSlice = ({ taskId, currentHour, mutateDay }: Props) => {
           })();
           break;
       }
-      dispatch(setSelectedTaskId(item.taskId));
+      router.replace({
+        pathname: "/app",
+        query: {
+          taskId: item.taskId,
+        },
+      });
     },
     collect: (mon) => ({
       isOver: !!mon.isOver(),
@@ -72,7 +79,12 @@ const TimeSlice = ({ taskId, currentHour, mutateDay }: Props) => {
     const task = json.task;
     mutateDay();
     mutateGlobal(`/api/task?taskId=${task.taskId}`, json, false);
-    dispatch(setSelectedTaskId(task.taskId));
+    router.replace({
+      pathname: "/app",
+      query: {
+        taskId: task.taskId,
+      },
+    });
   };
   return (
     <div className="slice" ref={drop} onClick={handleClick}>
@@ -80,7 +92,8 @@ const TimeSlice = ({ taskId, currentHour, mutateDay }: Props) => {
       <style jsx>{`
         div.slice {
           @apply flex-none;
-          @apply w-full h-12;
+          @apply w-full;
+          height: var(--slice-height);
           @apply border-b border-blue-200;
           ${isOver && "background-color: cyan;"}
         }

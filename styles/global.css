@@ -1,10 +1,23 @@
-body {
-  @apply bg-gray-200;
-  font-family: "Inter", sans-serif;
-}
-
 :root {
   --navbar-height: 3rem;
+  --turquoise: #08d9d6;
+  --black: #252a34;
+  --red: #ff2e63;
+  --gray: #eaeaea;
+  --light-gray: #ebecf1;
+  --green: #206a5d;
+  --navy: #1f4068;
+  --medium-navy: #0f4c75;
+  --less-navy: #3282b8;
+
+  --lighter-blue: #e4f9ff;
+
+  --slice-height: 4rem;
+}
+
+body {
+  background-color: var(--light-gray);
+  font-family: "Inter", sans-serif;
 }
 
 .react-calendar {

@@ -21,7 +21,6 @@ const SummaryView = ({}: Props) => {
     <section className={sectionName}>
       <div className="time-col">
         <div></div>
-        <div></div>
         {[...Array(24).keys()].map((i) => (
           <div key={i}>{i}</div>
         ))}
@@ -40,12 +39,12 @@ const SummaryView = ({}: Props) => {
         }
         .time-col > div {
           @apply text-center;
-          @apply h-12;
           @apply mr-4;
           @apply flex-none;
+          height: calc(var(--slice-height));
         }
         .time-col > div:first-child {
-          @apply h-3;
+          height: calc(var(--slice-height) - 0.5rem);
         }
       `}</style>
     </section>

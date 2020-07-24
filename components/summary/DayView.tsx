@@ -18,7 +18,7 @@ const DayView = ({ day }: Props) => {
   const currentDate = addDays(currentWeekDate, day);
   const currentDayDate = isValid(currentDate) ? getDate(currentDate) : "";
 
-  const isItToday = isSameDay(currentDate, selectedDate);
+  const isDaySelected = isSameDay(currentDate, selectedDate);
 
   const { slices, isLoading, isError, mutateDay } = useDay(currentDate);
 
@@ -26,7 +26,9 @@ const DayView = ({ day }: Props) => {
   return (
     <section className="day-view">
       <div className="day">
-        <h1 key={0}>{currentDayDate}</h1>
+        <h1 key={0} className="day-date">
+          {currentDayDate}
+        </h1>
         <h1 key={1}>{dayName}</h1>
       </div>
       {[...Array(24).keys()].map((i) => {
@@ -43,6 +45,12 @@ const DayView = ({ day }: Props) => {
         );
       })}
       <style jsx>{`
+        .day-date {
+          @apply rounded-full;
+          @apply px-2;
+          ${isDaySelected &&
+          "background-color: var(--medium-navy); color: white;"}
+        }
         .day-view {
           @apply flex flex-col items-center;
           @apply flex-no-wrap;
@@ -58,6 +66,7 @@ const DayView = ({ day }: Props) => {
           @apply flex flex-col items-center justify-center;
           @apply w-full bg-gray-300 mb-1;
           @apply border-t border-b border-blue-500;
+          @apply z-50;
         }
         h1 {
           @apply h-8;
@@ -66,7 +75,9 @@ const DayView = ({ day }: Props) => {
       `}</style>
       <style jsx>{`
         .day-view {
-          background-color: ${isItToday ? "#ebf8ff" : "inherit"};
+          background-color: ${isDaySelected
+            ? "var(--lighter-blue)"
+            : "inherit"};
         }
       `}</style>
     </section>

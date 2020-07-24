@@ -11,6 +11,8 @@ import useTask from "lib/client/hooks/use-task";
 import { differenceInHours } from "date-fns";
 import Tippy from "@tippyjs/react";
 import DetailedTaskView from "components/DetailedTaskView";
+import { useRouter } from "next/router";
+import format from "date-fns/format";
 
 type Props = {
   taskId: string;
@@ -49,6 +51,7 @@ const TaskView = ({ taskId, mutatePreviousDay }: Props) => {
   const isActive = selectedTaskId && selectedTaskId === taskId;
 
   const dispatch = useDispatch();
+  const router = useRouter();
   if (isLoading) {
     return <div></div>;
   }
@@ -58,7 +61,12 @@ const TaskView = ({ taskId, mutatePreviousDay }: Props) => {
   }
   const clickHandler = (e) => {
     e.preventDefault();
-    dispatch(setSelectedTaskId(taskId));
+    router.replace({
+      pathname: "/app",
+      query: {
+        taskId,
+      },
+    });
   };
 
   const isComplete = task.isComplete;
@@ -70,8 +78,12 @@ const TaskView = ({ taskId, mutatePreviousDay }: Props) => {
   });
 
   const hoursDifference = differenceInHours(task.endDate, task.startDate);
-  const remsToAdd = (hoursDifference - 1) * 3;
+  const remsToAdd = (hoursDifference - 1) * 4;
 
+  const dateString = `${format(task.startDate, "kk:mm")} - ${format(
+    task.endDate,
+    "kk:mm"
+  )}`;
   return (
     <Tippy
       content={<DetailedTaskView taskId={taskId} />}
@@ -82,11 +94,12 @@ const TaskView = ({ taskId, mutatePreviousDay }: Props) => {
       // doesn't need trigger=click and hideOnClick=true since visibility is controlled by
       // the component (isActive computed state) and the component's click handler
       onClickOutside={(instance, event) => {
-        dispatch(setSelectedTaskId(null));
+        router.replace("/app");
       }}
     >
       <div className={taskClass}>
         <section ref={dragTask} onClick={clickHandler}>
+          <h1>{dateString}</h1>
           <h1>{task.title}</h1>
         </section>
         <div className="resize-handler" ref={dragHandle}></div>

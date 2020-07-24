@@ -9,6 +9,7 @@ import btnStyles from "styles/modules/Button.module.css";
 import containerStyles from "styles/modules/Container.module.css";
 import useTask from "lib/client/hooks/use-task";
 import Task from "lib/shared/Task";
+import { useRouter } from "next/router";
 
 type PropType = {
   taskId: string;
@@ -17,6 +18,7 @@ type PropType = {
 const DetailedTaskView = ({ taskId }: PropType) => {
   const { task: selectedTask, isLoading, isError, mutate } = useTask(taskId);
   const dispatch = useDispatch();
+  const router = useRouter();
   const formik = useFormik({
     initialValues: {
       title: selectedTask?.title,
@@ -73,7 +75,7 @@ const DetailedTaskView = ({ taskId }: PropType) => {
   const handleDelete = async () => {
     mutate(null, false);
     ky.delete(`/api/task?taskId=${taskId}`);
-    dispatch(setSelectedTaskId(null));
+    router.replace("/app");
   };
 
   return (
