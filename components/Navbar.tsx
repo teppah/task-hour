@@ -14,7 +14,7 @@ const Navbar = () => {
   const router = useRouter();
 
   const handleLogout = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
   ) => {
     e.preventDefault();
     const logoutData = await ky.get(`/api/auth/logout`).json<ClientSideUser>();
@@ -41,7 +41,7 @@ const Navbar = () => {
         <li>
           {user?.isLoggedIn && (
             <ul>
-              {router.route === "/app" && (
+              {router.pathname === "/app" && (
                 <li>
                   <ChangeWeekButton />
                 </li>
@@ -53,9 +53,9 @@ const Navbar = () => {
                 <h2>Hello, {user.username}!</h2>
               </li>
               <li>
-                <button className={btnStyles.btn} onClick={handleLogout}>
+                <a className={linkStyles.link} onClick={handleLogout}>
                   Logout
-                </button>
+                </a>
               </li>
             </ul>
           )}

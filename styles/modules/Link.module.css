@@ -1,9 +1,10 @@
 .link {
-  @apply text-gray-600;
+  @apply text-blue-600;
 }
 
 .link:hover {
-  @apply text-black;
+  @apply cursor-pointer;
+  @apply text-blue-800;
   @apply underline;
 }
 
@@ -12,5 +13,5 @@
   @apply outline-none;
 }
 .link:active {
-  @apply text-blue-700;
+  @apply text-black;
 }
