@@ -34,7 +34,6 @@ const ListTaskView = ({ taskId }: Props) => {
   const router = useRouter();
   const handleClick = (e) => {
     e.preventDefault();
-    dispatch(setSelectedTaskId(taskId));
     router.replace({
       pathname: "/app",
       query: {
@@ -81,7 +80,6 @@ const ListTaskView = ({ taskId }: Props) => {
       // doesn't need trigger=click and hideOnClick=true since visibility is controlled by
       // the component (isActive computed state) and the component's click handler
       onClickOutside={(instance, event) => {
-        dispatch(setSelectedTaskId(null));
         router.replace("/app");
       }}
     >

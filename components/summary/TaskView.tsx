@@ -60,7 +60,6 @@ const TaskView = ({ taskId, mutatePreviousDay }: Props) => {
   }
   const clickHandler = (e) => {
     e.preventDefault();
-    dispatch(setSelectedTaskId(taskId));
     router.replace({
       pathname: "/app",
       query: {
@@ -90,7 +89,6 @@ const TaskView = ({ taskId, mutatePreviousDay }: Props) => {
       // doesn't need trigger=click and hideOnClick=true since visibility is controlled by
       // the component (isActive computed state) and the component's click handler
       onClickOutside={(instance, event) => {
-        dispatch(setSelectedTaskId(null));
         router.replace("/app");
       }}
     >
