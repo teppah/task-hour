@@ -1,11 +1,12 @@
 .btn {
   @apply px-3 py-1;
   @apply rounded-md;
-  @apply font-bold bg-blue-500 text-white;
+  @apply font-bold text-white;
+  background-color: var(--less-navy);
 }
 
 .btn:hover {
-  @apply bg-blue-700;
+  background-color: var(--medium-navy);
 }
 .btn:focus,
 .btn:active {

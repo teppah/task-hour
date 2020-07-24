@@ -1,19 +1,14 @@
 .task {
-  @apply bg-blue-500;
+  background-color: var(--less-navy);
   @apply text-white;
 }
-.task:active {
-  @apply bg-blue-700;
-}
-.selected,
-.selected:hover {
-  @apply bg-blue-700;
+.selected {
+  background-color: var(--medium-navy);
+  @apply shadow-outline;
 }
 
-.completed,
-.completed:hover {
+.completed {
   @apply bg-gray-400;
-  @apply border-gray-600;
 }
 
 .completed.selected {
