@@ -9,6 +9,10 @@
   --navy: #1f4068;
   --medium-navy: #0f4c75;
   --less-navy: #3282b8;
+
+  --lighter-blue: #e4f9ff;
+
+  --slice-height: 4rem;
 }
 
 body {

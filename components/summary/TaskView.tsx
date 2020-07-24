@@ -77,7 +77,7 @@ const TaskView = ({ taskId, mutatePreviousDay }: Props) => {
   });
 
   const hoursDifference = differenceInHours(task.endDate, task.startDate);
-  const remsToAdd = (hoursDifference - 1) * 3;
+  const remsToAdd = (hoursDifference - 1) * 4;
 
   return (
     <Tippy

@@ -58,6 +58,7 @@ const DayView = ({ day }: Props) => {
           @apply flex flex-col items-center justify-center;
           @apply w-full bg-gray-300 mb-1;
           @apply border-t border-b border-blue-500;
+          @apply z-50;
         }
         h1 {
           @apply h-8;
@@ -66,7 +67,7 @@ const DayView = ({ day }: Props) => {
       `}</style>
       <style jsx>{`
         .day-view {
-          background-color: ${isItToday ? "#ebf8ff" : "inherit"};
+          background-color: ${isItToday ? "var(--lighter-blue)" : "inherit"};
         }
       `}</style>
     </section>

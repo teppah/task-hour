@@ -92,7 +92,8 @@ const TimeSlice = ({ taskId, currentHour, mutateDay }: Props) => {
       <style jsx>{`
         div.slice {
           @apply flex-none;
-          @apply w-full h-12;
+          @apply w-full;
+          height: var(--slice-height);
           @apply border-b border-blue-200;
           ${isOver && "background-color: cyan;"}
         }
