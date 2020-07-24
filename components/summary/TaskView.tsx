@@ -12,6 +12,7 @@ import { differenceInHours } from "date-fns";
 import Tippy from "@tippyjs/react";
 import DetailedTaskView from "components/DetailedTaskView";
 import { useRouter } from "next/router";
+import format from "date-fns/format";
 
 type Props = {
   taskId: string;
@@ -79,6 +80,10 @@ const TaskView = ({ taskId, mutatePreviousDay }: Props) => {
   const hoursDifference = differenceInHours(task.endDate, task.startDate);
   const remsToAdd = (hoursDifference - 1) * 4;
 
+  const dateString = `${format(task.startDate, "kk:mm")} - ${format(
+    task.endDate,
+    "kk:mm"
+  )}`;
   return (
     <Tippy
       content={<DetailedTaskView taskId={taskId} />}
@@ -94,6 +99,7 @@ const TaskView = ({ taskId, mutatePreviousDay }: Props) => {
     >
       <div className={taskClass}>
         <section ref={dragTask} onClick={clickHandler}>
+          <h1>{dateString}</h1>
           <h1>{task.title}</h1>
         </section>
         <div className="resize-handler" ref={dragHandle}></div>
